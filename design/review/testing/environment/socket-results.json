@@ -1,0 +1,30 @@
+{
+  "scope": "Permisos efectivos del proceso de pruebas",
+  "processSecurity": [
+    "CapEff:\t0000000000000000",
+    "NoNewPrivs:\t1",
+    "Seccomp:\t2",
+    "Seccomp_filters:\t1"
+  ],
+  "socketOperations": [
+    {
+      "family": "IPv4",
+      "operation": "socket",
+      "status": "denied",
+      "errno": 1,
+      "error": "[Errno 1] Operation not permitted"
+    },
+    {
+      "family": "Unix",
+      "operation": "socket",
+      "status": "ok"
+    },
+    {
+      "family": "Unix",
+      "operation": "shutdown",
+      "status": "denied",
+      "errno": 1,
+      "error": "[Errno 1] Operation not permitted"
+    }
+  ]
+}

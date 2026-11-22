@@ -1,0 +1,16 @@
+{
+  "status": "blocked",
+  "attempted": true,
+  "engine": "Chromium headless con Playwright",
+  "reason": "No pudo iniciar: sandbox_host_linux.cc:41, shutdown: Operation not permitted",
+  "screenshots": [],
+  "physicalDevicesTested": [],
+  "notExecuted": [
+    "Revisión visual de 23 pantallas en navegador",
+    "Geometría real de botón fijo y contenido",
+    "320/390/768/1280/1440 px",
+    "Zoom real al 200%",
+    "Teclado virtual, VoiceOver y TalkBack",
+    "Safe areas de iPhone real"
+  ]
+}

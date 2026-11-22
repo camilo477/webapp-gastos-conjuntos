@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="980" viewBox="0 0 1240 980" role="img" aria-labelledby="title desc">
+<title id="title">Gastos compartidos: composición de referencia de Inicio, Gasto y Balance</title>
+<desc id="desc">Wireframes ilustrados de tres pantallas móviles. No son capturas del prototipo ni evidencia de renderizado en navegador.</desc>
+<rect x="0" y="0" width="1240" height="980" rx="0" fill="#eceee8"/>
+<text x="48" y="35" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="600" fill="#555b57">GASTOS COMPARTIDOS / FASE 1</text>
+<text x="48" y="67" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="32" font-weight="600" fill="#181a19">Menos ruido. Las cuentas, claras.</text>
+<text x="48" y="113" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="15" font-weight="400" fill="#555b57">Referencia de composición móvil · datos coherentes · claro y oscuro</text>
+<text x="48" y="160" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="600" fill="#555b57">01 / INICIO DEL VIAJE</text>
+<rect x="48" y="190" width="348" height="720" rx="16" fill="#f7f7f5" stroke="#c7cbc6"/>
+<text x="446" y="160" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="600" fill="#555b57">02 / CAPTURA RÁPIDA</text>
+<rect x="446" y="190" width="348" height="720" rx="16" fill="#f7f7f5" stroke="#c7cbc6"/>
+<text x="844" y="160" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="600" fill="#555b57">03 / BALANCE · OSCURO</text>
+<rect x="844" y="190" width="348" height="720" rx="16" fill="#151816" stroke="#c7cbc6"/>
+<text x="70" y="215" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#555b57">Mis viajes</text>
+<text x="247" y="215" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#555b57">Sincronizado</text>
+<text x="70" y="264" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="27" font-weight="600" fill="#181a19">Villa de Leyva</text>
+<text x="70" y="305" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#555b57">21–24 nov · 4 días · COP</text>
+<text x="70" y="354" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="14" font-weight="400" fill="#555b57">Te deben</text>
+<text x="70" y="384" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="46" font-weight="400" fill="#146347">$20.000</text>
+<text x="70" y="447" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#146347">Ver balance ↗</text>
+<path d="M70 485 H374" stroke="#dedfd9" fill="none"/>
+<text x="70" y="510" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#555b57">Disponible</text>
+<text x="234" y="510" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#555b57">Gastado hoy</text>
+<text x="70" y="538" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="23" font-weight="600" fill="#181a19">$150.000</text>
+<text x="234" y="538" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="23" font-weight="600" fill="#181a19">$250.000</text>
+<text x="70" y="578" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#555b57">de $400.000</text>
+<text x="234" y="578" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#555b57">Cupo $100.000</text>
+<text x="234" y="600" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#795400">Exceso $150.000</text>
+<text x="70" y="638" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="17" font-weight="600" fill="#181a19">Movimientos</text>
+<text x="70" y="674" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#181a19">Almuerzo en la plaza</text>
+<text x="302" y="674" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#181a19">$96.000</text>
+<text x="70" y="697" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="11" font-weight="400" fill="#555b57">Ana pagó · 13:10</text>
+<path d="M70 722 H374" stroke="#dedfd9" fill="none"/>
+<text x="70" y="734" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#181a19">Mercado para la casa</text>
+<text x="302" y="734" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#181a19">$84.000</text>
+<text x="70" y="757" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="11" font-weight="400" fill="#555b57">Ana + Bruno · 11:45</text>
+<path d="M70 782 H374" stroke="#dedfd9" fill="none"/>
+<rect x="49" y="798" width="346" height="86" rx="0" fill="#f7f7f5"/>
+<rect x="70" y="815" width="304" height="46" rx="10" fill="#146347"/>
+<text x="86" y="828" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="14" font-weight="600" fill="#ffffff">+ Agregar gasto</text>
+<path d="M48 885 H396" stroke="#dedfd9" fill="none"/>
+<text x="87" y="898" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="11" font-weight="600" fill="#146347">Inicio</text>
+<text x="192" y="898" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="11" font-weight="400" fill="#555b57">Balance</text>
+<text x="297" y="898" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="11" font-weight="400" fill="#555b57">Actividad</text>
+<text x="468" y="215" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#555b57">‹ Volver al viaje</text>
+<text x="468" y="264" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="27" font-weight="600" fill="#181a19">Agregar gasto</text>
+<text x="468" y="305" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#555b57">Lo habitual, en unos segundos.</text>
+<text x="468" y="358" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="600" fill="#181a19">Concepto</text>
+<rect x="468" y="385" width="304" height="48" rx="8" fill="#ffffff" stroke="#7e8981"/>
+<text x="482" y="401" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="15" font-weight="400" fill="#181a19">Café en la plaza</text>
+<text x="468" y="467" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#555b57">Importe</text>
+<text x="468" y="495" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="46" font-weight="400" fill="#181a19">$12.000</text>
+<text x="468" y="555" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#555b57">COP · pesos enteros</text>
+<path d="M468 586 H772" stroke="#dedfd9" fill="none"/>
+<text x="468" y="610" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="14" font-weight="600" fill="#181a19">¿Quién pagó?</text>
+<text x="702" y="611" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#555b57">Tú  ›</text>
+<path d="M468 648 H772" stroke="#dedfd9" fill="none"/>
+<text x="468" y="671" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="14" font-weight="600" fill="#181a19">¿Cómo lo dividimos?</text>
+<text x="468" y="697" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#555b57">Igual · Ana, Bruno y Carla</text>
+<path d="M468 728 H772" stroke="#dedfd9" fill="none"/>
+<text x="468" y="747" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#555b57">Categoría, fecha y nota  ›</text>
+<text x="468" y="777" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#555b57">Cámara · Galería · Stock  ›</text>
+<text x="468" y="810" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#555b57">Tu parte</text>
+<text x="698" y="810" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="15" font-weight="600" fill="#181a19">$4.000</text>
+<rect x="468" y="846" width="304" height="46" rx="10" fill="#146347"/>
+<text x="484" y="859" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="14" font-weight="600" fill="#ffffff">Guardar gasto</text>
+<text x="866" y="215" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#aeb8af">Mis viajes</text>
+<text x="1043" y="215" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#aeb8af">Sincronizado</text>
+<text x="866" y="264" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="27" font-weight="600" fill="#f0f2ed">Balance</text>
+<text x="866" y="305" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#aeb8af">Las compras y los abonos, claros.</text>
+<text x="866" y="354" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="14" font-weight="400" fill="#aeb8af">Te deben</text>
+<text x="866" y="384" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="46" font-weight="400" fill="#91d3ad">$20.000</text>
+<text x="866" y="467" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="16" font-weight="600" fill="#f0f2ed">Las cuentas de cada persona</text>
+<text x="866" y="516" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="15" font-weight="400" fill="#f0f2ed">Ana · tú</text>
+<text x="1078" y="516" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="16" font-weight="600" fill="#f0f2ed">$20.000</text>
+<text x="1078" y="541" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#aeb8af">Por recibir</text>
+<path d="M866 569 H1170" stroke="#383f39" fill="none"/>
+<text x="866" y="584" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="15" font-weight="400" fill="#f0f2ed">Bruno</text>
+<text x="1078" y="584" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="16" font-weight="600" fill="#f0f2ed">$30.000</text>
+<text x="1078" y="609" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#aeb8af">Por aportar</text>
+<path d="M866 637 H1170" stroke="#383f39" fill="none"/>
+<text x="866" y="652" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="15" font-weight="400" fill="#f0f2ed">Carla</text>
+<text x="1078" y="652" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="16" font-weight="600" fill="#f0f2ed">$10.000</text>
+<text x="1078" y="677" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#aeb8af">Por recibir</text>
+<path d="M866 705 H1170" stroke="#383f39" fill="none"/>
+<text x="866" y="737" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="16" font-weight="600" fill="#f0f2ed">Pagos sugeridos</text>
+<text x="866" y="775" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#f0f2ed">Bruno → Ana</text>
+<text x="1086" y="775" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="14" font-weight="400" fill="#91d3ad">$20.000</text>
+<text x="866" y="820" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#f0f2ed">Bruno → Carla</text>
+<text x="1086" y="820" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="14" font-weight="400" fill="#91d3ad">$10.000</text>
+<path d="M844 885 H1192" stroke="#383f39" fill="none"/>
+<text x="883" y="898" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="11" font-weight="400" fill="#aeb8af">Inicio</text>
+<text x="988" y="898" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="11" font-weight="600" fill="#91d3ad">Balance</text>
+<text x="1093" y="898" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="11" font-weight="400" fill="#aeb8af">Actividad</text>
+<text x="48" y="946" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#555b57">Wireframes ilustrados. No son capturas de navegador. El prototipo permite recorrer los estados y formularios.</text>
+</svg>

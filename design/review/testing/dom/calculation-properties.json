@@ -1,0 +1,173 @@
+{
+  "scope": "Funciones reales del prototipo dentro de JSDOM, no motor productivo ni navegación real",
+  "seed": 20261121,
+  "executed": 27,
+  "passed": 27,
+  "failed": 0,
+  "validVectors": 6750,
+  "invalidVectors": 2250,
+  "results": [
+    {
+      "count": 2,
+      "mode": "equal",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 2,
+      "mode": "percentage",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 2,
+      "mode": "fixed",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 3,
+      "mode": "equal",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 3,
+      "mode": "percentage",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 3,
+      "mode": "fixed",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 4,
+      "mode": "equal",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 4,
+      "mode": "percentage",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 4,
+      "mode": "fixed",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 5,
+      "mode": "equal",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 5,
+      "mode": "percentage",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 5,
+      "mode": "fixed",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 6,
+      "mode": "equal",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 6,
+      "mode": "percentage",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 6,
+      "mode": "fixed",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 7,
+      "mode": "equal",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 7,
+      "mode": "percentage",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 7,
+      "mode": "fixed",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 8,
+      "mode": "equal",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 8,
+      "mode": "percentage",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 8,
+      "mode": "fixed",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 9,
+      "mode": "equal",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 9,
+      "mode": "percentage",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 9,
+      "mode": "fixed",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 10,
+      "mode": "equal",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 10,
+      "mode": "percentage",
+      "status": "passed",
+      "trials": 250
+    },
+    {
+      "count": 10,
+      "mode": "fixed",
+      "status": "passed",
+      "trials": 250
+    }
+  ]
+}

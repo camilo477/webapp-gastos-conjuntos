@@ -1,0 +1,36 @@
+{
+  "runId": "2026-11-22T00-40-01-483Z-firefox-file-final",
+  "runDir": "design/review/testing/runs/2026-11-22T00-40-01-483Z-firefox-file-final",
+  "transport": "file",
+  "scope": "Suite real Firefox final posterior a correcciones, sin HTTP",
+  "stats": {
+    "startTime": "2026-11-22T00:40:02.068Z",
+    "duration": 80747.216,
+    "expected": 15,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "exitCode": 0,
+  "screenshots": [
+    "screenshots/2026-11-22T00-40-01-483Z-firefox-file-final/firefox-1440x900-dark-home.png",
+    "screenshots/2026-11-22T00-40-01-483Z-firefox-file-final/firefox-390x844-dark-home.png",
+    "screenshots/2026-11-22T00-40-01-483Z-firefox-file-final/firefox-390x844-light-activity-offline.png",
+    "screenshots/2026-11-22T00-40-01-483Z-firefox-file-final/firefox-390x844-light-balance.png",
+    "screenshots/2026-11-22T00-40-01-483Z-firefox-file-final/firefox-390x844-light-budget-text200.png",
+    "screenshots/2026-11-22T00-40-01-483Z-firefox-file-final/firefox-390x844-light-budget.png",
+    "screenshots/2026-11-22T00-40-01-483Z-firefox-file-final/firefox-390x844-light-conflict.png",
+    "screenshots/2026-11-22T00-40-01-483Z-firefox-file-final/firefox-390x844-light-expense.png",
+    "screenshots/2026-11-22T00-40-01-483Z-firefox-file-final/firefox-390x844-light-home.png",
+    "screenshots/2026-11-22T00-40-01-483Z-firefox-file-final/firefox-390x844-light-invite.png"
+  ],
+  "sourceHashes": {
+    "design/prototype/styles.css": "b03775c55dc9172af6435f97fb628d5b5f9c24360ac0731ea2ec037ec668faef",
+    "design/review/testing/playwright/prototype.spec.cjs": "f89a21af6d0b8e671483dd036d85435d60aae6c2c41ea6aa4f43e8082f3a3db2",
+    "design/review/testing/playwright/playwright.config.cjs": "495d244a64d3fa622a60db5572dc0ab76bce03ed89007261037a4314710ca45f",
+    "design/review/testing/playwright/runtime.cjs": "a8ad5efc3651f13ba6238cb76a3d909a2d8294ec465be8aeaad5523f8c887b30"
+  },
+  "browserReal": true,
+  "integrationReal": false,
+  "physicalDevices": false
+}

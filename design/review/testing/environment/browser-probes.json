@@ -1,0 +1,63 @@
+{
+  "node": "v20.19.5",
+  "platform": "linux",
+  "playwright": "1.56.1",
+  "security": "Sin sudo, sin flags para desactivar sandbox y sin modificar configuración global",
+  "http": {
+    "status": "blocked",
+    "code": "EPERM",
+    "error": "listen EPERM: operation not permitted 127.0.0.1"
+  },
+  "browsers": [
+    {
+      "name": "chromium",
+      "executable": "/home/camiska/.cache/ms-playwright/chromium-1187/chrome-linux/chrome",
+      "available": true,
+      "status": "blocked",
+      "dependencies": [
+        {
+          "executable": "/home/camiska/.cache/ms-playwright/chromium-1187/chrome-linux/chrome",
+          "exitCode": 0,
+          "missing": []
+        }
+      ],
+      "error": "browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /home/camiska/.cache/ms-playwright/chromium-1187/chrome-linux/chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AcceptCHFrame,AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --user-data-dir=/tmp/playwright_chromiumdev_profile-VzqfDc --remote-debugging-pipe --no-startup-window\n<launched> pid=23\n[pid=23][err] [23:23:1121/180709.851694:ERROR:third_party/crashpad/crashpad/util/linux/socket.cc:45] setsockopt: Operation not permitted (1)\nCall log:\n\u001b[2m  - <launching> /home/camiska/.cache/ms-playwright/chromium-1187/chrome-linux/chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AcceptCHFrame,AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --user-data-dir=/tmp/playwright_chromiumdev_profile-VzqfDc --remote-debugging-pipe --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=23\u001b[22m\n\u001b[2m  - [pid=23][err] [23:23:1121/180709.851694:ERROR:third_party/crashpad/crashpad/util/linux/socket.cc:45] setsockopt: Operation not permitted (1)\u001b[22m\n\u001b[2m  - [pid=23] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=23] <kill>\u001b[22m\n\u001b[2m  - [pid=23] <will force kill>\u001b[22m\n\u001b[2m  - [pid=23] <process did exit: exitCode=null, signal=SIGTRAP>\u001b[22m\n\u001b[2m  - [pid=23] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=23] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=23] <gracefully close end>\u001b[22m\n"
+    },
+    {
+      "name": "firefox",
+      "executable": "/home/camiska/.cache/ms-playwright/firefox-1490/firefox/firefox",
+      "available": true,
+      "status": "blocked",
+      "dependencies": [
+        {
+          "executable": "/home/camiska/.cache/ms-playwright/firefox-1490/firefox/firefox",
+          "exitCode": 0,
+          "missing": []
+        }
+      ],
+      "error": "browserType.launch: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - <launching> /home/camiska/.cache/ms-playwright/firefox-1490/firefox/firefox -no-remote -headless -profile /tmp/playwright_firefoxdev_profile-1gXxcl -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=33\u001b[22m\n\u001b[2m  - [pid=33][err] [35] Sandbox: CanCreateUserNamespace() unshare(CLONE_NEWPID): EPERM\u001b[22m\n\u001b[2m  - [pid=33][err] *** You are running in headless mode.\u001b[22m\n\u001b[2m  - [pid=33][out] Crash Annotation GraphicsCriticalError: |[0][GFX1-]: glxtest: Unable to open a connection to the X server (t=0.294712) [GFX1-]: glxtest: Unable to open a connection to the X server\u001b[22m\n\u001b[2m  - [pid=33][out] Crash Annotation GraphicsCriticalError: |[0][GFX1-]: glxtest: Unable to open a connection to the X server (t=0.294712) |[1][GFX1-]: More than 1 GPU vendor detected via PCI, cannot deduce vendor\u001b[22m\n\u001b[2m  - [pid=33][out]  (t=0.294712) [GFX1-]: More than 1 GPU vendor detected via PCI, cannot deduce vendor\u001b[22m\n\u001b[2m  - [pid=33][out]\u001b[22m\n\u001b[2m  - [pid=33][out] Crash Annotation GraphicsCriticalError: |[0][GFX1-]: glxtest: Unable to open a connection to the X server (t=0.294712) |[1][GFX1-]: More than 1 GPU vendor detected via PCI, cannot deduce vendor\u001b[22m\n\u001b[2m  - [pid=33][out]  (t=0.294712) |[2][GFX1-]: PCI candidate 0x1002/0x1638\u001b[22m\n\u001b[2m  - [pid=33][out]  (t=0.294712) [GFX1-]: PCI candidate 0x1002/0x1638\u001b[22m\n\u001b[2m  - [pid=33][out]\u001b[22m\n\u001b[2m  - [pid=33][out] Crash Annotation GraphicsCriticalError: |[0][GFX1-]: glxtest: Unable to open a connection to the X server (t=0.294712) |[1][GFX1-]: More than 1 GPU vendor detected via PCI, cannot deduce vendor\u001b[22m\n\u001b[2m  - [pid=33][out]  (t=0.294712) |[2][GFX1-]: PCI candidate 0x1002/0x1638\u001b[22m\n\u001b[2m  - [pid=33][out]  (t=0.294712) |[3][GFX1-]: PCI candidate 0x10de/0x25a2\u001b[22m\n\u001b[2m  - [pid=33][out]  (t=0.294712) [GFX1-]: PCI candidate 0x10de/0x25a2\u001b[22m\n\u001b[2m  - [pid=33][out]\u001b[22m\n\u001b[2m  - [pid=33][err] Fontconfig error: No writable cache directories\u001b[22m\n\u001b[2m  - [pid=33][err] [Parent 33, IPC I/O Parent] WARNING: Unable to determine pipe buffer size: Operation not permitted: file /home/pwuser/firefox/ipc/chromium/src/chrome/common/ipc_channel_posix.cc:126\u001b[22m\n\u001b[2m  - [pid=33][err] [76, IPC I/O Child] WARNING: Unable to determine pipe buffer size: Operation not permitted: file /home/pwuser/firefox/ipc/chromium/src/chrome/common/ipc_channel_posix.cc:126\u001b[22m\n\u001b[2m  - [pid=33][out] Crash Annotation GraphicsCriticalError: |[0][GFX1-]: glxtest: Unable to open a connection to the X server (t=0.294712) |[1][GFX1-]: More than 1 GPU vendor detected via PCI, cannot deduce vendor\u001b[22m\n\u001b[2m  - [pid=33][out]  (t=0.294712) |[2][GFX1-]: PCI candidate 0x1002/0x1638\u001b[22m\n\u001b[2m  - [pid=33][out]  (t=0.294712) |[3][GFX1-]: PCI candidate 0x10de/0x25a2\u001b[22m\n\u001b[2m  - [pid=33][out]  (t=0.294712) |[4][GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt (t=0.511716) [GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt\u001b[22m\n"
+    },
+    {
+      "name": "webkit",
+      "executable": "/home/camiska/.cache/ms-playwright/webkit-2203/pw_run.sh",
+      "available": true,
+      "status": "blocked",
+      "dependencies": [
+        {
+          "executable": "/home/camiska/.cache/ms-playwright/webkit-2203/minibrowser-wpe/bin/MiniBrowser",
+          "exitCode": 0,
+          "missing": [
+            "\tlibWPEBackend-fdo-1.0.so.1 => not found",
+            "\tlibWPEWebKit-2.0.so.1 => not found",
+            "\tlibwoff2dec.so.1.0.2 => not found",
+            "\tlibevent-2.1.so.7 => not found",
+            "\tlibjxl.so.0.8 => not found",
+            "\tlibavif.so.16 => not found",
+            "\tlibwpe-1.0.so.1 => not found"
+          ]
+        }
+      ],
+      "error": "browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /home/camiska/.cache/ms-playwright/webkit-2203/pw_run.sh --inspector-pipe --headless --no-startup-window\n<launched> pid=117\n[pid=117][err] /home/camiska/.cache/ms-playwright/webkit-2203/minibrowser-wpe/bin/MiniBrowser: error while loading shared libraries: libwoff2dec.so.1.0.2: cannot open shared object file: No such file or directory\nCall log:\n\u001b[2m  - <launching> /home/camiska/.cache/ms-playwright/webkit-2203/pw_run.sh --inspector-pipe --headless --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=117\u001b[22m\n\u001b[2m  - [pid=117][err] /home/camiska/.cache/ms-playwright/webkit-2203/minibrowser-wpe/bin/MiniBrowser: error while loading shared libraries: libwoff2dec.so.1.0.2: cannot open shared object file: No such file or directory\u001b[22m\n\u001b[2m  - [pid=117] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=117] <kill>\u001b[22m\n\u001b[2m  - [pid=117] <will force kill>\u001b[22m\n\u001b[2m  - [pid=117] <process did exit: exitCode=127, signal=null>\u001b[22m\n\u001b[2m  - [pid=117] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=117] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=117] <gracefully close end>\u001b[22m\n"
+    }
+  ]
+}

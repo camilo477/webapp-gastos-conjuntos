@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Wireframes · Gastos compartidos · Fase 1</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font:
+          16px/1.6 -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        color: #181a19;
+        background: #f4f4f1;
+        margin: 0;
+        padding: 40px;
+      }
+      h1 {
+        font-size: 32px;
+        line-height: 1.2;
+        letter-spacing: -1px;
+        margin: 0 0 12px;
+      }
+      p {
+        max-width: 760px;
+        color: #555b57;
+        margin: 8px 0;
+      }
+      header {
+        max-width: 1500px;
+        margin: auto;
+      }
+      a {
+        color: #146347;
+        text-underline-offset: 4px;
+      }
+      a:focus-visible,
+      button:focus-visible {
+        outline: 3px solid #146347;
+        outline-offset: 4px;
+      }
+      button {
+        font: inherit;
+        min-height: 44px;
+        border: 1px solid #7e8981;
+        padding: 8px 14px;
+        background: white;
+        color: #181a19;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      button[aria-pressed="true"] {
+        background: #181a19;
+        color: white;
+      }
+      .controls {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 24px 0 32px;
+      }
+      .controls span {
+        align-self: center;
+        font-size: 14px;
+        color: #555b57;
+        margin-left: 12px;
+      }
+      .board {
+        max-width: 1500px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+        gap: 40px 28px;
+      }
+      .board.desktop {
+        grid-template-columns: 1fr;
+      }
+      article {
+        min-width: 0;
+      }
+      article h2 {
+        font-size: 18px;
+        margin: 0 0 8px;
+      }
+      article > p {
+        font-size: 14px;
+        min-height: 48px;
+      }
+      article > a {
+        display: inline-block;
+        margin: 0 0 14px;
+        font-size: 14px;
+      }
+      .frame-shell {
+        background: white;
+        border: 1px solid #c7cbc6;
+        border-radius: 12px;
+        position: relative;
+        overflow: hidden;
+        max-width: 390px;
+        margin: auto;
+        width: 100%;
+        aspect-ratio: 390/780;
+      }
+      .frame-shell iframe {
+        border: 0;
+        width: 390px;
+        height: 780px;
+        transform-origin: top left;
+        display: block;
+        background: white;
+      }
+      .desktop .frame-shell {
+        max-width: 1280px;
+        aspect-ratio: 1280/900;
+      }
+      .desktop .frame-shell iframe {
+        width: 1280px;
+        height: 900px;
+      }
+      .label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1.1px;
+        color: #555b57;
+        margin: 0 0 8px;
+      }
+      .notice {
+        font-size: 13px;
+        border-top: 1px solid #d4d8d2;
+        padding-top: 20px;
+        margin-top: 40px;
+      }
+      .hide {
+        display: none !important;
+      }
+      @media (max-width: 600px) {
+        body {
+          padding: 28px 16px;
+        }
+        h1 {
+          font-size: 28px;
+        }
+        .board {
+          gap: 32px;
+        }
+        .controls span {
+          margin-left: 0;
+          width: 100%;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          scroll-behavior: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <p class="label">Fase 1 · arquitectura de pantalla</p>
+      <h1>Un recorrido, con las cuentas claras.</h1>
+      <p>
+        Wireframes navegables en escala de grises. La estructura se deriva del
+        mismo prototipo; cada marco permite desplazarte. Abre una pantalla para
+        evaluarla a tamaño real.
+      </p>
+      <p>
+        <a href="prototype/index.html">Abrir el prototipo visual en color</a> ·
+        <a href="../docs/phase1/USER_FLOWS.md">Flujos documentados</a>
+      </p>
+      <div class="controls" aria-label="Controles de revisión de wireframes">
+        <button data-size="mobile" aria-pressed="true">Móvil · 390 px</button
+        ><button data-size="desktop" aria-pressed="false">
+          Escritorio · 1280 px
+        </button>
+        <button data-group="screens" aria-pressed="true">Pantallas</button
+        ><button data-group="states" aria-pressed="false">Estados</button>
+        <span>Datos ficticios · sin servicios conectados</span>
+      </div>
+    </header>
+    <main
+      id="board"
+      class="board"
+      aria-label="Wireframes de pantallas y estados"
+    ></main>
+    <script>
+      (() => {
+        const screens = [
+          [
+            "welcome",
+            "A1 · Bienvenida",
+            "Dos entradas: organizar o unirse, sin distraer con funciones secundarias.",
+          ],
+          [
+            "signup",
+            "A2 · Cuenta de organizador",
+            "Nombre, correo y contraseña; verificación y recuperación como recorridos propios.",
+          ],
+          [
+            "login",
+            "A3 · Iniciar sesión",
+            "Entrada y recuperación accesible. El proveedor permanente sigue propuesto.",
+          ],
+          [
+            "reset",
+            "A4 · Recuperar acceso",
+            "Correo y confirmación neutra; no prometer recuperación del invitado.",
+          ],
+          [
+            "verify",
+            "A5 · Verificar correo",
+            "Confirmación de cuenta permanente antes de crear un viaje.",
+          ],
+          [
+            "join",
+            "A6 · Invitado",
+            "Código completo, nombre y advertencia de acceso; sin datos privados antes de entrar.",
+          ],
+          [
+            "trips",
+            "B · Tus viajes",
+            "Viaje actual destacado por etiqueta, activos e historial separados.",
+          ],
+          [
+            "create",
+            "C · Crear viaje",
+            "Datos esenciales, presupuesto opcional y organizador como primera persona.",
+          ],
+          [
+            "home",
+            "D · Inicio",
+            "Saldo protagonista, disponible y hoy, movimientos; acción inmediata de captura.",
+          ],
+          [
+            "expense",
+            "E · Agregar gasto",
+            "Dos entradas principales. Reparto/pagadores visibles, detalles opcionales progresivos.",
+          ],
+          [
+            "split",
+            "F1 · División",
+            "Igual, porcentajes o importes; exclusiones y total asignado.",
+          ],
+          [
+            "payers",
+            "F2 · Pagadores",
+            "Contribuciones independientes de las cuotas; suma y diferencia explícitas.",
+          ],
+          [
+            "detail",
+            "Detalle · Auditoría",
+            "Pagadores, cuotas, nota e historial; editar/eliminar sin borrar evidencia.",
+          ],
+          [
+            "balance",
+            "G1 · Balance",
+            "Saldo por persona, pagado/consumido, sugerencias e historial de abonos.",
+          ],
+          [
+            "payment",
+            "G2 · Abono",
+            "Origen, destino e importe. Registrar no mueve dinero real.",
+          ],
+          [
+            "budget",
+            "H1 · Presupuesto",
+            "Separar inicial, gasto y propuesta; desborde visible sin bloquear gasto.",
+          ],
+          [
+            "budget-edit",
+            "H2 · Cupos manuales",
+            "Campos por día: vacío automático, importe explícito fijo. Solo organizador.",
+          ],
+          [
+            "stats",
+            "I · Estadísticas",
+            "Barras de acento, importes rotulados y tablas accesibles.",
+          ],
+          [
+            "invite",
+            "J · Personas e invitación",
+            "Lugares ocupados, QR/código de ejemplo, caducidad y revocación.",
+          ],
+          [
+            "activity",
+            "K1 · Actividad",
+            "Estado de entrega, pendientes, errores e historial con acciones útiles.",
+          ],
+          [
+            "conflict",
+            "K2 · Versiones simultáneas",
+            "Comparar sin preselección por hora; conservar propuestas al resolver.",
+          ],
+          [
+            "duplicate",
+            "K3 · Duplicados",
+            "Ambos cuentan hasta decidir; distintos o unificar con confirmación.",
+          ],
+          [
+            "summary",
+            "L · Resumen y cierre",
+            "Costos/deudas, condiciones de cierre y consulta posterior.",
+          ],
+        ];
+        const states = [
+          [
+            "home",
+            "Sin conexión",
+            "Captura local y saldo provisional, sin afirmar envío.",
+            "offline",
+          ],
+          [
+            "activity",
+            "Cambios pendientes",
+            "Contador monetario y confirmación pendiente.",
+            "pending",
+          ],
+          [
+            "activity",
+            "Sincronizando",
+            "Estado temporal, sin porcentaje inventado.",
+            "syncing",
+          ],
+          [
+            "activity",
+            "Sincronizado",
+            "Estado conocido sin pendientes.",
+            "synced",
+          ],
+          [
+            "activity",
+            "Error de sincronización",
+            "Conserva propuesta, explica causa y permite copiar.",
+            "error",
+          ],
+          [
+            "home",
+            "Conflicto financiero",
+            "Cifra provisional y acceso a comparación.",
+            "conflict",
+          ],
+          [
+            "home",
+            "Carga lenta",
+            "Skeleton estático y explicación, sin mostrar ceros ficticios.",
+            "loading",
+          ],
+          ["home", "Sin gastos", "Primera captura como acción útil.", "empty"],
+          [
+            "home",
+            "Descarga incompleta",
+            "Diferenciar conjunto parcial de viaje sin gastos.",
+            "partial",
+          ],
+          [
+            "budget",
+            "Sin presupuesto",
+            "Disponible no es cero; presupuesto es opcional.",
+            "no-budget",
+          ],
+          [
+            "budget",
+            "Presupuesto superado",
+            "Disponible puede ser negativo; no bloquear registrar gastos.",
+            "exhausted",
+          ],
+          [
+            "detail",
+            "Imagen pendiente",
+            "Dinero independiente del fallo visual.",
+            "photo-error",
+          ],
+          [
+            "join",
+            "Invitación caducada",
+            "Pedir enlace vigente; no aceptar ingreso.",
+            "expired",
+          ],
+          [
+            "join",
+            "Invitación revocada",
+            "No permite acceso y no filtra datos privados.",
+            "revoked",
+          ],
+          [
+            "invite",
+            "Diez participantes",
+            "Grupo completo; máximo incluye organizador.",
+            "full",
+            10,
+          ],
+          [
+            "home",
+            "Acceso retirado",
+            "No presentar datos privados descargados como sesión activa.",
+            "access-revoked",
+          ],
+          [
+            "expense",
+            "Fallo al guardar",
+            "Al enviar se conserva formulario; sin falso éxito.",
+            "storage-error",
+          ],
+          [
+            "summary",
+            "Viaje finalizado",
+            "Consulta e historial; sin nuevos gastos.",
+            "closed",
+          ],
+          [
+            "summary",
+            "Incidencia tras cierre",
+            "Resumen provisional; no asumir permiso de reapertura.",
+            "late-conflict",
+          ],
+          [
+            "home",
+            "Nombres e importes largos",
+            "Valor completo, saltos de línea y sin elipsis monetaria.",
+            "long",
+          ],
+          ["split", "Dos personas", "Misma estructura de cuotas.", "synced", 2],
+          [
+            "split",
+            "Diez personas",
+            "Lista vertical; no carrusel ni targets diminutos.",
+            "synced",
+            10,
+          ],
+        ];
+        let size = "mobile",
+          group = "screens";
+        const board = document.getElementById("board");
+        const observer = new ResizeObserver((entries) =>
+          entries.forEach((e) => {
+            const frame = e.target.querySelector("iframe");
+            frame.style.transform = `scale(${e.contentRect.width / (size === "mobile" ? 390 : 1280)})`;
+          }),
+        );
+        function draw() {
+          observer.disconnect();
+          board.className = `board ${size}`;
+          board.innerHTML = "";
+          const data = group === "screens" ? screens : states;
+          data.forEach(
+            ([route, title, note, scenario = "synced", count = 3]) => {
+              const article = document.createElement("article");
+              const url = `prototype/index.html?view=wireframe&theme=light&scenario=${scenario}&count=${count}#${route}`;
+              const colorUrl = `prototype/index.html?scenario=${scenario}&count=${count}#${route}`;
+              article.innerHTML = `<h2>${title}</h2><p>${note}</p><a href="${colorUrl}" target="_blank" rel="noopener">Abrir pantalla a tamaño real ↗</a><div class="frame-shell"><iframe loading="lazy" title="Wireframe ${title}" src="${url}"></iframe></div>`;
+              board.append(article);
+              observer.observe(article.querySelector(".frame-shell"));
+            },
+          );
+        }
+        document.addEventListener("click", (event) => {
+          const button = event.target.closest("button");
+          if (!button) return;
+          if (button.dataset.size) {
+            size = button.dataset.size;
+            document
+              .querySelectorAll("[data-size]")
+              .forEach((b) =>
+                b.setAttribute("aria-pressed", String(b === button)),
+              );
+          }
+          if (button.dataset.group) {
+            group = button.dataset.group;
+            document
+              .querySelectorAll("[data-group]")
+              .forEach((b) =>
+                b.setAttribute("aria-pressed", String(b === button)),
+              );
+          }
+          draw();
+        });
+        draw();
+      })();
+    </script>
+  </body>
+</html>

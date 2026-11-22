@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="1000" viewBox="0 0 440 1000" role="img" aria-labelledby="budget-title budget-desc">
+<title id="budget-title">Presupuesto diario: 400000 para cuatro días, gasto250000, disponible150000 y tres cupos50000</title>
+<desc id="budget-desc">Composición ilustrada de revisión, no captura de navegador.</desc>
+<text x="46" y="34" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="600" fill="#555b57">FASE 1 / DETALLE DE PRESUPUESTO</text>
+<text x="46" y="69" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="28" font-weight="600" fill="#181a19">Cada día, claro.</text>
+<rect x="46" y="140" width="348" height="790" rx="16" fill="#f7f7f5" stroke="#c7cbc6"/>
+<text x="68" y="163" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#555b57">Mis viajes</text>
+<text x="245" y="163" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#555b57">Sincronizado</text>
+<text x="68" y="211" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="27" font-weight="600" fill="#181a19">Presupuesto</text>
+<text x="68" y="265" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="14" font-weight="400" fill="#555b57">Disponible del viaje</text>
+<text x="68" y="295" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="44" font-weight="400" fill="#146347">$150.000</text>
+<text x="68" y="355" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#555b57">Presupuesto total $400.000</text>
+<text x="68" y="382" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#555b57">Gastado $250.000</text>
+<path d="M68 420 H372" stroke="#dedfd9" fill="none"/>
+<text x="68" y="446" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="600" fill="#181a19">Hoy, 21 de noviembre</text>
+<text x="68" y="485" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#555b57">Cupo asignado</text>
+<text x="232" y="485" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#555b57">Gastado hoy</text>
+<text x="68" y="512" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="23" font-weight="600" fill="#181a19">$100.000</text>
+<text x="232" y="512" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="23" font-weight="600" fill="#181a19">$250.000</text>
+<text x="68" y="558" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#555b57">Exceso de hoy</text>
+<text x="68" y="586" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="23" font-weight="600" fill="#795400">$150.000</text>
+<path d="M68 630 H372" stroke="#dedfd9" fill="none"/>
+<text x="68" y="656" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="600" fill="#181a19">Para los próximos días</text>
+<text x="68" y="692" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#555b57">$150.000 para 3 días restantes.</text>
+<text x="68" y="738" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#181a19">22 nov · automático</text>
+<text x="288" y="738" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="14" font-weight="600" fill="#181a19">$50.000</text>
+<path d="M68 769 H372" stroke="#dedfd9" fill="none"/>
+<text x="68" y="785" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#181a19">23 nov · automático</text>
+<text x="288" y="785" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="14" font-weight="600" fill="#181a19">$50.000</text>
+<path d="M68 816 H372" stroke="#dedfd9" fill="none"/>
+<text x="68" y="832" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="13" font-weight="400" fill="#181a19">24 nov · automático</text>
+<text x="288" y="832" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="14" font-weight="600" fill="#181a19">$50.000</text>
+<path d="M68 863 H372" stroke="#dedfd9" fill="none"/>
+<path d="M46 890 H394" stroke="#dedfd9" fill="none"/>
+<text x="85" y="906" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="11" font-weight="400" fill="#555b57">Inicio</text>
+<text x="190" y="906" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="11" font-weight="400" fill="#555b57">Balance</text>
+<text x="295" y="906" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="11" font-weight="400" fill="#555b57">Actividad</text>
+<text x="46" y="959" dominant-baseline="hanging" font-family="DejaVu Sans,sans-serif" font-size="12" font-weight="400" fill="#555b57">Referencia ilustrada · sin captura de navegador</text>
+</svg>

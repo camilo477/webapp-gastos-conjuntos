@@ -1,0 +1,168 @@
+{
+  "scope": "Prototipo UX en JSDOM",
+  "checks": 39,
+  "results": [
+    {
+      "name": "Fixture consistente: costo, disponible y saldo personal",
+      "status": "passed"
+    },
+    {
+      "name": "23 pantallas renderizan, tienen contenido y recursos locales existentes",
+      "status": "passed"
+    },
+    {
+      "name": "21 escenarios renderizan las vistas principales sin NaN",
+      "status": "passed"
+    },
+    {
+      "name": "Captura rápida: título, importe, reparto impar y persistencia en navegación",
+      "status": "passed"
+    },
+    {
+      "name": "Porcentajes: 99,99% rechazado, 100% exacto aceptado",
+      "status": "passed"
+    },
+    {
+      "name": "Importes específicos: no se altera la suma ni se oculta la diferencia",
+      "status": "passed"
+    },
+    {
+      "name": "Exclusión y diez participantes mantienen asignación exacta",
+      "status": "passed"
+    },
+    {
+      "name": "Varios pagadores con aportes 60/40 suman un gasto de 100",
+      "status": "passed"
+    },
+    {
+      "name": "Delete lógico conserva auditoría y restaurar devuelve el costo",
+      "status": "passed"
+    },
+    {
+      "name": "Abono reduce saldo sin modificar costo y personas iguales se rechazan",
+      "status": "passed"
+    },
+    {
+      "name": "Presupuesto 400000/4 y reserva del último día: 35000/35000/80000",
+      "status": "passed"
+    },
+    {
+      "name": "Offline admite gasto local de ejemplo y bloquea cierre",
+      "status": "passed"
+    },
+    {
+      "name": "Fallo de guardado no pierde formulario ni anuncia éxito",
+      "status": "passed"
+    },
+    {
+      "name": "Conflicto excluye gasto hasta resolución explícita y conserva versiones",
+      "status": "passed"
+    },
+    {
+      "name": "Duplicados cuentan por separado hasta unificar con confirmación",
+      "status": "passed"
+    },
+    {
+      "name": "Son distintos conserva ambos cafés",
+      "status": "passed"
+    },
+    {
+      "name": "Rol participante no modifica presupuesto ni finaliza viaje",
+      "status": "passed"
+    },
+    {
+      "name": "Invitación revocada y grupo completo tienen CTA bloqueada",
+      "status": "passed"
+    },
+    {
+      "name": "Creación usa un organizador e invitaciones posteriores",
+      "status": "passed"
+    },
+    {
+      "name": "Cierre confirmado conserva consulta y deshabilita gastos nuevos",
+      "status": "passed"
+    },
+    {
+      "name": "Modo oscuro y nombres/importes largos conservan todo el contenido",
+      "status": "passed"
+    },
+    {
+      "name": "Cambiar tema conserva formularios sin remontarlos",
+      "status": "passed"
+    },
+    {
+      "name": "Un organizador esperando invitados puede recorrer escenarios sin datos huérfanos",
+      "status": "passed"
+    },
+    {
+      "name": "Texto ingresado se muestra como texto y no como HTML ejecutable",
+      "status": "passed"
+    },
+    {
+      "name": "Presupuesto diario completo: 400000, 150000 disponibles, cupo100000 y exceso150000",
+      "status": "passed"
+    },
+    {
+      "name": "Ahorro diario provisional y redistribución impar conservan dinero",
+      "status": "passed"
+    },
+    {
+      "name": "Pagos sugeridos completos liquidan los saldos para 2, 3 y 10 personas",
+      "status": "passed"
+    },
+    {
+      "name": "Registrar Bruno→Ana20000 y Bruno→Carla10000 deja los tres saldos en cero",
+      "status": "passed"
+    },
+    {
+      "name": "Opciones secundarias progresivas, cámara/galería/stock y fechas reales",
+      "status": "passed"
+    },
+    {
+      "name": "Pendientes identificables en cada movimiento y en la lista de operaciones",
+      "status": "passed"
+    },
+    {
+      "name": "Un gasto nuevo offline se identifica individualmente y conserva el contador",
+      "status": "passed"
+    },
+    {
+      "name": "Sincronizar no elimina conflictos ni declara completos los datos parciales",
+      "status": "passed"
+    },
+    {
+      "name": "Confirmación simulada no absorbe operaciones creadas después de iniciar el envío",
+      "status": "passed"
+    },
+    {
+      "name": "Botón fijo alterna tamaño sin perder el contenido y desaparece al abrir formulario",
+      "status": "passed"
+    },
+    {
+      "name": "Selección de reparto y pagadores mantiene el foco de teclado",
+      "status": "passed"
+    },
+    {
+      "name": "23 pantallas revisadas en ambos temas: etiquetas, recursos, IDs y ausencia de cifras inválidas",
+      "status": "passed"
+    },
+    {
+      "name": "La gráfica de gasto superado cruza el presupuesto y mantiene su importe exacto",
+      "status": "passed"
+    },
+    {
+      "name": "La evolución usa las fechas y el gasto actual, sin futuro inventado",
+      "status": "passed"
+    },
+    {
+      "name": "Renovar una invitación no oculta un conflicto financiero existente",
+      "status": "passed"
+    }
+  ],
+  "limitations": [
+    "Sin renderizado de navegador",
+    "Sin medición de layout o teclado virtual",
+    "Sin Firebase",
+    "Sin persistencia ni sincronización reales"
+  ]
+}

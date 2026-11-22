@@ -1,0 +1,1739 @@
+{
+  "engine": "axe-core 4.10.3 en JSDOM (sin navegador)",
+  "run": "before",
+  "executed": 58,
+  "passed": 16,
+  "failed": 42,
+  "excluded": [
+    "color-contrast: requiere renderizado/canvas",
+    "target-size: requiere geometría renderizada",
+    "Tab nativo, zoom, safe areas y foco visible real no ejecutados"
+  ],
+  "results": [
+    {
+      "theme": "light",
+      "route": "home",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 36
+    },
+    {
+      "theme": "light",
+      "route": "welcome",
+      "scenario": "synced",
+      "status": "passed-supported-rules",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 35
+    },
+    {
+      "theme": "light",
+      "route": "signup",
+      "scenario": "synced",
+      "status": "passed-supported-rules",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 37
+    },
+    {
+      "theme": "light",
+      "route": "login",
+      "scenario": "synced",
+      "status": "passed-supported-rules",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 37
+    },
+    {
+      "theme": "light",
+      "route": "reset",
+      "scenario": "synced",
+      "status": "passed-supported-rules",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 37
+    },
+    {
+      "theme": "light",
+      "route": "verify",
+      "scenario": "synced",
+      "status": "passed-supported-rules",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 35
+    },
+    {
+      "theme": "light",
+      "route": "join",
+      "scenario": "synced",
+      "status": "passed-supported-rules",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 37
+    },
+    {
+      "theme": "light",
+      "route": "trips",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 34
+    },
+    {
+      "theme": "light",
+      "route": "create",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 36
+    },
+    {
+      "theme": "light",
+      "route": "expense",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 36
+    },
+    {
+      "theme": "light",
+      "route": "split",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 35
+    },
+    {
+      "theme": "light",
+      "route": "payers",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 35
+    },
+    {
+      "theme": "light",
+      "route": "detail",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 35
+    },
+    {
+      "theme": "light",
+      "route": "balance",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 34
+    },
+    {
+      "theme": "light",
+      "route": "payment",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 35
+    },
+    {
+      "theme": "light",
+      "route": "budget",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 43
+    },
+    {
+      "theme": "light",
+      "route": "budget-edit",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 35
+    },
+    {
+      "theme": "light",
+      "route": "stats",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 37
+    },
+    {
+      "theme": "light",
+      "route": "invite",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 37
+    },
+    {
+      "theme": "light",
+      "route": "activity",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 34
+    },
+    {
+      "theme": "light",
+      "route": "conflict",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "form-field-multiple-labels",
+          "description": "Ensure form field does not have multiple label elements"
+        },
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 36
+    },
+    {
+      "theme": "light",
+      "route": "duplicate",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 34
+    },
+    {
+      "theme": "light",
+      "route": "summary",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 34
+    },
+    {
+      "theme": "light",
+      "route": "detail",
+      "scenario": "empty",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 34
+    },
+    {
+      "theme": "light",
+      "route": "activity",
+      "scenario": "pending",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 36
+    },
+    {
+      "theme": "light",
+      "route": "activity",
+      "scenario": "error",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 36
+    },
+    {
+      "theme": "light",
+      "route": "join",
+      "scenario": "expired",
+      "status": "passed-supported-rules",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 37
+    },
+    {
+      "theme": "light",
+      "route": "join",
+      "scenario": "revoked",
+      "status": "passed-supported-rules",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 37
+    },
+    {
+      "theme": "light",
+      "route": "home",
+      "scenario": "long",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 36
+    },
+    {
+      "theme": "dark",
+      "route": "home",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 36
+    },
+    {
+      "theme": "dark",
+      "route": "welcome",
+      "scenario": "synced",
+      "status": "passed-supported-rules",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 35
+    },
+    {
+      "theme": "dark",
+      "route": "signup",
+      "scenario": "synced",
+      "status": "passed-supported-rules",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 37
+    },
+    {
+      "theme": "dark",
+      "route": "login",
+      "scenario": "synced",
+      "status": "passed-supported-rules",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 37
+    },
+    {
+      "theme": "dark",
+      "route": "reset",
+      "scenario": "synced",
+      "status": "passed-supported-rules",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 37
+    },
+    {
+      "theme": "dark",
+      "route": "verify",
+      "scenario": "synced",
+      "status": "passed-supported-rules",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 35
+    },
+    {
+      "theme": "dark",
+      "route": "join",
+      "scenario": "synced",
+      "status": "passed-supported-rules",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 37
+    },
+    {
+      "theme": "dark",
+      "route": "trips",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 34
+    },
+    {
+      "theme": "dark",
+      "route": "create",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 36
+    },
+    {
+      "theme": "dark",
+      "route": "expense",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 36
+    },
+    {
+      "theme": "dark",
+      "route": "split",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 35
+    },
+    {
+      "theme": "dark",
+      "route": "payers",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 35
+    },
+    {
+      "theme": "dark",
+      "route": "detail",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 35
+    },
+    {
+      "theme": "dark",
+      "route": "balance",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 34
+    },
+    {
+      "theme": "dark",
+      "route": "payment",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 35
+    },
+    {
+      "theme": "dark",
+      "route": "budget",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 43
+    },
+    {
+      "theme": "dark",
+      "route": "budget-edit",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 35
+    },
+    {
+      "theme": "dark",
+      "route": "stats",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 37
+    },
+    {
+      "theme": "dark",
+      "route": "invite",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 37
+    },
+    {
+      "theme": "dark",
+      "route": "activity",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 34
+    },
+    {
+      "theme": "dark",
+      "route": "conflict",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "form-field-multiple-labels",
+          "description": "Ensure form field does not have multiple label elements"
+        },
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 36
+    },
+    {
+      "theme": "dark",
+      "route": "duplicate",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 34
+    },
+    {
+      "theme": "dark",
+      "route": "summary",
+      "scenario": "synced",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 34
+    },
+    {
+      "theme": "dark",
+      "route": "detail",
+      "scenario": "empty",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 34
+    },
+    {
+      "theme": "dark",
+      "route": "activity",
+      "scenario": "pending",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 36
+    },
+    {
+      "theme": "dark",
+      "route": "activity",
+      "scenario": "error",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 36
+    },
+    {
+      "theme": "dark",
+      "route": "join",
+      "scenario": "expired",
+      "status": "passed-supported-rules",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 37
+    },
+    {
+      "theme": "dark",
+      "route": "join",
+      "scenario": "revoked",
+      "status": "passed-supported-rules",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 37
+    },
+    {
+      "theme": "dark",
+      "route": "home",
+      "scenario": "long",
+      "status": "failed",
+      "violations": [
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".review-bar"
+              ],
+              "summary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "landmark-one-main",
+          "description": "Ensure the document has a main landmark"
+        },
+        {
+          "id": "page-has-heading-one",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading"
+        }
+      ],
+      "passedRuleCount": 36
+    }
+  ],
+  "jsdomWarnings": []
+}

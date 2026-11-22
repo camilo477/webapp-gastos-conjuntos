@@ -1,0 +1,177 @@
+{
+  "scope": "DOM y comportamiento simulado en JSDOM; sin layout ni navegador real",
+  "run": "final",
+  "executed": 42,
+  "passed": 42,
+  "failed": 0,
+  "results": [
+    {
+      "name": "Importe inválido \"\" conserva formulario",
+      "status": "passed"
+    },
+    {
+      "name": "Importe inválido \"0\" conserva formulario",
+      "status": "passed"
+    },
+    {
+      "name": "Importe inválido \"-1\" conserva formulario",
+      "status": "passed"
+    },
+    {
+      "name": "Importe inválido \"1000000000001\" conserva formulario",
+      "status": "passed"
+    },
+    {
+      "name": "Importe inválido \"100.50\" conserva formulario",
+      "status": "passed"
+    },
+    {
+      "name": "Importe inválido \"NaN\" conserva formulario",
+      "status": "passed"
+    },
+    {
+      "name": "Importe inválido \"Infinity\" conserva formulario",
+      "status": "passed"
+    },
+    {
+      "name": "Gasto de importe máximo y concepto de 100 caracteres",
+      "status": "passed"
+    },
+    {
+      "name": "Concepto vacío se rechaza",
+      "status": "passed"
+    },
+    {
+      "name": "Todas las personas excluidas bloquean reparto",
+      "status": "passed"
+    },
+    {
+      "name": "Conservación con 2 personas e importes impares",
+      "status": "passed"
+    },
+    {
+      "name": "Conservación con 3 personas e importes impares",
+      "status": "passed"
+    },
+    {
+      "name": "Conservación con 10 personas e importes impares",
+      "status": "passed"
+    },
+    {
+      "name": "Porcentajes exactos conservan pesos con 2 personas",
+      "status": "passed"
+    },
+    {
+      "name": "Porcentajes exactos conservan pesos con 3 personas",
+      "status": "passed"
+    },
+    {
+      "name": "Porcentajes exactos conservan pesos con 10 personas",
+      "status": "passed"
+    },
+    {
+      "name": "Importes específicos validan suma exacta al editar total",
+      "status": "passed"
+    },
+    {
+      "name": "Aportes de varios pagadores incorrectos no se aplican",
+      "status": "passed"
+    },
+    {
+      "name": "Presupuesto cero se distingue de no definido",
+      "status": "passed"
+    },
+    {
+      "name": "Presupuesto sin total no inventa cupo",
+      "status": "passed"
+    },
+    {
+      "name": "Abonos sugeridos, presupuesto y costo son coherentes después de liquidar",
+      "status": "passed"
+    },
+    {
+      "name": "Estado simulado synced conserva información y restricciones",
+      "status": "passed"
+    },
+    {
+      "name": "Estado simulado offline conserva información y restricciones",
+      "status": "passed"
+    },
+    {
+      "name": "Estado simulado pending conserva información y restricciones",
+      "status": "passed"
+    },
+    {
+      "name": "Estado simulado syncing conserva información y restricciones",
+      "status": "passed"
+    },
+    {
+      "name": "Estado simulado error conserva información y restricciones",
+      "status": "passed"
+    },
+    {
+      "name": "Estado simulado conflict conserva información y restricciones",
+      "status": "passed"
+    },
+    {
+      "name": "Estado simulado expired conserva información y restricciones",
+      "status": "passed"
+    },
+    {
+      "name": "Estado simulado revoked conserva información y restricciones",
+      "status": "passed"
+    },
+    {
+      "name": "Acceso simulado demo-camera no invoca servicios reales",
+      "status": "passed"
+    },
+    {
+      "name": "Acceso simulado demo-gallery no invoca servicios reales",
+      "status": "passed"
+    },
+    {
+      "name": "Acceso simulado openverse no invoca servicios reales",
+      "status": "passed"
+    },
+    {
+      "name": "Recuperar acceso usa mensaje neutro y devuelve al login",
+      "status": "passed"
+    },
+    {
+      "name": "Crear cuenta, verificar y consultar viajes funciona como simulación",
+      "status": "passed"
+    },
+    {
+      "name": "Entrada anónima de ejemplo requiere aceptación y no correo",
+      "status": "passed"
+    },
+    {
+      "name": "Volver de un borrador abre confirmación también con popstate",
+      "status": "passed"
+    },
+    {
+      "name": "Volver al URL inicial sin hash abre Inicio",
+      "status": "passed"
+    },
+    {
+      "name": "Selección de escenarios no hereda una fecha de viaje incompatible",
+      "status": "passed"
+    },
+    {
+      "name": "Un timer antiguo no confirma operaciones de un escenario nuevo",
+      "status": "passed"
+    },
+    {
+      "name": "Abrir detalle vacío mantiene un encabezado principal accesible",
+      "status": "passed"
+    },
+    {
+      "name": "23 rutas conservan jerarquía de encabezados en ambos temas",
+      "status": "passed"
+    },
+    {
+      "name": "Cerrar con deuda conserva consulta, bloquea gastos y presupuesto",
+      "status": "passed"
+    }
+  ]
+}

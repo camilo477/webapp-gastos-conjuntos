@@ -1,0 +1,183 @@
+{
+  "scope": "DOM y comportamiento simulado en JSDOM; sin layout ni navegador real",
+  "run": "before",
+  "executed": 41,
+  "passed": 36,
+  "failed": 5,
+  "results": [
+    {
+      "name": "Importe inválido \"\" conserva formulario",
+      "status": "passed"
+    },
+    {
+      "name": "Importe inválido \"0\" conserva formulario",
+      "status": "passed"
+    },
+    {
+      "name": "Importe inválido \"-1\" conserva formulario",
+      "status": "passed"
+    },
+    {
+      "name": "Importe inválido \"1000000000001\" conserva formulario",
+      "status": "passed"
+    },
+    {
+      "name": "Importe inválido \"100.50\" conserva formulario",
+      "status": "passed"
+    },
+    {
+      "name": "Importe inválido \"NaN\" conserva formulario",
+      "status": "passed"
+    },
+    {
+      "name": "Importe inválido \"Infinity\" conserva formulario",
+      "status": "passed"
+    },
+    {
+      "name": "Gasto de importe máximo y concepto de 100 caracteres",
+      "status": "passed"
+    },
+    {
+      "name": "Concepto vacío se rechaza",
+      "status": "passed"
+    },
+    {
+      "name": "Todas las personas excluidas bloquean reparto",
+      "status": "passed"
+    },
+    {
+      "name": "Conservación con 2 personas e importes impares",
+      "status": "passed"
+    },
+    {
+      "name": "Conservación con 3 personas e importes impares",
+      "status": "passed"
+    },
+    {
+      "name": "Conservación con 10 personas e importes impares",
+      "status": "passed"
+    },
+    {
+      "name": "Porcentajes exactos conservan pesos con 2 personas",
+      "status": "passed"
+    },
+    {
+      "name": "Porcentajes exactos conservan pesos con 3 personas",
+      "status": "passed"
+    },
+    {
+      "name": "Porcentajes exactos conservan pesos con 10 personas",
+      "status": "passed"
+    },
+    {
+      "name": "Importes específicos validan suma exacta al editar total",
+      "status": "passed"
+    },
+    {
+      "name": "Aportes de varios pagadores incorrectos no se aplican",
+      "status": "passed"
+    },
+    {
+      "name": "Presupuesto cero se distingue de no definido",
+      "status": "passed"
+    },
+    {
+      "name": "Presupuesto sin total no inventa cupo",
+      "status": "passed"
+    },
+    {
+      "name": "Abonos sugeridos, presupuesto y costo son coherentes después de liquidar",
+      "status": "passed"
+    },
+    {
+      "name": "Estado simulado synced conserva información y restricciones",
+      "status": "passed"
+    },
+    {
+      "name": "Estado simulado offline conserva información y restricciones",
+      "status": "passed"
+    },
+    {
+      "name": "Estado simulado pending conserva información y restricciones",
+      "status": "passed"
+    },
+    {
+      "name": "Estado simulado syncing conserva información y restricciones",
+      "status": "passed"
+    },
+    {
+      "name": "Estado simulado error conserva información y restricciones",
+      "status": "passed"
+    },
+    {
+      "name": "Estado simulado conflict conserva información y restricciones",
+      "status": "passed"
+    },
+    {
+      "name": "Estado simulado expired conserva información y restricciones",
+      "status": "passed"
+    },
+    {
+      "name": "Estado simulado revoked conserva información y restricciones",
+      "status": "passed"
+    },
+    {
+      "name": "Acceso simulado demo-camera no invoca servicios reales",
+      "status": "passed"
+    },
+    {
+      "name": "Acceso simulado demo-gallery no invoca servicios reales",
+      "status": "passed"
+    },
+    {
+      "name": "Acceso simulado openverse no invoca servicios reales",
+      "status": "passed"
+    },
+    {
+      "name": "Recuperar acceso usa mensaje neutro y devuelve al login",
+      "status": "passed"
+    },
+    {
+      "name": "Crear cuenta, verificar y consultar viajes funciona como simulación",
+      "status": "passed"
+    },
+    {
+      "name": "Entrada anónima de ejemplo requiere aceptación y no correo",
+      "status": "passed"
+    },
+    {
+      "name": "Volver de un borrador abre confirmación también con popstate",
+      "status": "failed",
+      "error": "Expected values to be strictly equal:\n\nfalse !== true\n",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nfalse !== true\n\n    at /mnt/Datos/gastos/design/review/testing/dom/extended-tests.cjs:42:209\n    at test (/mnt/Datos/gastos/design/review/testing/dom/extended-tests.cjs:7:52)\n    at Object.<anonymous> (/mnt/Datos/gastos/design/review/testing/dom/extended-tests.cjs:42:1)\n    at Module._compile (node:internal/modules/cjs/loader:1521:14)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)\n    at Module.load (node:internal/modules/cjs/loader:1266:32)\n    at Module._load (node:internal/modules/cjs/loader:1091:12)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12)\n    at node:internal/main/run_main_module:28:49"
+    },
+    {
+      "name": "Volver al URL inicial sin hash abre Inicio",
+      "status": "failed",
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'trips'\n- 'home'",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'trips'\n- 'home'\n    at /mnt/Datos/gastos/design/review/testing/dom/extended-tests.cjs:43:186\n    at test (/mnt/Datos/gastos/design/review/testing/dom/extended-tests.cjs:7:52)\n    at Object.<anonymous> (/mnt/Datos/gastos/design/review/testing/dom/extended-tests.cjs:43:1)\n    at Module._compile (node:internal/modules/cjs/loader:1521:14)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)\n    at Module.load (node:internal/modules/cjs/loader:1266:32)\n    at Module._load (node:internal/modules/cjs/loader:1091:12)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12)\n    at node:internal/main/run_main_module:28:49"
+    },
+    {
+      "name": "Selección de escenarios no hereda una fecha de viaje incompatible",
+      "status": "failed",
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '2026-11-21'\n- '2026-12-01'\n         ^",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '2026-11-21'\n- '2026-12-01'\n         ^\n    at /mnt/Datos/gastos/design/review/testing/dom/extended-tests.cjs:44:341\n    at test (/mnt/Datos/gastos/design/review/testing/dom/extended-tests.cjs:7:52)\n    at Object.<anonymous> (/mnt/Datos/gastos/design/review/testing/dom/extended-tests.cjs:44:1)\n    at Module._compile (node:internal/modules/cjs/loader:1521:14)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)\n    at Module.load (node:internal/modules/cjs/loader:1266:32)\n    at Module._load (node:internal/modules/cjs/loader:1091:12)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12)\n    at node:internal/main/run_main_module:28:49"
+    },
+    {
+      "name": "Un timer antiguo no confirma operaciones de un escenario nuevo",
+      "status": "failed",
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'synced'\n- 'syncing'\n       ^",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'synced'\n- 'syncing'\n       ^\n    at /mnt/Datos/gastos/design/review/testing/dom/extended-tests.cjs:45:398\n    at test (/mnt/Datos/gastos/design/review/testing/dom/extended-tests.cjs:7:52)\n    at Object.<anonymous> (/mnt/Datos/gastos/design/review/testing/dom/extended-tests.cjs:45:1)\n    at Module._compile (node:internal/modules/cjs/loader:1521:14)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)\n    at Module.load (node:internal/modules/cjs/loader:1266:32)\n    at Module._load (node:internal/modules/cjs/loader:1091:12)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12)\n    at node:internal/main/run_main_module:28:49"
+    },
+    {
+      "name": "Abrir detalle vacío mantiene un encabezado principal accesible",
+      "status": "failed",
+      "error": "Expected values to be strictly equal:\n\n0 !== 1\n",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n\n    at /mnt/Datos/gastos/design/review/testing/dom/extended-tests.cjs:46:120\n    at test (/mnt/Datos/gastos/design/review/testing/dom/extended-tests.cjs:7:52)\n    at Object.<anonymous> (/mnt/Datos/gastos/design/review/testing/dom/extended-tests.cjs:46:1)\n    at Module._compile (node:internal/modules/cjs/loader:1521:14)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)\n    at Module.load (node:internal/modules/cjs/loader:1266:32)\n    at Module._load (node:internal/modules/cjs/loader:1091:12)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12)\n    at node:internal/main/run_main_module:28:49"
+    },
+    {
+      "name": "Cerrar con deuda conserva consulta, bloquea gastos y presupuesto",
+      "status": "passed"
+    }
+  ]
+}

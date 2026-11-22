@@ -1,0 +1,62 @@
+[
+  {
+    "id": "B01",
+    "severity": "media",
+    "file": "design/prototype/app.js",
+    "cause": "popstate abandonaba un formulario modificado sin confirmar",
+    "reproduction": "Captura Borrador → popstate #home → no se abría confirmación",
+    "fix": "Aplicar la guarda existente a popstate y conservar #expense",
+    "regression": "Volver de un borrador",
+    "status": "corregido y comprobado en DOM; sin navegador real"
+  },
+  {
+    "id": "B02",
+    "severity": "baja",
+    "file": "design/prototype/app.js",
+    "cause": "popstate sin hash conservaba la pantalla anterior",
+    "reproduction": "Viajes → URL inicial sin hash → permanecía Viajes",
+    "fix": "Usar Inicio como ruta predeterminada",
+    "regression": "Volver al URL inicial",
+    "status": "corregido y comprobado en DOM; sin navegador real"
+  },
+  {
+    "id": "B03",
+    "severity": "media",
+    "file": "design/prototype/app.js",
+    "cause": "fixtures con fechas fijas fuera de un viaje creado",
+    "reproduction": "Crear viaje de diciembre → reiniciar escenario → editar gasto → fecha inválida",
+    "fix": "Anclar la fecha de los fixtures al día simulado dentro del viaje",
+    "regression": "Selección de escenarios",
+    "status": "corregido y comprobado en DOM; sin navegador real"
+  },
+  {
+    "id": "B04",
+    "severity": "media",
+    "file": "design/prototype/app.js",
+    "cause": "confirmación asíncrona antigua alcanzaba operaciones nuevas con IDs reutilizados",
+    "reproduction": "Iniciar sync → cambiar escenario → iniciar sync → ejecutar timer antiguo",
+    "fix": "Invalidar callbacks mediante generación de la simulación",
+    "regression": "Un timer antiguo",
+    "status": "corregido y comprobado en DOM; sin navegador real"
+  },
+  {
+    "id": "B05",
+    "severity": "baja",
+    "file": "design/prototype/app.js",
+    "cause": "detalle sin gastos no tenía h1",
+    "reproduction": "Escenario vacío → Detalle → cero encabezados principales",
+    "fix": "Conservar título del detalle también en estado vacío",
+    "regression": "Abrir detalle vacío",
+    "status": "corregido y comprobado en DOM; sin navegador real"
+  },
+  {
+    "id": "B06",
+    "severity": "media",
+    "file": "design/prototype/index.html",
+    "cause": "dos landmarks banner sin nombre distintivo",
+    "reproduction": "Axe en rutas con header de aplicación detectaba landmark-no-duplicate-banner",
+    "fix": "Usar sección con nombre en la banda de revisión externa, conservando clases",
+    "regression": "landmark-no-duplicate-banner",
+    "status": "corregido y comprobado en DOM; sin navegador real"
+  }
+]

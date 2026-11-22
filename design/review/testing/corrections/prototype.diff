@@ -1,0 +1,110 @@
+--- before/design/prototype/app.js
++++ after/design/prototype/app.js
+@@ -108,6 +108,7 @@
+   let expenses = [],
+     payments = [],
+     toastTimer;
++  let syncGeneration = 0;
+   const people = () =>
+     Array.from({ length: state.count }, (_, i) => ({
+       id: String.fromCharCode(97 + i),
+@@ -147,6 +148,7 @@
+     );
+   }
+   function seed() {
++    syncGeneration++;
+     state.localChanges = [];
+     state.fixtureHistory = [];
+     if (state.count === 1) {
+@@ -171,7 +173,7 @@
+         shares: equal(96000, ids),
+         time: "13:10",
+         note: "Menú para compartir",
+-        day: "2026-11-21",
++        day: today(),
+       },
+       {
+         id: "e2",
+@@ -182,7 +184,7 @@
+         shares: equal(84000, ids),
+         time: "11:45",
+         note: "Desayunos y algo para el camino",
+-        day: "2026-11-21",
++        day: today(),
+       },
+       {
+         id: "e3",
+@@ -193,7 +195,7 @@
+         shares: equal(70000, ["a", "b"]),
+         time: "09:20",
+         note: "Ana y Bruno comparten este trayecto",
+-        day: "2026-11-21",
++        day: today(),
+       },
+     ];
+     payments = [{ id: "p1", from: "b", to: "a", amount: 15000, time: "14:25" }];
+@@ -938,6 +940,7 @@
+     if (!e)
+       return layout(
+         routeBack() +
++          heading("Detalle del gasto") +
+           empty(
+             "Todavía no hay gastos",
+             "Registra el primero para ver el desglose y su historial.",
+@@ -1846,6 +1849,7 @@
+         ? "synced"
+         : state.scenario;
+       const sendingIds = new Set(pendingChanges().map((change) => change.id));
++      const generation = ++syncGeneration;
+       if (isClosed()) state.closed = true;
+       if (noBudget()) state.budget = null;
+       pendingChanges().forEach((change) => {
+@@ -1856,7 +1860,8 @@
+       render();
+       toast("Simulando la espera de confirmación…");
+       setTimeout(() => {
+-        if (state.scenario !== "syncing") return;
++        if (generation !== syncGeneration || state.scenario !== "syncing")
++          return;
+         state.localChanges.forEach((change) => {
+           if (sendingIds.has(change.id)) change.status = "confirmed";
+         });
+@@ -2389,8 +2394,17 @@
+     }
+   });
+   window.addEventListener("popstate", () => {
+-    const route = location.hash.slice(1);
++    const route = location.hash.slice(1) || "home";
+     if (renderers[route]) {
++      if (
++        state.route === "expense" &&
++        draft().dirty &&
++        !["split", "payers"].includes(route)
++      ) {
++        history.pushState(null, "", "#expense");
++        go(route);
++        return;
++      }
+       state.route = route;
+       render(true);
+     }
+--- before/design/prototype/index.html
++++ after/design/prototype/index.html
+@@ -18,7 +18,7 @@
+   </head>
+   <body>
+     <a class="skip-link" href="#main">Saltar al contenido</a>
+-    <header
++    <section
+       class="review-bar"
+       aria-label="Controles de revisión, ajenos a la aplicación"
+     >
+@@ -95,7 +95,7 @@
+           </div>
+         </details>
+       </div>
+-    </header>
++    </section>
+     <div id="app"></div>
+     <dialog id="sheet" aria-labelledby="sheet-title"></dialog>
+     <div

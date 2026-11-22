@@ -1,0 +1,9 @@
+{
+  "remainingLibrary": "libyuv.so.0",
+  "localPackageCache": "no disponible",
+  "download": "fall\u00f3 resoluci\u00f3n DNS de archive.ubuntu.com y security.ubuntu.com",
+  "expectedPackage": "libyuv0_0.0~git202401110.af6ac82-1_amd64.deb",
+  "sha256FromAptMetadata": "88bd472e50a7e45469e31f8e0ba232b4d8ed30322f5badb285c58cc1ba0d2176",
+  "permissionsUnchanged": true,
+  "ptrace": "strace: PTRACE_TRACEME: Operation not permitted"
+}

@@ -1,0 +1,30 @@
+{
+  "method": "SHA-256 antes/después; sin Git operativo",
+  "changedExistingFiles": [
+    "README.md",
+    "docs/phase1/README.md",
+    "docs/phase1/REVIEW.md",
+    "design/README.md",
+    "design/prototype/app.js",
+    "design/prototype/index.html",
+    "design/review/verify-docs.py",
+    "design/review/verify-prototype.cjs"
+  ],
+  "unchangedPhase0Documents": [
+    "docs/ARCHITECTURE.md",
+    "docs/CALCULATION_RULES.md",
+    "docs/DATA_MODEL.md",
+    "docs/DECISIONS.md",
+    "docs/OFFLINE_SYNC.md",
+    "docs/PLAN_MVP_GASTOS_COMPARTIDOS.md",
+    "docs/PRD.md",
+    "docs/SECURITY_RULES.md",
+    "docs/SERVICE_LIMITS.md",
+    "docs/TEST_PLAN.md",
+    "docs/UI_GUIDELINES.md"
+  ],
+  "prototypeCssUnchanged": true,
+  "compositionImagesUnchanged": true,
+  "originalPlanCopyUnchanged": true,
+  "originalDownloadPlanMatchesCopy": true
+}

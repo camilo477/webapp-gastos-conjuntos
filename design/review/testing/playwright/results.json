@@ -1,0 +1,2547 @@
+{
+  "config": {
+    "configFile": "/mnt/Datos/gastos/design/review/testing/playwright/playwright.config.cjs",
+    "rootDir": "/mnt/Datos/gastos/design/review/testing/playwright",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/mnt/Datos/gastos/design/review/testing/playwright/results.json"
+        }
+      ],
+      [
+        "html",
+        {
+          "outputFolder": "/mnt/Datos/gastos/design/review/testing/playwright/html-report",
+          "open": "never"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/mnt/Datos/gastos/design/review/testing/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/mnt/Datos/gastos/design/review/testing/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "prototype.spec.cjs"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/mnt/Datos/gastos/design/review/testing/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "/mnt/Datos/gastos/design/review/testing/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "prototype.spec.cjs"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/mnt/Datos/gastos/design/review/testing/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "/mnt/Datos/gastos/design/review/testing/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "prototype.spec.cjs"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "prototype.spec.cjs",
+      "file": "prototype.spec.cjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Responsive 320x568 light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:33.861Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-20c16a6c3f94eb92e156",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 320x568 dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:33.895Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-d0135154eb5ff08623d2",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 375x667 light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:33.908Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-8fbd3e422321a5cc7fe0",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 375x667 dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:33.920Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-43da50d111d25624fd64",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 390x844 light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:33.929Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-1bf99e235f2340644cb8",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 390x844 dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:33.940Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-c761cdfe5fbee734b957",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 430x932 light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:33.949Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-618e7819ff0df0ad086a",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 430x932 dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:33.958Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-8e7a3a40170197f2522b",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 768x1024 light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:33.977Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-5a2b9551cdb632c4de02",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 768x1024 dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:33.989Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-b1774d074579975d16ac",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 1440x900 light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:33.998Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-b3acf0e074374339fe5b",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 1440x900 dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:34.007Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-c29f51e34df0eda44420",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Recorrido principal, presupuesto, abonos, temas y cierre",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:34.016Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-5b0961074ee0c307b87f",
+          "file": "prototype.spec.cjs",
+          "line": 137,
+          "column": 1
+        },
+        {
+          "title": "Estados simulados, modal y teclado nativo",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:34.025Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-7bd7c735bce662ea4e8a",
+          "file": "prototype.spec.cjs",
+          "line": 175,
+          "column": 1
+        },
+        {
+          "title": "Axe en navegador con contraste y nombres accesibles",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:34.033Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-a65198858e20c50ad66b",
+          "file": "prototype.spec.cjs",
+          "line": 202,
+          "column": 1
+        },
+        {
+          "title": "Responsive 320x568 light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 2,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:34.791Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-c4a71bd1df640bfe55c2",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 320x568 dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:34.829Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-b8265382e3daf01156d9",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 375x667 light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:34.843Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-1ae6f868e84dd0dd9bc9",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 375x667 dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:34.857Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-7c56938bb19144459bbf",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 390x844 light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:34.869Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-49deb36d209981e8dee4",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 390x844 dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:34.880Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-975fabc2435f6448a31b",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 430x932 light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:34.890Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-01ab7666dc78e84c62a6",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 430x932 dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:34.899Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-94a62a6372172e70a2e2",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 768x1024 light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:34.917Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-98b079f5d06dc79b56a8",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 768x1024 dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:34.933Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-bf9c0730f6dce801ad17",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 1440x900 light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:34.943Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-844497be5a4aa1ca8e69",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 1440x900 dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:34.954Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-9fc2caffb6df29bd33d0",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Recorrido principal, presupuesto, abonos, temas y cierre",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:34.965Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-73b57ad95134234807ae",
+          "file": "prototype.spec.cjs",
+          "line": 137,
+          "column": 1
+        },
+        {
+          "title": "Estados simulados, modal y teclado nativo",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:34.974Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-08dff0b6fb1caa919409",
+          "file": "prototype.spec.cjs",
+          "line": 175,
+          "column": 1
+        },
+        {
+          "title": "Axe en navegador con contraste y nombres accesibles",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:34.983Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-a40bad145b479c5dd6d0",
+          "file": "prototype.spec.cjs",
+          "line": 202,
+          "column": 1
+        },
+        {
+          "title": "Responsive 320x568 light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 2,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:35.761Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-9524f3c61bdf2e1f86f2",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 320x568 dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:35.799Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-854bb52b2471accec729",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 375x667 light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:35.814Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-72054a83993928e0eca4",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 375x667 dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:35.828Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-59a3c294504323b0a2f8",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 390x844 light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:35.839Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-547a74e24dd06d066d26",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 390x844 dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:35.851Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-3ad2c9660e2b373cf1b0",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 430x932 light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:35.860Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-fb3d6cc9b2b164e11b76",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 430x932 dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:35.872Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-715d2d35e1964ab9d790",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 768x1024 light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:35.882Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-ad1386c8d14370838eaf",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 768x1024 dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:35.893Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-4e0fb7befb3dfcfbb52f",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 1440x900 light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:35.909Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-54af13dec80080d21f2f",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Responsive 1440x900 dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:35.922Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-77d8046bb96b5c88415d",
+          "file": "prototype.spec.cjs",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "Recorrido principal, presupuesto, abonos, temas y cierre",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:35.931Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-e2a7b997e9d62a15001d",
+          "file": "prototype.spec.cjs",
+          "line": 137,
+          "column": 1
+        },
+        {
+          "title": "Estados simulados, modal y teclado nativo",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:35.940Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-f4d93f52c2e66363cc92",
+          "file": "prototype.spec.cjs",
+          "line": 175,
+          "column": 1
+        },
+        {
+          "title": "Axe en navegador con contraste y nombres accesibles",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                  "location": {
+                    "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                    "line": 67,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-21T23:24:35.949Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Precondición no satisfecha: el motor no abrió una página en las sondas. No se ejecutó la prueba.",
+                      "location": {
+                        "file": "/mnt/Datos/gastos/design/review/testing/playwright/prototype.spec.cjs",
+                        "line": 67,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "0c3cf4dc31295b889706-f3af4d456de984f51be7",
+          "file": "prototype.spec.cjs",
+          "line": 202,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-21T23:24:32.827Z",
+    "duration": 3160.3590000000004,
+    "expected": 0,
+    "skipped": 45,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

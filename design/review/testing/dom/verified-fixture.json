@@ -1,0 +1,43 @@
+{
+  "balances": [
+    {
+      "name": "Ana",
+      "amount": 20000,
+      "direction": "Por recibir"
+    },
+    {
+      "name": "Bruno",
+      "amount": 30000,
+      "direction": "Por aportar"
+    },
+    {
+      "name": "Carla",
+      "amount": 10000,
+      "direction": "Por recibir"
+    }
+  ],
+  "suggestions": [
+    {
+      "from": "Bruno",
+      "to": "Ana",
+      "amount": 20000
+    },
+    {
+      "from": "Bruno",
+      "to": "Carla",
+      "amount": 10000
+    }
+  ],
+  "budget": {
+    "total": 400000,
+    "available": 150000,
+    "assigned": 100000,
+    "spent": 250000,
+    "difference": 150000,
+    "future": [
+      50000,
+      50000,
+      50000
+    ]
+  }
+}

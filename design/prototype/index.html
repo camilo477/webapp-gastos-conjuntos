@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="Prototipo de revisión UX/UI de gastos compartidos. Datos ficticios, sin servicios conectados."
+    />
+    <title>Gastos compartidos · Prototipo de diseño</title>
+    <link rel="icon" href="assets/mountain.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+    <section
+      class="review-bar"
+      aria-label="Controles de revisión, ajenos a la aplicación"
+    >
+      <div class="review-label">
+        <span class="review-dot"></span><strong>Prototipo</strong
+        ><span>Fase 1 · datos de ejemplo</span>
+      </div>
+      <div class="review-controls">
+        <label for="screen-select" class="sr-only">Pantalla de revisión</label>
+        <select id="screen-select" aria-label="Pantalla de revisión"></select>
+        <button
+          id="theme-toggle"
+          class="review-button"
+          aria-label="Cambiar a modo oscuro"
+          type="button"
+        >
+          Oscuro
+        </button>
+        <details id="review-options">
+          <summary>Escenarios</summary>
+          <div class="review-options">
+            <label
+              >Estado simulado<select id="state-select">
+                <option value="synced">Sincronizado</option>
+                <option value="offline">Sin conexión</option>
+                <option value="pending">Cambios pendientes</option>
+                <option value="syncing">Sincronizando</option>
+                <option value="error">Error al sincronizar</option>
+                <option value="conflict">Ediciones simultáneas</option>
+                <option value="duplicate">Posibles duplicados</option>
+                <option value="loading">Carga lenta</option>
+                <option value="empty">Sin movimientos</option>
+                <option value="partial">Datos incompletos</option>
+                <option value="no-budget">Sin presupuesto</option>
+                <option value="exhausted">Presupuesto superado</option>
+                <option value="photo-error">Imagen pendiente</option>
+                <option value="expired">Invitación caducada</option>
+                <option value="revoked">Invitación revocada</option>
+                <option value="full">Grupo completo</option>
+                <option value="access-revoked">Acceso retirado</option>
+                <option value="storage-error">Fallo de guardado local</option>
+                <option value="closed">Viaje finalizado</option>
+                <option value="late-conflict">Incidencia tras cierre</option>
+                <option value="long">Importes y nombres largos</option>
+              </select></label
+            >
+            <label
+              >Rol de revisión<select id="role-select">
+                <option value="owner">Organizadora</option>
+                <option value="member">Participante</option>
+              </select></label
+            >
+            <label
+              >Botón Agregar gasto<select id="add-placement">
+                <option value="dock">Fijo · ancho cómodo</option>
+                <option value="compact">Fijo · compacto</option>
+              </select></label
+            >
+            <label
+              >Participantes<select id="count-select">
+                <option value="1">1 · esperando invitados</option>
+                <option value="2">2 personas</option>
+                <option value="3" selected>3 personas</option>
+                <option value="10">10 personas</option>
+              </select></label
+            >
+            <button id="reset-demo" class="review-button" type="button">
+              Restablecer ejemplo
+            </button>
+            <p>
+              Todo se simula en esta pestaña. No uses contraseñas ni datos
+              reales. Cambiar estado o grupo, o recargar, restablece el ejemplo.
+            </p>
+          </div>
+        </details>
+      </div>
+    </section>
+    <div id="app"></div>
+    <dialog id="sheet" aria-labelledby="sheet-title"></dialog>
+    <div
+      id="announcement"
+      class="sr-only"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    ></div>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    <noscript
+      ><main>
+        <h1>Prototipo de diseño</h1>
+        <p>
+          Activa JavaScript para recorrer las pantallas. No se conecta a
+          Firebase ni conserva datos.
+        </p>
+        <a href="../../docs/phase1/WIREFRAMES.md"
+          >Consultar los wireframes documentados</a
+        >
+      </main></noscript
+    >
+  </body>
+</html>

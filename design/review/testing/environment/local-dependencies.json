@@ -1,0 +1,26 @@
+[
+  {
+    "name": "libwoff1.deb",
+    "sha256": "e23a6287ff611ff60a5a598de21f8f60f6236b6ad9443376318e6cc7914219c1",
+    "matchesAptMetadata": true,
+    "globalInstallation": false
+  },
+  {
+    "name": "libevent.deb",
+    "sha256": "083ced6efb23476cb4de4e441b741af02db5653e67fa7fcd6cf7e5f7b78f6101",
+    "matchesAptMetadata": true,
+    "globalInstallation": false
+  },
+  {
+    "name": "libavif16.deb",
+    "sha256": "b295a9954a4b756af05ff381d9808f3c0c582a111b7e4c7678cfe13de9ae8818",
+    "matchesAptMetadata": true,
+    "globalInstallation": false
+  },
+  {
+    "name": "libgav1.deb",
+    "sha256": "428f353f449e6b15cdcf5823215416e36adcfba75fe9f0fedc1cd132d68e6b3f",
+    "matchesAptMetadata": true,
+    "globalInstallation": false
+  }
+]
