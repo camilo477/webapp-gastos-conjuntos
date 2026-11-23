@@ -25,6 +25,14 @@ flowchart TD
 
 ## Límites y módulos previstos
 
+La Fase 3 implementa `src/domain/` con esquemas Zod, DTO financieros versionados,
+adaptación a BigInt y cálculos puros. Recibe snapshots/revisiones con estado de
+completitud explícito o proyecta eventos localmente, verificando ancestros y
+cabezas. No implementa transporte, pares merge ni decide ganadores de conflictos.
+Todos los resultados se derivan de la misma selección efectiva y propagan
+provisionalidad. Vitest separa proyecto Node de UI y TypeScript comprueba el
+dominio sin lib DOM ni tipos React. Detalle en [informe de Fase 3](phase3/REPORT.md).
+
 | Módulo futuro | Responsabilidad | No debe hacer |
 | --- | --- | --- |
 | `domain/` | Contratos Zod, dinero, reparto, saldos, presupuesto, validación | Importar React/Firebase o usar reloj implícito |

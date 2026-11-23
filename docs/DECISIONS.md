@@ -1,5 +1,31 @@
 # Decisiones y riesgos
 
+## Fase 3 · Decisiones previas a implementar
+
+- D-26: contrato financiero v2 para incluir `fixed`, con `weights: []` y cuotas
+  explícitas conservadas exactamente. v1 se valida/migra de forma explícita,
+  sin datos remotos ni cambios en las versiones de metadatos.
+- D-27: 2–10 integrantes en los grupos de prueba; permitir 1–10 beneficiarios
+  por gasto para que excluir participantes también funcione en grupos de dos.
+- D-28: agregados BigInt ilimitados por el tope de cada movimiento; Number solo
+  en DTO validados hasta 10^12. Salidas ordenadas ordinalmente por personId/día.
+- D-29: input de entidades con revisión/estado o de eventos para proyección local
+  conservadora (padres, snapshots, relojes y cabezas). Excluir conflictos,
+  entidades inválidas/incompletas y propagar provisionalidad. Sin reconciliación
+  distribuida, pares merge ni elección automática de una revisión ganadora.
+- D-30: presupuesto reconstruido por fecha, preservando reservas manuales. Se
+  distingue validación de una edición (rechaza reservas excesivas con datos
+  completos) de proyección posterior (conserva la reserva y muestra déficit).
+- D-31: motor aislado en Node con esquemas Zod según arquitectura acordada;
+  formatos de fecha/importe estrictos y zona/reloj explícitos. No integración UI.
+- D-32: proyección futura descuenta todo gasto conocido una vez y reserva solo
+  la parte no consumida de cupos manuales futuros. Las asignaciones históricas
+  se documentan como reconstrucciones, no como auditoría almacenada.
+- D-33: validación pura de padres directos y tamaño UTF-8 de evento hasta 32 KiB.
+  No constituye proyector DAG, autenticación ni garantía de reglas de servidor.
+- D-34: una resolución admite snapshot activo o eliminado; una eliminación
+  conserva el snapshot anterior. No se fuerza a restaurar al resolver un conflicto.
+
 Fecha: 2026-11-21. «Base» significa indicado por el plan, no software ya implementado. «Propuesta» es una decisión de ingeniería/producto pendiente de ratificación; no representa aprobación del usuario.
 
 ## Registro de decisiones

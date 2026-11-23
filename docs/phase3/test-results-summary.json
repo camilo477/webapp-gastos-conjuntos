@@ -1,0 +1,91 @@
+{
+  "phase": 3,
+  "baseCommit": "9071de8da696ad698f99cf127511cc9c2aaca4d5",
+  "verification": {
+    "command": "npm run check",
+    "node": "24.22.3",
+    "vitest": "4.1.12",
+    "startLocal": "2026-11-22T19:58:15-05:00",
+    "durationSeconds": 11.89,
+    "testFiles": 17,
+    "passed": 169,
+    "failed": 0,
+    "domainPassed": 135,
+    "existingUiPassed": 34,
+    "lint": "passed",
+    "typecheck": "passed",
+    "typecheckWithoutDom": "passed",
+    "build": "passed"
+  },
+  "deterministicVectors": {
+    "splitBalance": 4500,
+    "budgets": 1000,
+    "eventHistories": 1000,
+    "total": 6500,
+    "separateMaxMovementLoad": 10000,
+    "aggregateMinorUnits": "10000000000000000"
+  },
+  "contracts": {
+    "financialEventVersion": 2,
+    "metadataVersion": 1,
+    "fixed": "explicit shares; weights empty",
+    "legacyMigration": "explicit v1 to v2; no remote writes"
+  },
+  "coverage": [
+    "FIN-01",
+    "FIN-02",
+    "FIN-03",
+    "FIN-04",
+    "FIN-05",
+    "FIN-06",
+    "FIN-07",
+    "FIN-08",
+    "FIN-09",
+    "FIN-10",
+    "FIN-11",
+    "VAL-01",
+    "VAL-02",
+    "BUD-01",
+    "BUD-02",
+    "BUD-03",
+    "BUD-04",
+    "BUD-05",
+    "STAT-01"
+  ],
+  "audit": {
+    "runtimeVulnerabilities": 0,
+    "inheritedDevelopmentModerate": 17,
+    "high": 0,
+    "critical": 0
+  },
+  "notRerun": [
+    "Firebase rules: unchanged",
+    "Playwright/PWA: application unchanged",
+    "original prototype: unchanged"
+  ],
+  "limitations": [
+    "no distributed transport or paired merge reconciliation",
+    "no authentication or Firestore product writes",
+    "no real UI integration",
+    "global collection completeness supplied by caller; missing referenced parents detected locally",
+    "physical/multiplatform checks from previous phases remain pending"
+  ],
+  "gemini": "skipped: previously confirmed missing authentication; no repeated attempts",
+  "publication": {
+    "status": "blocked: .git read-only prevented staging",
+    "commit": null,
+    "push": "not performed",
+    "lastVerifiedRemote": "9071de8da696ad698f99cf127511cc9c2aaca4d5",
+    "tracking": "origin/main"
+  },
+  "review": {
+    "candidateFiles": 244,
+    "secretPatternFindings": 0,
+    "ignoreCases": 16,
+    "markdownFiles": 27,
+    "staticContrastPairs": 32,
+    "documentIssues": 0,
+    "originalPrototypeUnchanged": true,
+    "uiAndFirebaseUnchanged": true
+  }
+}

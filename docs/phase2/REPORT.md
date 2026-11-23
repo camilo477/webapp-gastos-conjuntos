@@ -1,5 +1,11 @@
 # Fase 2 · Informe técnico
 
+Actualización posterior: antes de Fase 3 se confirmó la publicación realizada
+por el usuario en `main`: `9071de8da696ad698f99cf127511cc9c2aaca4d5`, verificado
+en GitHub. El relato de bloqueo de staging/publicación que sigue documenta la
+sesión original; no describe el estado actual del remoto. Se conservan todos
+los resultados y limitaciones de aquella entrega.
+
 Fecha: 2026-11-22 (America/Bogota; ejecuciones también identificadas en UTC).
 Fase 1 aceptada provisionalmente por autorización explícita del usuario. Base
 implementada; Fase 3 no iniciada. No hay despliegue público.

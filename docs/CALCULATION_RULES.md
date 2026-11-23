@@ -33,6 +33,25 @@ Ejemplos con IDs A < B < C:
 
 Invariante por gasto efectivo: `suma(aportes) = total = suma(cuotas)`. Eliminar lógicamente excluye todo el gasto; restaurar aplica otra vez el snapshot recalculado exacto. «Reversible» significa sin pérdida monetaria al editar/restaurar usando el historial, no que las divisiones enteras permitan recuperar pesos originales sin guardarlos.
 
+## Ampliación fixed y fronteras numéricas (Fase 3)
+
+`fixed` usa importes enteros explícitos por persona, suma exacta del total y
+`weights: []`. No se aplica redondeo ni conversión a porcentaje. Al editar el
+total, las cuotas deben volver a sumar el nuevo importe; no se escalan
+automáticamente. Véase la extensión financiera v2 de DATA_MODEL.
+
+El parseo acepta texto sin agrupadores ni símbolos; COP solo dígitos, USD/EUR
+hasta dos decimales con coma o punto (un único separador). Espacios exteriores
+se eliminan; exponentes, signos, agrupadores y redondeo implícito se rechazan.
+El formateo del motor es español determinista con código de moneda, agrupador
+de miles `.` y separador decimal `,`, desde enteros exactos, también para saldos
+negativos. No depende de la configuración regional del dispositivo.
+
+Las sugerencias se calculan sobre agregados BigInt y pueden superar el tope de
+un abono individual. Son propuestas de dominio, no documentos persistibles; una
+integración posterior deberá dividir un pago superior a 10^12 en movimientos
+permitidos sin alterar el total. No se cambia el algoritmo min(deuda, crédito).
+
 ## Saldos y abonos
 
 Para cada persona:
@@ -71,3 +90,9 @@ Propuesta pendiente de ratificar: solo propietario modifica presupuesto; los cup
 - Conflicto financiero o datos incompletos produce presupuesto provisional. Cambiar B o reservas crea revisión de la entidad budget; dos cambios offline no se pisan.
 
 Prueba con reserva: B=400.000, día 1 gastado 250.000, día 4 manual 80.000. Días 2 y 3 reciben 35.000 cada uno. Si día 1 gastó 350.000, reserva 80.000 permanece, automáticos=0 y déficit reservado=30.000. Disponible real del viaje todavía es 50.000; no confundir ese dato con el déficit de asignaciones.
+
+En Fase 3 las proyecciones descuentan también compras ya conocidas con fecha
+futura, una sola vez. De una reserva futura solo se aparta su parte no gastada;
+el cupo manual visible permanece fijo. Los automáticos futuros muestran su gasto
+ya conocido más la asignación del remanente libre. Un presupuesto no disponible
+por conflicto se distingue de un presupuesto conocido con total null.

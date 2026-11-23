@@ -8,8 +8,9 @@ provisionalmente por el usuario el 2026-11-22 para continuar a Fase 2;
 consultar `docs/phase1/AUTOMATED_TEST_REPORT.md` para conservar resultados
 y pruebas multiplataforma pendientes. La Fase 2 está expresamente autorizada:
 React/TypeScript/Vite, Firebase limitado a emuladores y shell PWA. No rediseñar
-ni reemplazar el prototipo. No iniciar Fase 3 ni funcionalidades posteriores
-sin una nueva instrucción explícita.
+ni reemplazar el prototipo. El usuario autorizó expresamente la Fase 3: motor
+financiero puro y modelos de dominio, sin integración con gastos reales.
+No iniciar Fase 4 ni funcionalidades posteriores sin una nueva instrucción explícita.
 
 ## Git y publicación
 

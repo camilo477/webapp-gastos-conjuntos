@@ -1,5 +1,39 @@
 # Git y publicación inicial
 
+## Fase 3 · Publicación del motor
+
+La Fase 2 se confirmó en `origin/main` y GitHub con SHA
+`9071de8da696ad698f99cf127511cc9c2aaca4d5`. El estado de Fase 3 y sus pruebas
+se detalla en [su informe](phase3/REPORT.md). Si `.git` está protegido, ejecutar
+desde una terminal Ubuntu normal:
+
+```bash
+cd /mnt/Datos/gastos
+git status --short --branch
+git fetch origin
+git log --oneline --left-right HEAD...origin/main
+```
+
+Si hay avances remotos, inspeccionarlos e integrarlos conservando el trabajo
+antes de seguir. En `main`, sin divergencias, las comprobaciones están en
+`npm run check` (Node 24 LTS). Preparar y revisar antes de publicar:
+
+```bash
+git add .
+git diff --cached --check
+git diff --cached
+git commit -m "feat: implement financial calculation engine"
+git push origin main
+git rev-parse HEAD
+git ls-remote origin refs/heads/main
+git rev-parse --abbrev-ref --symbolic-full-name '@{u}'
+git status --short --branch
+```
+
+Los SHA local/remoto deben coincidir y el seguimiento ser `origin/main`.
+Conservar la evidencia y revisar posibles secretos antes del commit. No se
+autoriza force push ni despliegue público.
+
 Repositorio público: <https://github.com/camilo477/webapp-gastos-conjuntos>.
 Rama prevista: `main`. La importación inicial reúne los entregables existentes
 de Fase 0 y Fase 1; no declara aprobada la Fase 1.

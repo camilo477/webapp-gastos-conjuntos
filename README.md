@@ -2,15 +2,18 @@
 
 PWA privada para gastos de viajes entre 2 y 10 personas.
 
-**Estado: base técnica de Fase 2 implementada; demostración sin cuentas ni datos
-reales.** La Fase 1 fue aceptada provisionalmente por el usuario el 2026-11-22.
+**Estado: base técnica de Fase 2 publicada y motor financiero puro de Fase 3
+implementado.** La interfaz sigue siendo una demostración sin datos reales y
+todavía no consume el motor. La Fase 1 fue aceptada provisionalmente el 2026-11-22.
 Sus pruebas multiplataforma pendientes se conservan en el
-[informe original](docs/phase1/AUTOMATED_TEST_REPORT.md). No se inició la Fase 3.
+[informe original](docs/phase1/AUTOMATED_TEST_REPORT.md). No se inició la Fase 4.
 
-Git está inicializado en `main`. El commit inicial `07ce6ef` está publicado en
+Git está inicializado en `main`. La Fase 2 está publicada en el commit `9071de8` de
 [GitHub](https://github.com/camilo477/webapp-gastos-conjuntos).
 El estado exacto de validación y publicación de Fase 2 se registra en
 [el informe técnico](docs/phase2/REPORT.md).
+Los resultados y el estado de publicación de Fase 3 están en
+[su informe](docs/phase3/REPORT.md).
 
 ## Requisitos e instalación
 
@@ -36,8 +39,10 @@ gastos, abonos e invitar están deshabilitados. No introducir datos personales.
 | --- | --- |
 | `npm run dev` | React con recarga de desarrollo; sin service worker |
 | `npm run typecheck` | TypeScript estricto, aplicación y pruebas |
+| `npm run typecheck:domain` | Dominio sin lib DOM ni tipos React/Firebase |
 | `npm run lint` | ESLint sobre código y configuración de Fase 2 |
 | `npm test` | Vitest + Testing Library, sin servicios reales |
+| `npm run test:domain` | Motor y contratos en Node, sin setup de React/DOM |
 | `npm run build` | Typecheck + build PWA en `dist/` |
 | `npm run preview` | Build local en `http://127.0.0.1:4173` |
 | `npm run check` | Lint + Vitest + typecheck/build |
@@ -118,15 +123,33 @@ src/components/             botones, campos, diálogos, mensajes, filas, contene
 src/features/demo/          pantallas y fixtures visuales de solo lectura
 src/features/status/        actividad y estado de configuración
 src/repositories/firebase/  validación de entorno y SDK modular diferido
+src/domain/                 modelos Zod, DTO versionados y motor financiero puro
 public/icons/               iconos instalables y licencia
 scripts/                    regeneración de iconos y builds E2E
 tests/                      setup de componentes, E2E HTTP y reglas
 .github/workflows/ci.yml     comprobaciones reproducibles
 ```
 
-Los módulos `domain/`, `sync/` y `attachments/` se crearán al implementar sus
-responsabilidades; no hay carpetas ni contratos vacíos. El registro financiero
-inmutable propuesto en los documentos continúa siendo el contrato futuro.
+El dominio implementa dinero BigInt, reparto igual/porcentaje/fixed, saldos,
+abonos, sugerencias, presupuestos, estadísticas y validación de snapshots/eventos.
+Los módulos `sync/` y `attachments/` se crearán en sus fases. El dominio recibe
+revisiones efectivas con estado explícito; no implementa el proyector distribuido.
+
+```ts
+import { splitExpense, formatMoney } from './src/domain';
+
+const shares = splitExpense(100n, { mode: 'equal', personIds: ['C', 'A', 'B'] });
+// A: 34n, B: 33n, C: 33n. Entrada reordenada: mismo resultado.
+formatMoney(shares[0]!.amount, 'COP'); // 'COP $34'
+```
+
+Los DTO usan enteros Number acotados; cálculos/agregados y salidas monetarias
+usan BigInt. `prepareFinancialState` valida y selecciona snapshots;
+`projectFinancialEvents` detecta localmente padres ausentes, snapshots inválidos
+y cabezas incompatibles. Todos los cálculos consumen el mismo estado y propagan
+`provisional`. El reloj y la zona
+son explícitos. El contrato financiero v2 admite `fixed`; v1 se migra mediante
+una función explícita. No se generan IDs ni se escriben documentos.
 
 Se conservan paleta, fuente de sistema, tokens, separadores, navegación de tres
 destinos, temas e iconos locales Lucide de Fase 1. El
@@ -145,8 +168,11 @@ la aplicación. Las pantallas React no trasladan su motor simulado.
   y [cómo abrir el prototipo](design/README.md).
 - [Plan de Fase 2](docs/phase2/PLAN.md), [resultados](docs/phase2/REPORT.md)
   y [publicación Git](docs/GIT_SETUP.md).
+- [Plan de Fase 3](docs/phase3/PLAN.md), [informe](docs/phase3/REPORT.md)
+  y [resumen de pruebas](docs/phase3/test-results-summary.json).
 
-No hay cuentas reales, motor financiero, gastos persistentes, invitaciones,
-QR reales, estadísticas reales, fotos ni sincronización entre dispositivos.
+No hay cuentas reales, gastos persistentes, invitaciones, QR reales, fotos ni
+sincronización entre dispositivos. Las estadísticas del motor están probadas
+con fixtures; no hay viajes reales conectados a la interfaz.
 Las decisiones de producto todavía propuestas no se ratifican por instalar la
-base. No hay despliegue público. La Fase 3 requiere una nueva autorización.
+base. No hay despliegue público. La Fase 4 requiere una nueva autorización.

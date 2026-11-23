@@ -1,6 +1,54 @@
-# Modelo y contratos de datos v1
+# Modelo y contratos de datos · metadatos v1 y eventos financieros v2
 
-Estado: propuesta compartida para todo el MVP. Los ejemplos de campos son contratos documentales, no implementación. Toda entidad persistida lleva `schemaVersion: 1`. Campos no permitidos se rechazan; valores ausentes opcionales se normalizan a `null` cuando corresponda. Una nueva versión exige migración explícita, nunca interpretación silenciosa.
+## Extensión financiera v2 · Fase 3
+
+Autorizada por el usuario al solicitar expresamente el reparto por importes de
+Fase 1 (UX-D01). El contrato de eventos financieros pasa a `schemaVersion: 2`.
+El resto de documentos (trip/member/person/user/invite/attachment) conserva v1.
+Los snapshots financieros mantienen sus campos; el esquema v2 permite:
+
+| Modo | `participantIds` / `shareAmounts` | `weights` |
+| --- | --- | --- |
+| `equal` | Personas incluidas y cuotas recalculadas por restos mayores | Un 1 por persona |
+| `percentage` | Personas y cuotas recalculadas por restos mayores | Enteros 0–10.000, suma 10.000 |
+| `fixed` | Cuotas explícitas enteras ≥0, suma exacta igual a total | Lista vacía obligatoria |
+
+Las listas de IDs son únicas, 1–10 por gasto: un grupo de 2–10 puede excluir a
+todos salvo una persona. Los pagadores son independientes de los beneficiarios.
+Las cuotas cero son válidas; aportes de pagador siempre positivos. Edición de
+importe en modo fixed exige nuevas cuotas coherentes, nunca reescala por su cuenta.
+
+El decodificador v1 rechaza `fixed`; una migración pura v1→v2 conserva campos,
+cantidades y asociaciones por persona, cambiando la versión del evento. La
+validación normaliza opcionales a null y ordena listas alineadas canónicamente,
+sin cambiar sus importes. No se reinterpretan
+silenciosamente registros antiguos. No hay persistencia financiera real previa
+que migrar ni se ejecutan migraciones remotas. Los esquemas/DTO de dominio no
+importan tipos Firestore: timestamps de recepción usan `{seconds,nanoseconds}`;
+la conversión desde Timestamp corresponderá al repositorio futuro.
+
+Los resultados agregados (saldos, estadísticas, sugerencias) son BigInt y pueden
+superar 10^12 e incluso el rango seguro Number. No son DTO persistibles; al
+convertir un importe de movimiento a Number se comprueba su límite de 10^12.
+El contexto de cálculo (fechas, moneda, personas, revisión/completitud) es un
+modelo de dominio, distinto de un documento completo de viaje o de permisos.
+
+Los identificadores de persona/contexto admiten 1–128 caracteres sin espacios,
+separadores de ruta ni caracteres de control. OperationId/Revision son UUID v4
+proporcionados por el llamador; el motor no genera IDs.
+
+El cliente valida el tamaño UTF-8 del evento completo serializado (incluidos
+before) hasta 32 KiB, sin TextEncoder ni APIs de navegador. El límite en reglas
+sigue pendiente de viabilidad; la validación cliente no protege al servidor.
+
+El contenido siguiente mantiene el modelo documentado y explicita la extensión.
+
+Estado: Fase 3 implementa esquemas de snapshots/eventos financieros y contexto
+de cálculo; los documentos completos de usuarios, membresías, invitaciones y
+adjuntos continúan como contratos futuros. Metadatos en `schemaVersion: 1`,
+eventos financieros nuevos en `schemaVersion: 2`. Campos no permitidos se
+rechazan y opcionales se normalizan a null. Una nueva versión exige migración
+explícita; no hay escrituras financieras reales implementadas.
 
 ## Tipos comunes
 
@@ -49,7 +97,7 @@ No se crean colecciones paralelas de saldos o de gastos autoritativos. `expenses
 | `authoredAt` | Hora UTC declarada por cliente, solo informativa |
 | `receivedAt` | Timestamp servidor, igual a `request.time` al crear; no ordena revisiones |
 | `merge` | `null` o `{mergeId, peerEntityId, peerOperationId, role: keep/hide}` para una unificación atómica |
-| `schemaVersion` | `1` |
+| `schemaVersion` | `2` para eventos nuevos; v1 requiere validación/migración explícita |
 
 Todos los padres pertenecen al mismo viaje, tipo y entidad; se consultan directamente por ID, sin recorrer el grafo en reglas. La igualdad de `entityId` con la raíz se garantiza inductivamente al validar cada padre. No se admiten padres repetidos, autorreferencias ni cambiar tipo. Crear una segunda raíz con el mismo `entityId` es imposible porque el ID de documento debe ser ese mismo ID. Resoluciones con un padre ancestral redundante se consideran revisiones ordinarias a efectos de proyección, nunca borran cabezas ajenas.
 
@@ -65,7 +113,7 @@ Un evento `delete` conserva el snapshot monetario y añade `status: deleted`; el
 | `occurredAt`, `day` | Instante ISO UTC y día en zona del viaje. Dominio comprueba consistencia; reglas comprueban tipo/formato/rango permitido, no implementan conversión IANA |
 | `payerIds`, `payerAmounts` | Listas paralelas de longitud 1–10, IDs únicos, importes >0, suma exacta igual a total |
 | `participantIds`, `shareAmounts` | Listas paralelas de longitud 1–10, IDs únicos, importes ≥0, suma exacta igual a total |
-| `splitMode`, `weights` | `equal` con peso 1 para cada incluido; `percentage` con enteros 0–10.000 sumando exactamente 10.000 |
+| `splitMode`, `weights` | `equal`: peso 1 por incluido; `percentage`: enteros 0–10.000, suma 10.000; `fixed`: cuotas explícitas, weights vacío (v2) |
 | `visual` | `null`, `{kind: icon, key}` o metadata Openverse; referencia opcional de miniatura mediante `attachmentId` |
 | `status`, `mergedInto` | `active/deleted/merged`; destino solo para mergeHide, diferente a propia entidad |
 
@@ -73,7 +121,10 @@ Listas paralelas permiten validadores acotados de 10 posiciones en reglas; el do
 
 Todos los IDs deben pertenecer al historial del viaje; un gasto nuevo solo incluye personas activas. En ediciones se permiten personas ya presentes en el snapshot padre aunque hayan sido revocadas; se pueden retirar, pero no añadir una persona revocada ajena al gasto. Los saldos históricos siguen perteneciendo a esas personas.
 
-El motor recalcula cuotas desde pesos; un payload que no coincida se marca inválido y no entra en totales, incluso si llegó al caché. Las reglas deben verificar conservación y pesos exactos; verificar el algoritmo completo de restos mayores en reglas es una hipótesis pendiente de viabilidad (SEC-08). Si no se consigue, el proyector hace la verificación semántica y muestra el evento rechazado como incidencia; nunca acepta un saldo arbitrario.
+Para equal/percentage el motor recalcula cuotas desde pesos; para fixed comprueba
+las cuotas explícitas y su suma. Un payload incoherente no entra en totales.
+Las reglas futuras deben verificar conservación y pesos; validar todo el algoritmo
+en reglas sigue pendiente (SEC-08). El dominio no acepta saldos arbitrarios.
 
 ## Otros snapshots
 
