@@ -4,6 +4,7 @@ import { Button } from '../../components/Button';
 import { Notice } from '../../components/Notice';
 import { useSyncServices } from '../../sync/context';
 import type { PendingGroup } from '../../sync/storage';
+import { AttachmentActivity } from '../../attachments/AttachmentActivity';
 import { formatMoney } from '../../domain';
 import type { Currency } from '../../domain';
 
@@ -19,10 +20,10 @@ export function LocalOperations({ groups,currency }: { groups: PendingGroup[];cu
 export function SyncIndicator({ finance }: { finance: Finance }) {
   const pending = finance.pending, sending = pending.filter(group => group.state === 'sending').length;
   const issue = finance.localState?.issues.some(row => row.reason === 'conflict') ? 'Conflicto · requiere revisión' : finance.localState?.provisional ? 'Datos incompletos · revisar actividad' : null;
-  return <section aria-label="Estado de sincronización"><p role="status">{!finance.offlineReady ? 'Preparando descarga del viaje…' : sending ? `Sincronizando ${sending} operaciones` : pending.some(group => group.state === 'rejected') ? 'Error · hay propuestas rechazadas para revisar' : pending.length ? `${pending.length} cambios guardados en este dispositivo` : issue ? issue : finance.complete && !finance.state?.provisional ? 'Sincronizado' : 'Datos locales provisionales · esperando confirmación'}</p>{finance.offlineReady && <p className="small muted">Viaje descargado para este usuario. El almacenamiento local puede perderse si borras datos o el navegador libera espacio.</p>}{finance.storageError && <Notice title="Almacenamiento no disponible" kind="error"><p>{finance.storageError}</p></Notice>}<Button variant="quiet" onClick={() => { void finance.services?.coordinator.retry().catch(() => {}); }}>Sincronizar ahora</Button></section>;
+  return <section aria-label="Estado de sincronización"><p role="status">{!finance.offlineReady ? 'Preparando descarga del viaje…' : sending ? `Sincronizando ${sending} operaciones` : pending.some(group => group.state === 'rejected') ? 'Error · hay propuestas rechazadas para revisar' : pending.length ? `${pending.length} cambios guardados en este dispositivo` : issue ? issue : finance.complete && !finance.state?.provisional ? 'Sincronizado' : 'Datos locales provisionales · esperando confirmación'}</p><p className="small muted">Estado del registro financiero. Las imágenes se confirman por separado en el detalle del gasto.</p>{finance.offlineReady && <p className="small muted">Viaje descargado para este usuario. El almacenamiento local puede perderse si borras datos o el navegador libera espacio.</p>}{finance.storageError && <Notice title="Almacenamiento no disponible" kind="error"><p>{finance.storageError}</p></Notice>}<Button variant="quiet" onClick={() => { void finance.services?.coordinator.retry().catch(() => {}); }}>Sincronizar ahora</Button></section>;
 }
 export function SessionActivity() {
   const services = useSyncServices(), [groups,setGroups] = useState<PendingGroup[]>([]), [error,setError] = useState('');
   useEffect(() => { if (!services) return; let active = true; const load = () => { void services.store.groups().then(rows => { if (active) setGroups(rows); }).catch(() => { if (active) setError('No se pudo leer la información local de esta identidad.'); }); }; load(); const stop = services.store.subscribe(load); return () => { active = false; stop(); }; },[services]);
-  return <>{error && <p role="alert">{error}</p>}<LocalOperations groups={groups} /><p className="field-hint">Solo esta identidad puede revisar sus propuestas. Cerrar la PWA no garantiza sincronización; vuelve a abrirla con conexión.</p></>;
+  return <>{error && <p role="alert">{error}</p>}<LocalOperations groups={groups} /><AttachmentActivity /><p className="field-hint">Solo esta identidad puede revisar sus propuestas. Cerrar la PWA no garantiza sincronización; vuelve a abrirla con conexión.</p></>;
 }

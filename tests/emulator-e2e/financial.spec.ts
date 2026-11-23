@@ -52,11 +52,11 @@ test('two independent members see expenses, revisions, settlement corrections, b
     await expect(page.getByTestId('own-balance')).toHaveText('COP $5.000'); await expect(page.getByTestId('trip-total')).toHaveText('COP $100.000');
     await page.getByRole('link',{ name: /Café real/ }).click(); const detail = new URL(page.url()).pathname;
     await page.getByRole('link',{ name: 'Editar gasto',exact: true }).click(); await page.getByLabel('Importe en COP',{ exact: true }).fill('80000'); await page.getByRole('button',{ name: 'Guardar gasto',exact: true }).click();
-    await expect(page.getByTestId('trip-total')).toHaveText('COP $120.000'); await expect(guest.getByRole('region',{ name: 'Transferencias sugeridas' })).toContainText('COP $15.000');
+    await expect(page.getByTestId('trip-total')).toHaveText('COP $120.000'); await expect(guest.getByRole('region',{ name: 'Transferencias sugeridas' })).toContainText('COP $15.000'); await expect(page.getByText('Sincronizado',{ exact: true })).toBeVisible();
     await page.goto(detail); await page.getByRole('button',{ name: 'Eliminar gasto',exact: true }).click(); await page.getByRole('button',{ name: 'Confirmar eliminación',exact: true }).click();
-    await expect(page.getByTestId('trip-total')).toHaveText('COP $40.000'); await expect(guest.getByRole('region',{ name: 'Transferencias sugeridas' })).toContainText('COP $25.000');
+    await expect(page.getByTestId('trip-total')).toHaveText('COP $40.000'); await expect(guest.getByRole('region',{ name: 'Transferencias sugeridas' })).toContainText('COP $25.000'); await expect(page.getByText('Sincronizado',{ exact: true })).toBeVisible();
     await page.goto(detail); await page.getByRole('button',{ name: 'Restaurar gasto',exact: true }).click(); await page.getByRole('button',{ name: 'Confirmar restauración',exact: true }).click();
-    await expect(page.getByTestId('trip-total')).toHaveText('COP $120.000'); await expect(guest.getByRole('region',{ name: 'Transferencias sugeridas' })).toContainText('COP $15.000');
+    await expect(page.getByTestId('trip-total')).toHaveText('COP $120.000'); await expect(guest.getByRole('region',{ name: 'Transferencias sugeridas' })).toContainText('COP $15.000'); await expect(page.getByText('Sincronizado',{ exact: true })).toBeVisible();
     await guest.getByRole('link',{ name: 'Corregir abono',exact: true }).click(); await guest.getByLabel('Importe en COP',{ exact: true }).fill('8000'); await guest.getByRole('button',{ name: 'Guardar abono',exact: true }).click();
     await expect(guest.getByRole('region',{ name: 'Transferencias sugeridas' })).toContainText('COP $12.000'); await expect(page.getByTestId('own-balance')).toHaveText('COP $12.000');
     await guest.getByRole('button',{ name: 'Eliminar abono',exact: true }).click(); await guest.getByRole('button',{ name: 'Confirmar eliminación',exact: true }).click(); await expect(page.getByTestId('own-balance')).toHaveText('COP $20.000');

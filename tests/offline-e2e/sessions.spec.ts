@@ -58,5 +58,5 @@ test('IndexedDB v1 data upgrades to the delivery index without losing pending ID
     await new Promise<void>((resolve,reject) => { const r = indexedDB.deleteDatabase(name); r.onsuccess = () => resolve(); r.onerror = () => reject(r.error); });
     const legacy = await open(1); const tx = legacy.transaction(stores,'readwrite'); const done = new Promise<void>((resolve,reject) => { tx.oncomplete = () => resolve(); tx.onabort = () => reject(tx.error); }); stores.forEach((store,index) => rows[index]!.forEach(row => tx.objectStore(store).put(row))); await done; legacy.close();
   });
-  await page.goto(base); await expect(page.getByTestId('trip-total')).toHaveText('COP $901'); expect((await localGroups(page))[0]!.id).toBe(id); expect(await page.evaluate(async () => (await indexedDB.databases()).find(d => d.name?.startsWith('gastos-offline-v1:'))!.version)).toBe(2); await context.setOffline(false); await confirmed(page);
+  await page.goto(base); await expect(page.getByTestId('trip-total')).toHaveText('COP $901'); expect((await localGroups(page))[0]!.id).toBe(id); expect(await page.evaluate(async () => (await indexedDB.databases()).find(d => d.name?.startsWith('gastos-offline-v1:'))!.version)).toBe(3); await context.setOffline(false); await confirmed(page);
 });

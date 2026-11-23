@@ -1,3 +1,4 @@
+import { CopyableThumbnail } from '../../attachments/ExpenseImage';
 import { useState } from 'react';
 import { z } from 'zod';
 import { Link, useNavigate } from 'react-router-dom';
@@ -16,12 +17,17 @@ import { categories, localDateTime, moneyInput, occurredAt, percentageInput, per
 import { useFinancialWrite } from './useFinancialWrite';
 import { WriteFeedback } from './WriteFeedback';
 import { DraftPanel } from './DraftPanel';
+import { ImagePicker } from '../../attachments/ImagePicker';
+import { imageChoiceSchema } from '../../attachments/contracts';
+import type { ImageChoice } from '../../attachments/contracts';
+import { useSyncServices } from '../../sync/context';
 
-const draftSchema = z.strictObject({ title: z.string(),amount: z.string(),payerIds: z.array(z.string()),payments: z.record(z.string(),z.string()),included: z.array(z.string()),mode: z.enum(['equal','percentage','fixed']),shares: z.record(z.string(),z.string()),category: z.enum(['food','transport','lodging','activities','shopping','other']),day: z.string(),time: z.string(),note: z.string(),timeChanged: z.boolean() });
+const draftSchema = z.strictObject({ title: z.string(),amount: z.string(),payerIds: z.array(z.string()),payments: z.record(z.string(),z.string()),included: z.array(z.string()),mode: z.enum(['equal','percentage','fixed']),shares: z.record(z.string(),z.string()),category: z.enum(['food','transport','lodging','activities','shopping','other']),day: z.string(),time: z.string(),note: z.string(),timeChanged: z.boolean(),image: imageChoiceSchema.optional() });
 
 export function ExpenseForm({ trip, finance, parent, resolutionParents }: { trip: TripRecord; finance: Finance; parent?: FinancialEventV2Dto; resolutionParents?: FinancialEventV2Dto[] }) {
-  const { user } = useSession(), navigate = useNavigate();
+  const { user } = useSession(), navigate = useNavigate(),services = useSyncServices();
   const previous = parent?.entityKind === 'expense' ? parent.payload : undefined;
+  const [image,setImage] = useState<ImageChoice>({ visual: previous?.visual ?? null,attachmentId: previous?.attachmentId ?? null });
   const context = finance.context!;
   const people = context.people.filter(person => person.status === 'active' || previous?.payerIds.includes(person.personId) || previous?.participantIds.includes(person.personId));
   const [title, setTitle] = useState(previous?.title ?? ''), [amount, setAmount] = useState(previous ? moneyInput(previous.total, trip.currency) : '');
@@ -49,11 +55,11 @@ export function ExpenseForm({ trip, finance, parent, resolutionParents }: { trip
       payerIds, payerAmounts: payerIds.map(id => moneyToDto(payerIds.length === 1 ? total : parseMoney(payments[id] ?? '',trip.currency,true),true)),
       participantIds: allocations.map(row => row.personId), shareAmounts: allocations.map(row => moneyToDto(row.amount)), splitMode: mode,
       weights: mode === 'fixed' ? [] : allocations.map(row => mode === 'equal' ? 1 : percentageWeight(shares[row.personId] ?? '')),
-      visual: null, attachmentId: null, status: 'active', mergedInto: null };
+      visual: image.visual && !('kind' in image.visual) ? { kind: 'icon',key: 'receipt' } : image.visual, attachmentId: image.attachmentId, status: 'active', mergedInto: null };
     return resolutionParents ? prepareResolution(context,{ uid: user!.uid,personId: trip.memberBindings[user!.uid]! },resolutionParents,payload) : prepareOperation(context,{ uid: user!.uid,personId: trip.memberBindings[user!.uid]! },'expense',payload,parent);
   };
   return <><PageHeader title={previous ? 'Editar gasto' : 'Agregar gasto'} description="Pagas tú, se divide por igual entre participantes activos. Puedes ajustar las opciones." />
-    <form aria-label="Gasto compartido" onSubmit={event => { event.preventDefault(); void writer.submit(build); }}>
+    <form aria-label="Gasto compartido" onSubmit={event => { event.preventDefault(); void writer.submit(build,image.thumbnail ? async event => { if (!services?.attachments) throw Error('Almacenamiento de miniaturas no disponible.'); await services.attachments.saveForTrip(trip.id,image,event); } : undefined); }}>
       <fieldset disabled={writer.locked} className="financial-fields"><legend className="sr-only">Datos del gasto</legend>
         <Field label="Concepto" value={title} onChange={event => setTitle(event.target.value)} required maxLength={100} autoFocus />
         <div className="amount-field"><Field label={`Importe en ${trip.currency}`} value={amount} onChange={event => setAmount(event.target.value)} inputMode={trip.currency === 'COP' ? 'numeric' : 'decimal'} required hint="Sin separadores de miles." /></div>
@@ -71,8 +77,9 @@ export function ExpenseForm({ trip, finance, parent, resolutionParents }: { trip
           <Field label="Nota (opcional)" maxLength={2000} value={note} onChange={event => setNote(event.target.value)} />
         </div></details>
         {(day < trip.startDate || day > trip.endDate) && <Notice kind="warning" title="Fecha fuera del viaje"><p>Elige una fecha entre {trip.startDate} y {trip.endDate} en las opciones de fecha.</p></Notice>}
+        <ImagePicker value={image} onChange={setImage} disabled={writer.locked} tripId={trip.id} expenseId={parent?.entityId} />
       </fieldset>
-      <WriteFeedback writer={writer} /><DraftPanel id={draftId} disabled={writer.locked} value={{ title,amount,payerIds,payments,included,mode,shares,category,day,time,note,timeChanged }} parse={draftSchema.parse} restore={draft => { setTitle(draft.title); setAmount(draft.amount); setPayerIds(draft.payerIds); setPayments(draft.payments); setIncluded(draft.included); setMode(draft.mode); setShares(draft.shares); setCategory(draft.category); setDay(draft.day); setTime(draft.time); setNote(draft.note); setTimeChanged(draft.timeChanged); }} /><div className="form-footer"><Button type="submit" disabled={writer.pending || finance.canWrite === false}>{writer.pending ? 'Guardando…' : writer.operation ? 'Reintentar misma operación' : 'Guardar gasto'}</Button>{!writer.operation && <Link to={`/viajes/${trip.id}`}>Cancelar</Link>}</div>
+      <WriteFeedback writer={writer} />{(writer.imageError || writer.error) && image.thumbnail && <CopyableThumbnail bytes={image.thumbnail.bytes} label="Copiar miniatura preparada" />}<DraftPanel id={draftId} disabled={writer.locked} value={{ title,amount,payerIds,payments,included,mode,shares,category,day,time,note,timeChanged,image }} parse={draftSchema.parse} restore={draft => { setTitle(draft.title); setAmount(draft.amount); setPayerIds(draft.payerIds); setPayments(draft.payments); setIncluded(draft.included); setMode(draft.mode); setShares(draft.shares); setCategory(draft.category); setDay(draft.day); setTime(draft.time); setNote(draft.note); setTimeChanged(draft.timeChanged); setImage(draft.image ?? { visual: previous?.visual ?? null,attachmentId: previous?.attachmentId ?? null }); }} /><div className="form-footer"><Button type="submit" disabled={writer.pending || finance.canWrite === false}>{writer.pending ? 'Guardando…' : writer.savedLocal ? 'Reintentar imagen' : writer.operation ? 'Reintentar misma operación' : 'Guardar gasto'}</Button>{!writer.operation && <Link to={`/viajes/${trip.id}`}>Cancelar</Link>}</div>
     </form>
   </>;
 }

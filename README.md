@@ -2,17 +2,17 @@
 
 PWA privada para gastos de viajes entre 2 y 10 personas.
 
-**Estado: Fase 5 publicada; Fase 6 offline-first implementada para Firebase Emulator Suite.**
+**Estado: Fase 6 publicada; Fase 7 de imágenes y adjuntos implementada para Firebase Emulator Suite.**
 Registro, verificación/recuperación, sesión anónima, viajes e invitaciones usan datos
 locales reales en modo emuladores. Gastos, abonos, revisiones, balances, presupuestos
 y estadísticas se derivan del registro financiero v2. Sin configuración permanece la demostración.
 No se habilita producción. La Fase 1 conserva su aceptación provisional y sus
 [pruebas multiplataforma pendientes](docs/phase1/AUTOMATED_TEST_REPORT.md).
 
-Git: `main`. Antes de modificar Fase 6 se verificó la Fase 5 publicada en
-`a89e2b630426929fd9fe33dc8184a65825fc252c`, coincidente local/remoto.
-Informes de [Fase 5](docs/phase5/REPORT.md) y [Fase 6](docs/phase6/REPORT.md),
-con las pruebas, limitaciones y estado real de publicación.
+Git: `main`. Antes de modificar Fase 7 se verificó la Fase 6 publicada en
+`926aef92b9d1820f913252001c3d424893dc5d6f`, coincidente local/remoto.
+Informes de [Fase 5](docs/phase5/REPORT.md) [Fase 6](docs/phase6/REPORT.md)
+y [Fase 7](docs/phase7/REPORT.md), con pruebas, limitaciones y publicación real.
 
 ## Requisitos e instalación
 
@@ -53,6 +53,8 @@ el modo de emuladores descrito abajo. Usar únicamente datos sintéticos.
 | `npm run test:access:firefox` | La misma integración, solo Firefox |
 | `npm run test:offline:firefox` | PWA conectada: IndexedDB, dos dispositivos, conflictos y SW en Firefox |
 | `npm run test:offline` | La misma suite con los tres motores instalados |
+| `npm run test:images:firefox` | Imágenes, cámara simulada, Openverse controlado y adjuntos offline en Firefox |
+| `npm run test:images` | La misma suite con los tres motores instalados |
 | `npm run icons` | Regenerar iconos PNG con Python estándar |
 
 Preparar navegadores con `npx playwright install chromium firefox webkit`.
@@ -253,11 +255,11 @@ la aplicación. Las pantallas React no trasladan su motor simulado.
 
 Hay gastos y abonos persistidos exclusivamente en emuladores y actualizaciones
 con outbox durable y sincronización entre dispositivos activos. No hay cuentas
-de producción, fotografías ni despliegue público. **Finalizar y reasignar identidad histórica
+de producción ni despliegue público. Las miniaturas son privadas en emuladores. **Finalizar y reasignar identidad histórica
 permanecen deshabilitados** hasta verificar sus garantías. Revocar conserva
 personas e historial, bloquea el servidor y evita reingreso del mismo UID;
 no puede borrar copias previamente descargadas ni identificar humanos únicos.
-Fase 7 requiere nueva autorización; no se inicia automáticamente.
+Fase 8 requiere nueva autorización; no se inicia automáticamente.
 
 - [Plan de Fase 5](docs/phase5/PLAN.md), [informe](docs/phase5/REPORT.md) y
   [resumen de pruebas](docs/phase5/test-results-summary.json).
@@ -269,3 +271,29 @@ cuotas de producción a partir de estas pruebas locales.
 
 - [Plan de Fase 6](docs/phase6/PLAN.md), [informe](docs/phase6/REPORT.md) y
   [resumen de pruebas](docs/phase6/test-results-summary.json).
+
+## Imágenes opcionales (Fase 7)
+
+En el formulario: **Elegir imagen**, cámara/galería, búsqueda explícita en Openverse
+(CC0/CC BY) o icono local. JPEG/PNG/WebP se recodifican localmente a WebP ≤640 px y
+40.960 bytes, sin guardar originales/EXIF. HEIC no se declara compatible. Las
+imágenes no alteran importes ni impiden guardar un gasto. La cámara requiere un
+contexto seguro compatible y permiso; siempre hay selección de archivos.
+
+Offline: un viaje previamente descargado permite fotos locales, compresión,
+borradores y miniaturas durables por UID. La imagen tiene su propia cola y estado;
+solo se envía después de confirmar el gasto. Errores/reintentos se consultan en
+Actividad o en el detalle. Si falla IndexedDB de imágenes, el gasto ya guardado se
+conserva y el formulario permite reintentar la miniatura. Datos locales no son
+copias de seguridad permanentes.
+
+Requieren internet: Openverse, confirmar eventos/adjuntos en emuladores y obtener
+miniaturas de otro dispositivo que aún no se descargaron. Fotos históricas no se
+borran al cambiar la referencia. La atribución de stock reside en el adjunto, se
+consulta desde el detalle y permanece offline al descargarlo. Si la fuente falla,
+se ofrece un icono propio; no se promete una copia offline de la imagen remota.
+La API pública no respondió correctamente en esta red: búsqueda/CORS públicos
+quedan sin verificar; el flujo y errores sí tienen pruebas controladas.
+
+[Plan](docs/phase7/PLAN.md) · [Informe de Fase 7](docs/phase7/REPORT.md).
+Sin Cloud Storage, Blaze, Functions, backend adicional ni nuevas dependencias.

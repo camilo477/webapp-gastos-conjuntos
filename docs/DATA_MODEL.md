@@ -168,3 +168,15 @@ IDs, borradores y propuestas. No migra ni sobrescribe documentos Firestore.
 eliminación posterior a un merge conserve costo cero sin reactivar el duplicado.
 Su pareja `mergeHide` sigue siendo obligatoria y atómica. Véase la compatibilidad
 y validación completa en [Fase 6](phase6/REPORT.md).
+
+## Habilitación de adjuntos en Fase 7
+
+Se activa el contrato de adjunto v1 descrito arriba, sin nuevos campos remotos.
+Los nuevos eventos v2 conservan visual:null/icono local y attachmentId; la metadata
+completa de Openverse reside en attribution del adjunto, también al consultar
+historial/conflictos. Esto mantiene los metadatos externos fuera del presupuesto
+de evaluación financiera. La unión histórica del dominio no cambia; nuevas
+escrituras con metadata stock dentro del evento no están habilitadas. No había
+esos eventos persistidos en Fase 6. No se migran ni sobrescriben documentos.
+IndexedDB v2→v3 añade attachments/index state sin borrar los stores existentes.
+Véase [informe de Fase 7](phase7/REPORT.md).

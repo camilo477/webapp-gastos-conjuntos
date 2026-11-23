@@ -78,6 +78,7 @@ export function sameOperation(a: FinancialOperation, b: FinancialOperation): boo
 export function firestoreValue(value: unknown): object {
   if (value === null) return { nullValue: null };
   if (typeof value === 'string') return { stringValue: value };
+  if (typeof value === 'boolean') return { booleanValue: value };
   if (typeof value === 'number' && Number.isSafeInteger(value)) return { integerValue: String(value) };
   if (Array.isArray(value)) return { arrayValue: { values: value.map(firestoreValue) } };
   if (value && typeof value === 'object') return { mapValue: { fields: Object.fromEntries(Object.entries(value).map(([key, item]) => [key, firestoreValue(item)])) } };

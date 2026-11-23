@@ -121,3 +121,13 @@ Los emuladores no reproducen límites de cuota de producción ni todas las parti
 Antes de Fase 1: ratificar decisiones de UX y revisar limitaciones; no se necesita Firebase productivo. En Fase 2 preparar scripts futuros `lint`, `test`, `test:rules`, `test:e2e`, `build` y CI reproducible. Fase 3 exige FIN/VAL/BUD. Fase 4 exige AUTH/SEC/TRIP, incluida prueba de concepto de join. Fase 5 exige integración de dos contextos y AUD/STAT. Fase 6 exige SYNC/DUP y proyector con pruebas de permutaciones. Fase 7 exige IMG. Fase 8 integra todo, auditoría de accesibilidad y pruebas físicas.
 
 No considerar compilación suficiente. Un check omitido queda reportado como no ejecutado; fallos de permisos o autenticación externa no se evaden. El reporte de cada fase debe indicar comandos, resultados, limitaciones y evidencia. Los ejemplos numéricos del documento no equivalen a haber corrido el motor.
+
+## Evidencia de Fase 7
+
+IMG-01..05 se ejecutan con reglas reales y Firefox: imágenes sintéticas, cámara
+simulada, WebP/orientación/metadata, bytes reales, persistencia y reintentos
+independientes, atribución de Openverse y errores controlados. Se distinguen
+los fallos de red de la API pública y las cámaras Android/iPhone no ejecutadas.
+Se prueban también IDB lleno/error, copia recuperable, dos pestañas/UID, revocación,
+actualización real de SW, conflictos y unificaciones con imágenes distintas.
+Los resultados y límites vigentes están en [el informe de Fase 7](phase7/REPORT.md).

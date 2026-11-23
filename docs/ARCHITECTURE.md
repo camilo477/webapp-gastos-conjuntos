@@ -102,3 +102,13 @@ Hosting estático con HTTPS y rewrites SPA. Para Raspberry: servir build estáti
 - Backend confiable: facilitaría límites de abuso y snapshots verificados, pero cambia operación y alcance. No se incorpora silenciosamente si las reglas propuestas no alcanzan los criterios; se revisa la arquitectura.
 
 La Fase 4 debe demostrar la admisión sin lecturas previas; Fases 3/6 deben demostrar proyección y reconexión. No afirmar que las garantías están implementadas por disponer de estos documentos.
+
+## Adjuntos independientes (Fase 7)
+
+El módulo src/attachments implementa procesamiento local, fuente Openverse,
+IndexedDB y transporte create-only separado del financiero. Guarda primero el
+evento durable y después la miniatura. Espera confirmación financiera para enviarla;
+una respuesta de imagen nunca escribe otra revisión de gasto. Los bytes y créditos
+se solicitan por ID/viewport y permanecen fuera del motor, suscripciones de eventos
+y caché pública del SW. Reutiliza contratos, servicios por UID y leases existentes.
+Detalle y fronteras de validación: [Fase 7](phase7/REPORT.md).

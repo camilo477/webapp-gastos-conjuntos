@@ -111,3 +111,17 @@ bindings activos y presupuesto solo propietario. Cabezas actuales, ciclos y
 componentes incompletos se comprueban en el proyector, sin presentar esa comprobación
 local como autorización del servidor. Pruebas adversariales y límites medidos:
 [informe de Fase 6](phase6/REPORT.md).
+
+## Adjuntos habilitados en Fase 7
+
+Get individual exige miembro; list/update/delete denegados. Crear requiere viaje
+activo, autor real, UUID, raíz expense v2 del mismo viaje y recepción de servidor,
+campos exactos, WebP y Bytes reales ≤40960 con longitud declarada idéntica.
+Dimensiones declaradas enteras ≤640. Fotos no llevan attribution; Openverse exige
+metadata estricta y CC0/CC BY con URLs canónicas. No se inspeccionan píxeles/EXIF
+ni se certifica autoría en Rules; lector/procesador valida WebP y usa fallback.
+Nuevos eventos financieros llevan icono/null y attachmentId, sin metadata completa
+de stock. Reglas financieras heredan identidades/pesos solo si son exactamente
+iguales al padre validado, manteniendo sumas nuevas completas. No hay permisos
+generales nuevos. Cota conservadora de adjunto: tres accesos, dos documentos únicos
+con caché. [Evidencia de emulador y límites](phase7/REPORT.md).

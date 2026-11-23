@@ -47,12 +47,14 @@ export class OfflineStore {
   async open(): Promise<IDBDatabase> {
     if (!this.database) this.database = new Promise((resolve,reject) => {
       if (typeof indexedDB === 'undefined') { reject(new LocalStorageError()); return; }
-      const open = indexedDB.open(this.name,2);
+      const open = indexedDB.open(this.name,3);
       const timer = setTimeout(() => reject(new LocalStorageError()),5000);
       open.onupgradeneeded = () => {
-        for (const name of ['trips','operations','drafts','operationIds']) if (!open.result.objectStoreNames.contains(name)) open.result.createObjectStore(name,{ keyPath: 'id' });
+        for (const name of ['trips','operations','drafts','operationIds','attachments']) if (!open.result.objectStoreNames.contains(name)) open.result.createObjectStore(name,{ keyPath: 'id' });
         const operations = open.transaction!.objectStore('operations');
         if (!operations.indexNames.contains('state')) operations.createIndex('state','state');
+        const attachments = open.transaction!.objectStore('attachments');
+        if (!attachments.indexNames.contains('state')) attachments.createIndex('state','state');
       };
       open.onerror = open.onblocked = () => { clearTimeout(timer); reject(new LocalStorageError()); };
       open.onsuccess = () => { clearTimeout(timer); open.result.onversionchange = () => { open.result.close(); this.database = null; }; resolve(open.result); };
@@ -65,6 +67,9 @@ export class OfflineStore {
     return value;
   }
   async flush() { while (this.writes.size) await Promise.all([...this.writes]); }
+  withAttachments<T>(mode: IDBTransactionMode,body: (store: IDBObjectStore) => Promise<T>): Promise<T> {
+    return this.transaction(['attachments'],mode,tx => body(tx.objectStore('attachments')));
+  }
   private async performTransaction<T>(names: string[],mode: IDBTransactionMode,body: (tx: IDBTransaction) => Promise<T>): Promise<T> {
     try {
       const db = await this.open(), tx = db.transaction(names,mode,mode === 'readwrite' ? { durability: 'strict' } : undefined);
@@ -88,6 +93,12 @@ export class OfflineStore {
   async groups(tripId?: string,includeConfirmed = true): Promise<PendingGroup[]> {
     return this.transaction(['operations'],'readonly',async tx => (await request(includeConfirmed ? tx.objectStore('operations').getAll() : tx.objectStore('operations').index('state').getAll(IDBKeyRange.lowerBound('error'))) as unknown[])
       .map(row => pendingGroupSchema.parse(row)).filter(row => row.project === this.project && row.uid === this.uid && (!tripId || row.tripId === tripId)));
+  }
+  async operationState(id: string): Promise<PendingGroup['state'] | null> {
+    return this.transaction(['operations'],'readonly',async tx => {
+      const row = await request(tx.objectStore('operations').get(id));
+      return row ? pendingGroupSchema.parse(row).state : null;
+    });
   }
   async cache(trip: TripRecord,context: TripContext,events: unknown[]): Promise<void> {
     if (!trip.memberBindings[this.uid] || context.id !== trip.id || context.people.length !== trip.participantIds.length) throw new LocalStorageError();

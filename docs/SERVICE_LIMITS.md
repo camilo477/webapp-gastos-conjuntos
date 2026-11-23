@@ -46,3 +46,17 @@ Cada resultado conserva licencia y procedencia. Una URL de thumbnail no garantiz
 ## Pendientes operativos
 
 Antes de producción: proyecto de pruebas, región Firestore elegida conscientemente, métodos Auth, dominios autorizados, cuota real observada, reglas e índices compilados, límites de fotos y responsables de mantenimiento. CI debe usar datos sintéticos y emuladores; no guardar cuentas de servicio en el repositorio. Para Raspberry verificar HTTPS, SPA fallback, caché/origen, autorización Firebase y advertencia de identidad anónima al cambiar dominio.
+
+## Medición y política de Fase 7 (2026-11-23)
+
+Cuotas Firestore anteriores revalidadas en la documentación oficial el 2026-11-23;
+no se configura un proyecto productivo. Se habilitan miniaturas por documento,
+excluyendo bytes/attribution de índices, descarga bajo demanda y caché IDB privada.
+300 miniaturas al máximo representan 11,72 MiB solo de bytes; 1.000 son 39,06 MiB.
+Cada versión histórica suma almacenamiento y cada dispositivo sin caché suma
+lecturas/transferencia. No hay garantía de gratuidad permanente.
+
+Openverse público: curl con Origin local agotó 25 s sin respuesta; herramienta web
+recibió 403. Las pruebas de API/CORS/errores controlados no prueban disponibilidad
+pública. Si falla, se puede continuar con fotos locales o iconos sin servicios de
+pago/proxies. Véase [informe de Fase 7](phase7/REPORT.md) para resultados medidos.

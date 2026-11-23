@@ -120,9 +120,9 @@ service cloud.firestore {
       return value is string && value.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\\.[0-9]{3}Z$');
     }
     function note(value) { return value == null || (value is string && value.size() <= 2000); }
+    function paddedSum(v) { return v[0]+v[1]+v[2]+v[3]+v[4]+v[5]+v[6]+v[7]+v[8]+v[9]; }
     function monetaryList(a, total) {
-      let v = a.concat([0,0,0,0,0,0,0,0,0,0]);
-      let sum = v[0]+v[1]+v[2]+v[3]+v[4]+v[5]+v[6]+v[7]+v[8]+v[9];
+      let sum = a.toSet().size() == 1 ? a[0] * a.size() : a.size() == 10 ? a[0]+a[1]+a[2]+a[3]+a[4]+a[5]+a[6]+a[7]+a[8]+a[9] : paddedSum(a.concat([0,0,0,0,0,0,0,0,0]));
       // join + a bounded decimal regex validates sign/width in one expression.
       // Integer arithmetic rejects numeric-looking strings and fractional types.
       // 10 x 13 digits cannot overflow int64; the exact sum bounds each entry.
@@ -133,17 +133,40 @@ service cloud.firestore {
       return ids is list && ids.size() >= 1 && ids.size() <= 10 && ids.toSet().size() == ids.size() && allowed.hasAll(ids);
     }
     function occurrence(p,t) { return instant(p.occurredAt) && day(p.day) && p.day >= t.startDate && p.day <= t.endDate; }
-    function expensePayload(p,t,allowed) {
+    function imageUrl(v) {
+      return v is string && v.size() <= 2048 && v.matches('^https://[a-zA-Z0-9][a-zA-Z0-9-]*(\\.[a-zA-Z0-9-]+)*\\.[a-zA-Z][a-zA-Z0-9-]*(:443)?(/[^\\s#]*)?$');
+    }
+    function attribution(m) {
+      let fields = ['id','title','source','foreignLandingUrl','creator','creatorUrl','license','licenseVersion','licenseUrl','thumbnailUrl','modified'];
+      return m is map && m.keys().hasOnly(fields) && m.keys().hasAll(fields)
+        && m.id is string && m.id.matches('^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$')
+        && m.title is string && m.title.size() <= 500 && validName(m.source,200) && validName(m.creator,500)
+        && imageUrl(m.foreignLandingUrl) && (m.creatorUrl == null || imageUrl(m.creatorUrl))
+        && (m.license == 'cc0' ? m.licenseVersion == '1.0' && m.licenseUrl == 'https://creativecommons.org/publicdomain/zero/1.0/'
+          : m.license == 'by' && m.licenseVersion in ['1.0','2.0','2.5','3.0','4.0'] && m.licenseUrl == 'https://creativecommons.org/licenses/by/' + m.licenseVersion + '/')
+        && m.thumbnailUrl == 'https://api.openverse.org/v1/images/' + m.id + '/thumb/?compressed=true' && m.modified is bool;
+    }
+    function visual(v) {
+      // New financial references contain only a local icon. Openverse metadata
+      // belongs to the separate attachment contract, outside monetary rules.
+      return v == null || (v.keys().hasOnly(['kind','key']) && v.kind == 'icon' && v.key in ['receipt','utensils','car','mountain','wallet','mapPin']);
+    }
+    function expenseIdentities(p,t,previous,other) {
+      let active = t.memberBindings.values();
+      let allowed = (previous == null ? active : active.concat(previous.payerIds).concat(previous.participantIds).concat(other.payerIds).concat(other.participantIds)).toSet();
+      return identities(p.payerIds,allowed) && identities(p.participantIds,allowed);
+    }
+    function expensePayload(p,t,previous,other) {
       let fields = ['title','note','total','category','occurredAt','day','payerIds','payerAmounts','participantIds','shareAmounts','splitMode','weights','visual','attachmentId','status','mergedInto'];
       return p.keys().hasOnly(fields) && validName(p.title,100) && note(p.note)
         && money(p.total) && p.total > 0 && p.category in ['food','transport','lodging','activities','shopping','other'] && occurrence(p,t)
-        && identities(p.payerIds,allowed) && identities(p.participantIds,allowed)
+        && ((previous != null && p.payerIds == previous.payerIds && p.participantIds == previous.participantIds) || expenseIdentities(p,t,previous,other))
         && p.payerAmounts.size() == p.payerIds.size() && p.shareAmounts.size() == p.participantIds.size()
         && monetaryList(p.payerAmounts,p.total) && !p.payerAmounts.hasAny([0]) && monetaryList(p.shareAmounts,p.total)
-        && p.weights is list && (p.splitMode == 'fixed' ? p.weights == []
+        && ((previous != null && p.splitMode == previous.splitMode && p.weights == previous.weights && p.participantIds == previous.participantIds) || (p.weights is list && (p.splitMode == 'fixed' ? p.weights == []
           : p.weights.size() == p.participantIds.size() && (p.splitMode == 'equal' ? p.weights.toSet() == [1].toSet()
-            : p.splitMode == 'percentage' && monetaryList(p.weights,10000)))
-        && p.visual == null && p.attachmentId == null && p.mergedInto == null && p.status in ['active','deleted'];
+            : p.splitMode == 'percentage' && monetaryList(p.weights,10000)))))
+        && visual(p.visual) && (p.attachmentId == null || uuid(p.attachmentId)) && p.mergedInto == null && p.status in ['active','deleted'];
     }
     function settlementPayload(p,t,allowed) {
       let fields = ['fromPersonId','toPersonId','amount','occurredAt','day','note','status'];
@@ -188,14 +211,10 @@ service cloud.firestore {
     function financialRevision(id,e,t) {
       let a = e.parentIds.size() > 0 ? get(eventPath(id,e.parentIds[0])).data : e;
       let b = e.parentIds.size() > 1 ? get(eventPath(id,e.parentIds[1])).data : a;
-      let active = t.memberBindings.values();
-      let historical = e.action == 'create' ? [] : e.entityKind == 'expense' ? a.payload.payerIds.concat(a.payload.participantIds).concat(e.parentIds.size() == 2 ? b.payload.payerIds.concat(b.payload.participantIds) : [])
-        : e.entityKind == 'settlement' ? [a.payload.fromPersonId,a.payload.toPersonId,b.payload.fromPersonId,b.payload.toPersonId] : [];
-      let allowed = (e.action == 'create' ? active : active.concat(historical)).toSet();
       return (e.action == 'create' ? true : parent(e,a,0) && (e.parentIds.size() == 1 ? true : e.parentIds[0] != e.parentIds[1] && parent(e,b,1))
           && e.logicalClock == (a.logicalClock > b.logicalClock ? a.logicalClock : b.logicalClock) + 1)
-        && (e.entityKind == 'expense' ? expensePayload(e.payload,t,allowed)
-          : e.entityKind == 'settlement' ? settlementPayload(e.payload,t,allowed)
+        && (e.entityKind == 'expense' ? expensePayload(e.payload,t,e.action == 'create' ? null : a.payload,e.action == 'create' ? null : b.payload)
+          : e.entityKind == 'settlement' ? settlementPayload(e.payload,t,(e.action == 'create' ? t.memberBindings.values() : t.memberBindings.values().concat([a.payload.fromPersonId,a.payload.toPersonId,b.payload.fromPersonId,b.payload.toPersonId])).toSet())
           : (e.entityKind == 'budget' && uid() == t.ownerId && e.entityId == t.budgetEntityId
             && e.action in ['replace','resolve'] && budgetPayload(e.payload,a.payload,t)))
         && (e.action == 'resolve' || e.entityKind == 'budget' ? true
@@ -235,6 +254,18 @@ service cloud.firestore {
         && e.payload.decision == 'distinct' && e.payload.expenseIds is list && e.payload.revisions is list && e.payload.expenseIds.size() == 2 && e.payload.revisions.size() == 2
         && e.payload.expenseIds[0] < e.payload.expenseIds[1] && a.entityKind == 'expense' && b.entityKind == 'expense'
         && a.entityId == e.payload.expenseIds[0] && b.entityId == e.payload.expenseIds[1];
+    }
+    function attachmentCreate(id,attachmentId) {
+      let a = request.resource.data;
+      let t = get(tripPath(id)).data;
+      let root = get(eventPath(id,a.expenseId)).data;
+      let fields = ['schemaVersion','expenseId','createdBy','createdAt','mimeType','bytes','byteLength','width','height','sourceKind','attribution'];
+      return member(id) && t.status == 'active' && uuid(attachmentId) && a.keys().hasAll(fields) && a.keys().hasOnly(fields)
+        && a.schemaVersion == 1 && a.createdBy == uid() && a.createdAt == request.time && uuid(a.expenseId)
+        && root.schemaVersion == 2 && root.entityKind == 'expense' && root.action == 'create' && root.entityId == a.expenseId && root.operationId == a.expenseId
+        && a.mimeType == 'image/webp' && a.bytes is bytes && a.byteLength is int && a.byteLength > 0 && a.byteLength <= 40960 && a.bytes.size() == a.byteLength
+        && a.width is int && a.width > 0 && a.width <= 640 && a.height is int && a.height > 0 && a.height <= 640
+        && (a.sourceKind == 'photo' ? a.attribution == null : a.sourceKind == 'openverse' && attribution(a.attribution));
     }
     match /users/{user} {
       allow get: if signed() && uid() == user;
@@ -296,6 +327,10 @@ service cloud.firestore {
           && validDay(request.resource.data.authoredAt.split('T')[0])
           && request.resource.data.payload.keys().hasAll(['total','lockedDays','status']) && request.resource.data.payload.keys().hasOnly(['total','lockedDays','status'])
           && (request.resource.data.payload.total == null || money(request.resource.data.payload.total)) && request.resource.data.payload.lockedDays == [] && request.resource.data.payload.status == 'active');
+      }
+      match /attachments/{attachmentId} {
+        allow get: if member(id);
+        allow create: if attachmentCreate(id,attachmentId);
       }
     }
     match /{document=**} {

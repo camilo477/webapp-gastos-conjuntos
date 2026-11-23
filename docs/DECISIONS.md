@@ -171,3 +171,20 @@ de las suites nuevas está en [Fase 2](phase2/REPORT.md).
   completas. Medir antes de añadir workers o snapshots autoritativos.
 
 Evidencia, riesgos y comandos: [informe de Fase 5](phase5/REPORT.md).
+
+## Decisiones de Fase 7
+
+- F7-01: contrato de adjunto v1 existente, miniatura WebP ≤40960 bytes/640 px;
+  nunca originales, Storage/Blaze/Functions u otro backend.
+- F7-02: atribución Openverse completa en adjunto; evento v2 con icono/null y
+  attachmentId. Evita repetir metadata externa en snapshots y reglas financieras.
+- F7-03: guardar dinero primero, transacción de imagen independiente y UI
+  recuperable si falla; ID y read-back separados por transporte.
+- F7-04: migración IDB aditiva v3, caché privada y outbox de imágenes por UID;
+  sin cachear bytes privados en SW ni listeners globales de imágenes.
+- F7-05: stock anónimo explícito CC0/CC BY, endpoint oficial de thumbnail, CORS y
+  atribución verificada. Si falla, icono propio; ninguna promesa de copia remota.
+- F7-06: no borrar adjuntos históricos; editar/quitar referencia es nueva revisión.
+  No se deduplican imágenes de forma autoritativa ni se reemplazan revisiones tarde.
+
+Pruebas, límites de servidor/cliente y API pública: [Fase 7](phase7/REPORT.md).

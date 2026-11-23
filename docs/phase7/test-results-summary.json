@@ -1,0 +1,160 @@
+{
+  "phase": 7,
+  "date": "2026-11-23",
+  "status": "passed_in_local_emulators_with_external_verification_pending",
+  "basePublishedSha": "926aef92b9d1820f913252001c3d424893dc5d6f",
+  "environment": {
+    "node": "24.22.3",
+    "firebase": "demo-gastos-compartidos, Auth 9199 / Firestore 8180",
+    "browser": "Playwright Firefox 1572",
+    "productionConnected": false,
+    "paidServicesEnabled": false
+  },
+  "checks": {
+    "lint": "passed",
+    "typecheck": "passed",
+    "build": "passed",
+    "gitDiffCheck": "passed",
+    "newDependencies": 0
+  },
+  "contracts": {
+    "financial": "v2 unchanged; icon/null plus attachmentId",
+    "attachment": "existing v1 immutable document; Openverse metadata in attachment",
+    "indexedDBPhysicalVersion": 3
+  },
+  "tests": {
+    "vitest": {
+      "passed": 243,
+      "files": 26
+    },
+    "firestoreRules": {
+      "passed": 200,
+      "failed": 0,
+      "expressionLimitErrorsInFinalRun": 0,
+      "sha256": "f5b7db5f0c6676a2d2d351a8f36b7e24dd3224eb314b5114326c1b8202a56d40"
+    },
+    "firefoxImages": {
+      "passedDistinctCases": 30,
+      "completeRun": {
+        "passed": 28,
+        "failed": 2
+      },
+      "correctedAndStockRerun": {
+        "passed": 3,
+        "failed": 0
+      },
+      "finalStockAndTwoDevicesRerun": {
+        "passed": 2,
+        "failed": 0
+      }
+    },
+    "firefoxAccessFinancial": {
+      "passedDistinctCases": 19,
+      "completeRun": {
+        "passed": 18,
+        "failed": 1
+      },
+      "correctedFinancialRerun": {
+        "passed": 1,
+        "failed": 0
+      }
+    },
+    "firefoxPwaShell": {
+      "passed": 19,
+      "failed": 0
+    },
+    "firefoxOffline": {
+      "passed": 19,
+      "failed": 0
+    }
+  },
+  "totalDistinctPassed": 530,
+  "unresolvedTestFailures": 0,
+  "twoDevices": {
+    "costCOP": 20000,
+    "suggestedDebtCOP": 10000,
+    "confirmedImages": 1,
+    "serverFinancialEventsIncludingBudget": 2,
+    "falseNavigatorOnlineHintStillAllowsConfirmedImageRead": true
+  },
+  "imageFailures": {
+    "financialExpensePreserved": true,
+    "imageRetryReusesId": true,
+    "idbQuotaAndUnknownErrors": "visible form and copyable validated thumbnail; money remains durable",
+    "lostAcknowledgementTwoTabs": "one remote thumbnail, one expense; canonical readback",
+    "accountIsolationAndRevocation": "passed; rejected local proposals retained"
+  },
+  "conflictsAndDuplicates": {
+    "photoBranches": "both retained; existing explicit resolution",
+    "photoChangeDeleteRestore": "cost conserved; logical deletion zero; restored amount unchanged",
+    "merge": "selected survivor photo and hidden historical thumbnail retained; no automatic photo merge"
+  },
+  "measurements": {
+    "compression.json": {
+      "inputBytes": 7239646,
+      "outputBytes": 34890,
+      "width": 320,
+      "height": 213
+    },
+    "lazy-300.json": {
+      "remoteThumbnails": 301,
+      "remoteImageBytes": 208894,
+      "localThumbnails": 6,
+      "localImageBytes": 4164,
+      "seedAndProjectionMs": 2737
+    }
+  },
+  "openverse": {
+    "controlledSearchAttributionOfflineAndErrors": "passed",
+    "liveSearchConfirmed": false,
+    "liveFirefoxError": "TypeError, network/CORS",
+    "liveFirefoxElapsedMs": 8368,
+    "liveCurlTimeoutMs": 25000,
+    "webToolHttpStatus": 403,
+    "publicThumbnailCorsAndAvailabilityVerified": false,
+    "fallback": "local icon without reusing unavailable stock photo"
+  },
+  "security": {
+    "server": "active membership, real author, same-trip expense root, immutable bounded actual Bytes, strict schema and metadata",
+    "client": "WebP decoding/header/dimensions/EXIF validation, safe source URLs; server does not inspect pixels or certify copyright",
+    "secretsFoundInSourceOrHistory": 0,
+    "productionDependencyVulnerabilities": 0,
+    "developmentDependencyModerateVulnerabilities": 17,
+    "highOrCriticalDependencyVulnerabilities": 0
+  },
+  "gemini": "skipped; previous CLI review quota exhausted; independent self-review and runtime tests",
+  "notVerified": [
+    "physical camera",
+    "Android/iPhone",
+    "Chromium",
+    "WebKit",
+    "live public Openverse availability/CORS",
+    "production quotas or performance"
+  ],
+  "limits": [
+    "IndexedDB is not a permanent backup or encrypted per-user vault",
+    "closed app background synchronization is not promised",
+    "historical thumbnails increase shared Firestore quota",
+    "ordinary detail displays current thumbnail; no historical photo gallery",
+    "Blobs did not download reliably in this Firefox; recovery uses validated copyable data"
+  ],
+  "git": {
+    "branch": "main",
+    "remoteBeforePublication": "926aef92b9d1820f913252001c3d424893dc5d6f",
+    "commitMessage": "feat: implement expense images and Openverse integration",
+    "verification": "post-push SHA reported in final delivery; no self-referential SHA here"
+  },
+  "logs": [
+    ".cache/phase7/check-release.log",
+    ".cache/phase7/rules-release.log",
+    ".cache/phase7/browser-images-verified.log",
+    ".cache/phase7/browser-images-corrections.log",
+    ".cache/phase7/browser-images-last.log",
+    ".cache/phase7/browser-access-release.log",
+    ".cache/phase7/browser-financial-confirmation.log",
+    ".cache/phase7/browser-shell-final.log",
+    ".cache/phase7/browser-offline-release.log",
+    ".cache/phase7/source-audit.json",
+    ".cache/phase7/dependency-audit.json"
+  ]
+}

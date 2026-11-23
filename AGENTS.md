@@ -20,7 +20,16 @@ La Fase 5 se verificó publicada en `a89e2b630426929fd9fe33dc8184a65825fc252c`.
 El usuario autorizó Fase 6 el 2026-11-23: IndexedDB durable por proyecto/UID,
 outbox, sincronización activa, conflictos y unificaciones atómicas v2.
 Consultar `docs/phase6/REPORT.md` y `docs/phase6/PLAN.md` para arquitectura,
-pruebas y publicación real. No iniciar Fase 7 ni funcionalidades posteriores.
+pruebas y publicación real. La Fase 6 se verificó publicada en
+`926aef92b9d1820f913252001c3d424893dc5d6f`. El usuario autorizó Fase 7 el
+2026-11-23: imágenes opcionales, WebP ≤640 px/40960 bytes, IndexedDB y adjuntos
+inmutables separados en Firestore; Openverse anónimo CC0/CC BY. Consultar
+`docs/phase7/PLAN.md` y `docs/phase7/REPORT.md`. Nuevos visuales financieros:
+icono/null más attachmentId; atribución completa solo en el adjunto. No almacenar
+originales ni bytes en eventos/SW, ni usar Storage/Blaze/Functions. Gasto durable
+antes del adjunto; sus entregas y reintentos son independientes. Migración local
+v2→v3 aditiva. No afirmar cámara física o API pública verificada por usar mocks.
+No iniciar Fase 8 ni funcionalidades posteriores.
 Mantener Firestore en memoria: la cola propia es la única cola financiera.
 No afirmar guardado hasta completar la transacción IDB ni confirmación antes de
 read-back canónico del servidor. No descartar propuestas rechazadas. No producir

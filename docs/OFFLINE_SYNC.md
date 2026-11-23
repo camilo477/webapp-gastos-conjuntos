@@ -92,3 +92,14 @@ cambia; lectores anteriores deben actualizarse para estas acciones, que Fase 5 n
 permitía persistir. Continúan bloqueados cierre, recuperación/reasignación de identidad,
 fotos y producción. La excepción propuesta para conciliar después del cierre no
 está habilitada.
+
+## Adjuntos habilitados en Fase 7
+
+La restricción histórica sobre fotos corresponde a Fase 6; Fase 7 habilita
+miniaturas sin habilitar producción/cierre/identidades. IndexedDB v3 añade
+attachments con estados pending/sending/error/rejected/confirmed, revisión asociada,
+backoff y lease entre pestañas. Proyecto/UID/viaje/ID aíslan cada propuesta. Se
+preserva el evento si falla IDB de imágenes; reintentar imagen no repite el gasto.
+Crear fotos locales, comprimir y recuperar borradores funciona offline; Openverse,
+confirmaciones y descargas nuevas requieren internet. Bytes históricos permanecen;
+SW no cachea documentos privados. [Arquitectura y pruebas](phase7/REPORT.md).
