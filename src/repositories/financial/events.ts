@@ -6,7 +6,7 @@ import {
 } from '../../domain';
 import type { FinancialEventV2Dto, TripContext } from '../../domain';
 import type { TripRecord } from '../access/contracts';
-import { currentUser, requireOnline } from '../access/trips';
+import { currentUser } from '../access/trips';
 import { AccessError } from '../access/errors';
 import type { FirebaseClient } from '../firebase/client';
 
@@ -84,40 +84,51 @@ export function firestoreValue(value: unknown): object {
   throw new AccessError('Valor financiero no serializable.');
 }
 
-export async function persistOperation(client: FirebaseClient, tripId: string, raw: FinancialOperation): Promise<FinancialEventV2Dto> {
-  requireOnline(); operationIdSchema.parse(tripId);
-  const user = currentUser(client), operation = financialEventV2Schema.parse(raw);
-  if (operation.actorUid !== user.uid) throw new AccessError('La sesión cambió. No se enviará una operación de otro usuario.');
-  const ref = doc(client.firestore, 'trips', tripId, 'events', operation.operationId);
+export class DeliveryError extends AccessError {
+  constructor(message: string,readonly permanent: boolean) { super(message); }
+}
+async function bounded<T>(promise: Promise<T>,ms = 5000): Promise<T> {
+  let timer: ReturnType<typeof setTimeout>;
+  try { return await Promise.race([promise,new Promise<never>((_,reject) => { timer = setTimeout(() => reject(new DeliveryError('No pudimos contactar con el servidor. Tus datos locales siguen conservados.',false)),ms); })]); }
+  finally { clearTimeout(timer!); }
+}
+export async function persistOperations(client: FirebaseClient,tripId: string,raw: readonly FinancialOperation[]): Promise<FinancialEventV2Dto[]> {
+  operationIdSchema.parse(tripId);
+  const user = currentUser(client), operations = raw.map(event => financialEventV2Schema.parse(event));
+  if (operations.length < 1 || operations.length > 2 || operations.some(event => event.actorUid !== user.uid)) throw new DeliveryError('La sesión cambió. No se enviará una operación de otro usuario.',true);
   const readBack = async () => {
-    const snapshot = await getDocFromServer(ref);
-    if (client.auth.currentUser?.uid !== user.uid) throw new AccessError('La sesión cambió.');
-    if (!snapshot.exists()) return null;
-    const stored = decodeEvent(snapshot.id, snapshot.data());
-    if (!sameOperation(operation, stored)) throw new AccessError('Conflicto de integridad: el ID ya existe con otro contenido.');
-    return stored;
+    const snapshots = await bounded(Promise.all(operations.map(operation => getDocFromServer(doc(client.firestore,'trips',tripId,'events',operation.operationId)))));
+    if (client.auth.currentUser?.uid !== user.uid) throw new DeliveryError('La sesión cambió.',false);
+    const stored = snapshots.map((snapshot,index) => {
+      if (!snapshot.exists()) return null;
+      const event = decodeEvent(snapshot.id,snapshot.data());
+      if (!sameOperation(operations[index]!,event)) throw new DeliveryError('Conflicto de integridad: el ID ya existe con otro contenido.',true);
+      return event;
+    });
+    if (stored.some(Boolean) && stored.some(event => !event)) throw new DeliveryError('Unificación incompleta en servidor. Se requiere revisión; no se enviará una mitad aislada.',true);
+    return stored.every(Boolean) ? stored as FinancialEventV2Dto[] : null;
   };
   const existing = await readBack(); if (existing) return existing;
-  const token = await user.getIdToken();
-  if (client.auth.currentUser?.uid !== user.uid) throw new AccessError('La sesión cambió.');
+  const token = await bounded(user.getIdToken());
+  if (client.auth.currentUser?.uid !== user.uid) throw new DeliveryError('La sesión cambió.',false);
   const cfg = client.configuration;
-  const fields = Object.fromEntries(Object.entries(operation).filter(([key]) => key !== 'receivedAt').map(([key, value]) => [key, firestoreValue(value)]));
   try {
-    const response = await fetch(`http://${cfg.host}:${cfg.firestorePort}/v1/projects/${cfg.options.projectId}/databases/(default)/documents:commit`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ writes: [{ update: { name: `projects/${cfg.options.projectId}/databases/(default)/documents/trips/${tripId}/events/${operation.operationId}`, fields },
-        currentDocument: { exists: false }, updateTransforms: [{ fieldPath: 'receivedAt', setToServerValue: 'REQUEST_TIME' }] }] }),
-      signal: AbortSignal.timeout(15000), cache: 'no-store', credentials: 'omit', redirect: 'error', referrerPolicy: 'no-referrer',
+    const writes = operations.map(operation => ({ update: { name: `projects/${cfg.options.projectId}/databases/(default)/documents/trips/${tripId}/events/${operation.operationId}`,
+      fields: Object.fromEntries(Object.entries(operation).filter(([key]) => key !== 'receivedAt').map(([key,value]) => [key,firestoreValue(value)])) },currentDocument: { exists: false },updateTransforms: [{ fieldPath: 'receivedAt',setToServerValue: 'REQUEST_TIME' }] }));
+    const response = await fetch(`http://${cfg.host}:${cfg.firestorePort}/v1/projects/${cfg.options.projectId}/databases/(default)/documents:commit`,{
+      method: 'POST',headers: { 'Content-Type': 'application/json',Authorization: `Bearer ${token}` },body: JSON.stringify({ writes }),signal: AbortSignal.timeout(15000),cache: 'no-store',credentials: 'omit',redirect: 'error',referrerPolicy: 'no-referrer',
     });
     if (!response.ok) {
       const confirmed = await readBack(); if (confirmed) return confirmed;
-      throw new AccessError(response.status === 403 ? 'Operación rechazada por el servidor. Revisa tu acceso y los datos.' : 'Operación no confirmada. Reintenta con el mismo ID.');
+      throw new DeliveryError(response.status === 403 ? 'Operación rechazada por el servidor. El acceso o el estado del viaje cambió. La propuesta local se conserva.' : 'Operación no confirmada. Reintenta con el mismo ID.',response.status === 403 || response.status === 400);
     }
   } catch (error) {
-    if (error instanceof AccessError) throw error;
-    throw new AccessError('Operación no confirmada. Conservamos esta propuesta en pantalla; reintenta con el mismo ID. No cierres esta página.');
+    if (error instanceof DeliveryError) throw error;
+    throw new DeliveryError('Operación no confirmada. Tus datos locales siguen conservados; se reintentará con el mismo ID.',false);
   }
-  const confirmed = await readBack();
-  if (!confirmed) throw new AccessError('Operación no confirmada. Reintenta con el mismo ID.');
+  const confirmed = await readBack(); if (!confirmed) throw new DeliveryError('Operación no confirmada. Se conserva el mismo ID.',false);
   return confirmed;
+}
+export async function persistOperation(client: FirebaseClient,tripId: string,raw: FinancialOperation): Promise<FinancialEventV2Dto> {
+  return (await persistOperations(client,tripId,[raw]))[0]!;
 }

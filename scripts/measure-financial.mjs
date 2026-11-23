@@ -3,7 +3,7 @@ import { performance } from 'node:perf_hooks';
 import { createServer } from 'vite';
 
 // Pure-domain workload. This measures neither network nor production quotas.
-const server = await createServer({ configFile: false, server: { middlewareMode: true }, appType: 'custom' });
+const server = await createServer({ configFile: false, server: { middlewareMode: true,hmr: false,watch: null }, appType: 'custom' });
 try {
   const domain = await server.ssrLoadModule('/src/domain/index.ts');
   const context = domain.tripContextSchema.parse({ id: 'synthetic-load-trip',startDate: '2026-11-21',endDate: '2026-11-24',timezone: 'America/Bogota',currency: 'COP',currencyExponent: 0,people: ['A','B'].map(personId => ({ personId,displayName: personId,status: 'active' })) });
@@ -22,5 +22,5 @@ try {
     result.push({ events: count,projectionMs: Math.round(projected-started),summaryMs: Math.round(finished-projected),jsonBytes: Buffer.byteLength(JSON.stringify(events)),heapDeltaBytes: process.memoryUsage().heapUsed-heapBefore,total: summary.statistics.total.toString(),provisional: state.provisional });
   }
   const report = { measuredAt: new Date().toISOString(),node: process.version,scope: 'Node pure domain; heap delta includes GC noise; not network/browser/production benchmark',results: result };
-  await mkdir('.cache/phase5',{ recursive: true }); await writeFile('.cache/phase5/performance.json',JSON.stringify(report,null,2)+'\n'); console.log(JSON.stringify(report,null,2));
+  await mkdir('.cache/phase6',{ recursive: true }); await writeFile('.cache/phase6/performance.json',JSON.stringify(report,null,2)+'\n'); console.log(JSON.stringify(report,null,2));
 } finally { await server.close(); }

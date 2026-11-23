@@ -1,0 +1,128 @@
+{
+  "phase": 6,
+  "date": "2026-11-23",
+  "status": "passed_in_local_emulators",
+  "basePublishedSha": "a89e2b630426929fd9fe33dc8184a65825fc252c",
+  "environment": {
+    "node": "24.22.3",
+    "firebase": "demo-gastos-compartidos, Auth 9199 / Firestore 8180",
+    "browser": "Playwright Firefox 1572 desktop",
+    "productionConnected": false
+  },
+  "checks": {
+    "lint": "passed",
+    "typecheck": "passed",
+    "build": "passed",
+    "gitDiffCheck": "passed"
+  },
+  "tests": {
+    "vitest": {
+      "passed": 215,
+      "files": 25
+    },
+    "firestoreRules": {
+      "passed": 135,
+      "failed": 0
+    },
+    "firefoxAccessFinancial": {
+      "passedDistinctCases": 19,
+      "initialRun": {
+        "passed": 16,
+        "failed": 3
+      },
+      "correctedCasesRerun": {
+        "passed": 3,
+        "failed": 0
+      }
+    },
+    "firefoxPwaShell": {
+      "passed": 19,
+      "failed": 0
+    },
+    "firefoxOffline": {
+      "passedDistinctCases": 19,
+      "completeRun": {
+        "passed": 17,
+        "failed": 0
+      },
+      "additionalCases": {
+        "passed": 2,
+        "failed": 0
+      }
+    }
+  },
+  "totalDistinctPassed": 407,
+  "unresolvedTestFailures": 0,
+  "twoDevices": {
+    "fourOfflineExpenses": "passed in both reconnection orders; 125000 COP total, 27500 COP suggested transfer",
+    "serverEvidence": "four original operation IDs exist exactly once, plus initial budget",
+    "offlineFinancialRevisions": "expense edit/delete/restore, declared settlement edit/delete/restore and budget revision converge; 120000 COP total, 17000 COP remaining debt"
+  },
+  "conflicts": {
+    "bothReconnectionOrders": "passed",
+    "correctedResolution": "passed",
+    "concurrentResolutions": "passed",
+    "lateBranchReopensConflict": "passed",
+    "arrivalPermutations": "passed"
+  },
+  "duplicates": {
+    "detectAndKeepDistinct": "passed",
+    "atomicOfflineMerge": "passed with server readback",
+    "postMergeCorrection": "passed with explicit reaffirmation",
+    "concurrentMergesCyclesPartialPairsAndDeletionRestoration": "domain/rules regressions passed"
+  },
+  "storageAndIdentity": [
+    "quota fault preserves form and copy",
+    "IndexedDB failure never claims saved",
+    "same profile survives actual Firefox process restart offline",
+    "explicit draft recovery",
+    "storage deletion requires fresh download",
+    "v1 to v2 index migration preserves pending IDs and snapshots",
+    "UID change and two tabs remain isolated",
+    "revoked member and closed-trip proposals retained as rejected",
+    "waiting Service Worker update preserves pending operation"
+  ],
+  "security": {
+    "sourceSecretPatternFindings": 0,
+    "historySecretPatternFindings": 0,
+    "npmAudit": {
+      "moderateDevelopmentTooling": 17,
+      "high": 0,
+      "critical": 0
+    },
+    "npmAuditOmitDev": {
+      "total": 0
+    },
+    "rulesBoundary": "Server authorizes immutable v2 payloads/parents and atomic reciprocal pairs; projector validates global revision graph, exact remainder semantics and completeness"
+  },
+  "performance": {
+    "workload": "pure Node domain; single measurement, not browser or network",
+    "projection10000BeforeMs": 4055,
+    "projection10000AfterMs": 772,
+    "summary10000Ms": 8,
+    "jsonBytes10000": 6848891
+  },
+  "notExecuted": [
+    "Chromium",
+    "WebKit",
+    "physical Android/iOS devices",
+    "production deployment",
+    "remote CI result"
+  ],
+  "gemini": {
+    "used": false,
+    "reason": "CLI available but quota exhausted during previous review; no repeated failing invocation"
+  },
+  "regenerableLocalEvidence": [
+    ".cache/phase6-check-release.log",
+    ".cache/phase6-rules-final.log",
+    ".cache/phase6-browser-regression.log",
+    ".cache/phase6-browser-regression-fixes.log",
+    ".cache/phase6-browser-shell-final.log",
+    ".cache/phase6-browser-final.log",
+    ".cache/phase6-browser-additional.log",
+    ".cache/phase6/source-audit.json",
+    ".cache/phase6/performance.json"
+  ],
+  "publication": "Commit and remote SHA are reported after actual publication in the final session response."
+}

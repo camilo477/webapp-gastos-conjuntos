@@ -74,3 +74,21 @@ Revocación en servidor no borra datos descargados previamente. Al detectarla, b
 Cierre online: propietario descarga registro actual, comprueba ausencia de incidencias conocidas y escribe estado closed con revisión de metadatos. Las reglas rechazan nuevos eventos contra viaje cerrado. Un evento puede confirmarse justo antes del cierre y llegar después al listener: reconstruir resumen hasta tener snapshot actual. El cliente no garantiza haber detectado cambios simultáneos ni colas de otros dispositivos; el resumen es derivado y puede mostrar incidencia tardía.
 
 Para resolver una incidencia descubierta después del cierre se propone permitir únicamente eventos `resolve` y pares de reconciliación por el propietario online, con auditoría y resumen marcado provisional hasta terminar. No se admiten nuevas compras/abonos corrientes ni reapertura automática. Esta excepción necesita ratificación y pruebas dedicadas; alternativa conservadora: informe provisional y conciliación fuera de la app. No se declara un cierre libre de conflictos garantizado globalmente sin coordinador confiable.
+
+## Implementación verificada de Fase 6
+
+El detalle ejecutable y las fronteras de servidor/proyector están en
+[el informe de Fase 6](phase6/REPORT.md). IndexedDB propio conserva snapshots y
+outbox por proyecto/UID; Firestore permanece en memoria. Reintentos usan IDs
+inmutables, read-back canónico y leases entre pestañas. La cola se ejecuta solo
+mientras la aplicación está abierta. Borradores explícitos de gastos no son
+operaciones; almacenamiento local no equivale a copia de seguridad permanente.
+
+La primera habilitación de merges v2 añade reafirmación de superviviente eliminado:
+un par coherente puede conservar `mergeKeep` con snapshot `deleted`, con costo cero.
+Esto evita resucitar el duplicado después de una eliminación explícita. Una
+restauración requiere revisión activa y reafirmación del par. La estructura v2 no
+cambia; lectores anteriores deben actualizarse para estas acciones, que Fase 5 no
+permitía persistir. Continúan bloqueados cierre, recuperación/reasignación de identidad,
+fotos y producción. La excepción propuesta para conciliar después del cierre no
+está habilitada.

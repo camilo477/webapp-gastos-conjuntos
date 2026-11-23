@@ -22,7 +22,7 @@ export function readFirebaseConfiguration(env: FirebaseEnvironment, development:
   if (mode === undefined || mode === '' || mode === 'demo') {
     return { status: 'demo', message: 'Firebase sin configurar. La demostración funciona sin conexión a servicios.' };
   }
-  if (mode !== 'emulators' || !development) {
+  if (mode !== 'emulators' || (!development && env.MODE !== 'emulator-pwa')) {
     return { status: 'invalid', message: 'Solo se permite Firebase con emuladores locales durante el desarrollo. La demostración sigue disponible.' };
   }
   const projectId = env.VITE_FIREBASE_PROJECT_ID;

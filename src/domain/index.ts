@@ -10,3 +10,5 @@ export * from './statistics';
 export * from './budget';
 export * from './summary';
 export * from './projection';
+
+export * from './duplicates';

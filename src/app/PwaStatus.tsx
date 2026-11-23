@@ -2,9 +2,11 @@ import { useRegisterSW } from 'virtual:pwa-register/react';
 import { useEffect, useState } from 'react';
 import { Button } from '../components/Button';
 import { Notice } from '../components/Notice';
+import { useSyncServices } from '../sync/context';
 import { activateUpdate } from './activateUpdate';
 
-export function PwaStatus() {
+export function PwaStatus({ connected = false }: { connected?: boolean }) {
+  const services = useSyncServices();
   const [error, setError] = useState(false);
   const [registration, setRegistration] = useState<ServiceWorkerRegistration>();
   const { offlineReady: [offlineReady], needRefresh: [needRefresh, setNeedRefresh], updateServiceWorker } = useRegisterSW({
@@ -16,6 +18,7 @@ export function PwaStatus() {
   async function applyUpdate() {
     setError(false);
     try {
+      await services?.store.flush();
       await activateUpdate(updateServiceWorker);
       window.location.reload();
     } catch { setError(true); }
@@ -35,6 +38,6 @@ export function PwaStatus() {
       window.clearInterval(timer);
     };
   }, [registration]);
-  if (needRefresh) return <aside className="pwa-message" aria-label="Actualización de la aplicación"><Notice title="Hay una nueva versión"><p>Actualiza para cargar la nueva interfaz.</p><div className="action-row"><Button onClick={() => { void applyUpdate(); }}>Actualizar ahora</Button><Button variant="secondary" onClick={() => setNeedRefresh(false)}>Más tarde</Button></div>{error && <p role="alert">No se pudo actualizar. Puedes volver a intentarlo.</p>}</Notice></aside>;
-  return <p className="shell-status" role="status">{error ? 'No se pudo preparar el modo offline. Reintenta al recargar con conexión.' : offlineReady ? 'Interfaz disponible sin conexión · sin sincronización de datos' : 'La interfaz offline se prepara después de la primera carga.'}</p>;
+  if (needRefresh) return <aside className="pwa-message" aria-label="Actualización de la aplicación"><Notice title="Hay una nueva versión"><p>{connected ? 'Las operaciones guardadas permanecen en este dispositivo. Guarda el formulario antes de actualizar; un borrador visible aún sin guardar puede perderse.' : 'Actualiza para cargar la nueva interfaz.'}</p><div className="action-row"><Button onClick={() => { void applyUpdate(); }}>Actualizar ahora</Button><Button variant="secondary" onClick={() => setNeedRefresh(false)}>Más tarde</Button></div>{error && <p role="alert">No se pudo actualizar. Puedes volver a intentarlo.</p>}</Notice></aside>;
+  return <p className="shell-status" role="status">{error ? 'No se pudo preparar el modo offline. Reintenta al recargar con conexión.' : offlineReady ? connected ? 'Interfaz disponible sin conexión · consulta el estado de tus datos en el viaje' : 'Interfaz disponible sin conexión · sin sincronización de datos' : 'La interfaz offline se prepara después de la primera carga.'}</p>;
 }

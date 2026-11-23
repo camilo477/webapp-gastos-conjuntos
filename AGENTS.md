@@ -16,10 +16,17 @@ Cierre y reasignación siguen deshabilitados por consistencia/identidad pendient
 La Fase 4 se verificó publicada en `545fb36`. El usuario autorizó expresamente
 Fase 5 el 2026-11-23: eventos financieros v2 inmutables, gastos, abonos, historial,
 balances, presupuestos y estadísticas exclusivamente online en emuladores.
-Consultar `docs/phase5/REPORT.md` para resultados y estado real de publicación.
-No iniciar Fase 6 ni funcionalidades posteriores sin nueva instrucción explícita.
-No convertir esta integración en una cola offline: las propuestas sin confirmar
-permanecen solo en pantalla y conservan el mismo ID al reintentar.
+La Fase 5 se verificó publicada en `a89e2b630426929fd9fe33dc8184a65825fc252c`.
+El usuario autorizó Fase 6 el 2026-11-23: IndexedDB durable por proyecto/UID,
+outbox, sincronización activa, conflictos y unificaciones atómicas v2.
+Consultar `docs/phase6/REPORT.md` y `docs/phase6/PLAN.md` para arquitectura,
+pruebas y publicación real. No iniciar Fase 7 ni funcionalidades posteriores.
+Mantener Firestore en memoria: la cola propia es la única cola financiera.
+No afirmar guardado hasta completar la transacción IDB ni confirmación antes de
+read-back canónico del servidor. No descartar propuestas rechazadas. No producir
+saldos fuera del motor ni resolver por timestamps. Los pares merge son atómicos;
+componentes incompatibles permanecen provisionales. Cierre y reasignación siguen
+bloqueados. Firebase solo demo-/loopback, incluido build `emulator-pwa` explícito.
 
 ## Git y publicación
 

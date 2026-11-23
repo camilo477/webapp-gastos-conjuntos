@@ -2,18 +2,17 @@
 
 PWA privada para gastos de viajes entre 2 y 10 personas.
 
-**Estado: Fase 4 publicada y Fase 5 implementada para Firebase Emulator Suite.**
+**Estado: Fase 5 publicada; Fase 6 offline-first implementada para Firebase Emulator Suite.**
 Registro, verificación/recuperación, sesión anónima, viajes e invitaciones usan datos
 locales reales en modo emuladores. Gastos, abonos, revisiones, balances, presupuestos
 y estadísticas se derivan del registro financiero v2. Sin configuración permanece la demostración.
 No se habilita producción. La Fase 1 conserva su aceptación provisional y sus
 [pruebas multiplataforma pendientes](docs/phase1/AUTOMATED_TEST_REPORT.md).
 
-Git: `main`, Fase 4 publicada como `545fb36bc41d9781d23b8f55946133c718232f2a` en
-[GitHub](https://github.com/camilo477/webapp-gastos-conjuntos).
-Validación, limitaciones y estado de publicación de Fase 4 en
-[el informe anterior](docs/phase4/REPORT.md). Implementación, pruebas y publicación
-de Fase 5 en [su informe](docs/phase5/REPORT.md).
+Git: `main`. Antes de modificar Fase 6 se verificó la Fase 5 publicada en
+`a89e2b630426929fd9fe33dc8184a65825fc252c`, coincidente local/remoto.
+Informes de [Fase 5](docs/phase5/REPORT.md) y [Fase 6](docs/phase6/REPORT.md),
+con las pruebas, limitaciones y estado real de publicación.
 
 ## Requisitos e instalación
 
@@ -52,6 +51,8 @@ el modo de emuladores descrito abajo. Usar únicamente datos sintéticos.
 | `npm run test:e2e` | Dos builds reales y Playwright HTTP, incluidos SW/offline/actualización |
 | `npm run test:access` | Emuladores temporales + UI real en Chromium, Firefox y WebKit |
 | `npm run test:access:firefox` | La misma integración, solo Firefox |
+| `npm run test:offline:firefox` | PWA conectada: IndexedDB, dos dispositivos, conflictos y SW en Firefox |
+| `npm run test:offline` | La misma suite con los tres motores instalados |
 | `npm run icons` | Regenerar iconos PNG con Python estándar |
 
 Preparar navegadores con `npx playwright install chromium firefox webkit`.
@@ -75,7 +76,7 @@ solo queda confirmado después de publicar y comprobar la ejecución en GitHub.
 La ausencia de configuración habilita la demostración. No se conecta a servicios
 Firebase. El build de producción tampoco habilita Firebase en esta fase.
 
-Para probar las Fases 4 y 5 **solo en desarrollo**:
+Para probar acceso y finanzas locales:
 
 1. Copiar `.env.example` a `.env.local` y cambiar `VITE_FIREBASE_MODE=emulators`.
 2. Mantener `demo-gastos-compartidos`, valores sintéticos, host `127.0.0.1`,
@@ -102,17 +103,43 @@ Para probar las Fases 4 y 5 **solo en desarrollo**:
    sin recarga. Si hay ramas incompatibles o datos incompletos, los balances
    son provisionales y se excluyen las entidades afectadas del subtotal.
 
-Auth conserva sesión en IndexedDB, con fallback localStorage; si ambos fallan,
-no se ofrece una sesión anónima supuestamente durable. Firestore usa memoria,
-sin persistencia privada en disco ni respuestas Firebase en la caché del SW.
-Las pantallas requieren confirmación del servidor. Administración y join requieren
-conexión; no existe cola financiera ni envío administrativo diferido offline.
-Cada intento financiero usa commit REST autenticado create-only, timeout e ID
-preasignado. Un reintento comprueba ese ID y contenido en servidor. Ante resultado
-incierto se mantiene la propuesta solo en la pantalla y se ofrece el mismo intento;
-no se afirma guardado durable. Salir/recargar puede perderla: comprobar historial
-antes de registrar otra operación. Las escrituras locales pendientes nunca
-representan confirmación. No existe outbox de Fase 6.
+Auth conserva sesión en IndexedDB, con fallback localStorage. La cola financiera
+usa exclusivamente IndexedDB propio, separado por proyecto/UID/viaje/operación.
+Firestore sigue en memoria; ninguna respuesta privada entra en la caché pública
+del SW. Una operación pasa a «guardada en este dispositivo» solo al completar
+la transacción local. Los IDs no cambian al reintentar. Confirmación requiere
+leer el documento del servidor y comprobar contenido canónico, sin confundir
+`permission-denied` con éxito. Errores y rechazos se conservan en Actividad.
+
+Para **PWA offline conectada a emuladores**, mantener `.env.local` sintético y:
+
+```bash
+npm run emulators
+# En otra terminal, con las variables locales anteriores:
+npm run build -- --mode emulator-pwa
+npm run preview
+```
+
+Abrir el viaje con conexión y esperar «Viaje descargado para este usuario».
+Después se pueden crear/editar/eliminar/restaurar gastos, registrar/corregir
+abonos, consultar proyecciones y preparar cambios de presupuesto autorizados.
+Los balances locales son provisionales. Los borradores de gasto se guardan
+explícitamente y se recuperan desde el formulario; no cuentan como gastos.
+Sin datos suficientes no se habilitan operaciones. IndexedDB lleno o inaccesible
+no equivale a guardado: el formulario conserva la propuesta y permite copiarla.
+
+La cola se reanuda al abrir/activar la aplicación, recuperar conexión o pulsar
+«Sincronizar ahora», con backoff y exclusión temporal entre pestañas. La PWA
+cerrada no garantiza sincronización. Conflictos se comparan y resuelven por
+pares de padres; los duplicados requieren decisión explícita. Unificaciones
+keep/hide se envían atómicamente. Una corrección/eliminación/restauración parcial
+de un gasto unificado exige reafirmar la unificación en Actividad antes de tener
+saldo definitivo. Nunca se selecciona una revisión por su fecha.
+
+Crear viajes, administrar miembros/invitaciones, verificar/crear cuentas e
+ingresar mediante invitación siguen requiriendo internet y emuladores disponibles.
+El build habitual conserva la demostración; `emulator-pwa` sigue restringido a
+proyecto `demo-` y loopback. No habilita producción ni acceso LAN implícito.
 Salir de una sesión anónima, borrar almacenamiento, cambiar perfil, dispositivo
 u origen puede perder esa identidad. El nombre no permite recuperarla.
 
@@ -125,14 +152,12 @@ Las reglas autorizan únicamente las operaciones de esta fase, con denegación
 por defecto. Permiten eventos financieros v2 inmutables y presupuestos solo por
 propietario. Las reglas verifican conservación y padres; algoritmo de restos
 mayores, coherencia IANA y semántica global se validan en el proyector. Véanse
-las [fronteras precisas de seguridad](docs/phase5/REPORT.md).
+las fronteras de [Fase 5](docs/phase5/REPORT.md) y [Fase 6](docs/phase6/REPORT.md).
 
-La interfaz de acceso se prueba sobre Vite de desarrollo, con SW bloqueado.
-Los tests PWA sirven dos builds de demostración. Esto distingue Auth/Firestore
-locales del comportamiento instalable del shell; todavía no se distribuye un
-build conectado a Firebase. La configuración loopback no permite usar otro
-móvil en la LAN: esa prueba física requiere revisar origen/HTTPS/configuración,
-sin cambiar silenciosamente el cerrojo contra producción.
+Las regresiones de acceso usan Vite sin SW; las pruebas offline sirven dos builds
+PWA reales conectados exclusivamente a emuladores. La configuración loopback no
+permite otro móvil en LAN: pruebas físicas requieren revisar origen/HTTPS, sin
+cambiar silenciosamente el cerrojo contra producción.
 
 En una fase posterior habrá que proporcionar `projectId`, `apiKey`, `appId` y
 `authDomain` de la configuración web del proyecto de pruebas, elegir región y
@@ -156,8 +181,9 @@ actualización sirve dos builds reales y verifica el nuevo build también offlin
 HTTPS es necesario fuera de localhost. Android puede ofrecer instalación;
 en iOS se usa Safari → Compartir → Añadir a pantalla de inicio. Instalación,
 safe areas y suspensión en dispositivos físicos siguen pendientes; disponer de
-manifest y SW no demuestra esas pruebas. **Offline del shell no es sincronización
-ni persistencia de gastos.**
+manifest y SW no demuestra esas pruebas. La demostración solo conserva el shell. En modo `emulator-pwa`, IndexedDB conserva
+operaciones de viajes descargados. Los datos locales pueden perderse por borrado,
+evicción o pérdida del dispositivo y no constituyen una copia de seguridad permanente.
 
 ## Estructura y diseño
 
@@ -166,8 +192,9 @@ src/app/                    routing, tema, conectividad y ciclo de la PWA
 src/components/             botones, campos, diálogos, mensajes, filas, contenedores
 src/features/access/        sesión, formularios, viajes, participantes y QR locales
 src/features/demo/          pantallas y fixtures visuales de solo lectura
-src/features/financial/     formularios y proyecciones financieras online
-src/repositories/financial/ eventos v2, listeners y commits idempotentes online
+src/features/financial/     formularios, actividad y proyecciones financieras
+src/repositories/financial/ eventos v2, revisiones y commits idempotentes atómicos
+src/sync/                   IndexedDB, outbox, leases y coordinador por identidad
 src/features/status/        actividad y estado de configuración
 src/repositories/access/    Auth, contratos persistidos, viajes y admisión REST atómica
 src/repositories/firebase/  validación de entorno y SDK modular diferido
@@ -180,8 +207,9 @@ tests/                      setup de componentes, E2E HTTP y reglas
 
 El dominio implementa dinero BigInt, reparto igual/porcentaje/fixed, saldos,
 abonos, sugerencias, presupuestos, estadísticas y validación de snapshots/eventos.
-Los módulos `sync/` y `attachments/` se crearán en sus fases. El dominio recibe
-revisiones efectivas con estado explícito; no implementa el proyector distribuido.
+`sync/` persiste y entrega operaciones sin calcular dinero. `attachments/` sigue
+pendiente de otra fase. El mismo proyector valida grafos, conflictos y unificaciones
+conservadoras; ningún saldo derivado se guarda como autoridad.
 
 ```ts
 import { splitExpense, formatMoney } from './src/domain';
@@ -224,17 +252,20 @@ la aplicación. Las pantallas React no trasladan su motor simulado.
   y [resumen de pruebas](docs/phase4/test-results-summary.json).
 
 Hay gastos y abonos persistidos exclusivamente en emuladores y actualizaciones
-entre usuarios conectados. No hay cuentas de producción, fotos, outbox durable,
-sincronización distribuida completa ni despliegue público. **Finalizar y reasignar identidad histórica
+con outbox durable y sincronización entre dispositivos activos. No hay cuentas
+de producción, fotografías ni despliegue público. **Finalizar y reasignar identidad histórica
 permanecen deshabilitados** hasta verificar sus garantías. Revocar conserva
 personas e historial, bloquea el servidor y evita reingreso del mismo UID;
 no puede borrar copias previamente descargadas ni identificar humanos únicos.
-Fase 6 requiere nueva autorización; no se inicia automáticamente.
+Fase 7 requiere nueva autorización; no se inicia automáticamente.
 
 - [Plan de Fase 5](docs/phase5/PLAN.md), [informe](docs/phase5/REPORT.md) y
   [resumen de pruebas](docs/phase5/test-results-summary.json).
 
 Carga reproducible del motor: `node scripts/measure-financial.mjs` (Node 24);
-resultados regenerables en `.cache/phase5/performance.json`. El registro se descarga
+resultados regenerables en `.cache/phase6/performance.json`. El registro se descarga
 completo; actividad muestra 50 entradas por bloque. No se prometen latencias ni
 cuotas de producción a partir de estas pruebas locales.
+
+- [Plan de Fase 6](docs/phase6/PLAN.md), [informe](docs/phase6/REPORT.md) y
+  [resumen de pruebas](docs/phase6/test-results-summary.json).

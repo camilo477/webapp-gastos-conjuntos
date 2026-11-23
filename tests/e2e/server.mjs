@@ -4,7 +4,7 @@ import { readFile, stat } from 'node:fs/promises';
 import { extname, resolve, sep } from 'node:path';
 
 let version = 'a';
-const root = resolve('dist-e2e');
+const root = resolve(process.env.GASTOS_STATIC_ROOT ?? 'dist-e2e');
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.webmanifest': 'application/manifest+json' };
 
 const server = createServer(async (request, response) => {
@@ -26,7 +26,7 @@ const server = createServer(async (request, response) => {
     response.writeHead(200, { 'Content-Type': types[extname(file)] ?? 'application/octet-stream', 'Cache-Control': 'no-store' }).end(content);
   } catch { response.writeHead(500).end(); }
 });
-server.listen(4173, '127.0.0.1');
+server.listen(Number(process.env.GASTOS_STATIC_PORT ?? 4173), '127.0.0.1');
 for (const signal of ['SIGTERM', 'SIGINT']) process.on(signal, () => {
   server.closeAllConnections();
   server.close();

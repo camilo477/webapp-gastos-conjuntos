@@ -181,7 +181,7 @@ service cloud.firestore {
         && e.logicalClock is int && e.logicalClock <= 1000000000
         && e.parentIds is list && e.before is list && count == e.before.size()
         && (e.action == 'create' ? count == 0 && e.entityId == eventId && e.logicalClock == 0 && e.entityKind != 'budget'
-          : e.action in ['replace','delete','resolve'] && e.operationId != e.entityId
+          : e.action in ['replace','delete','resolve']
             && count == (e.action == 'resolve' ? 2 : 1))
         && financialRevision(id,e,t);
     }
@@ -201,6 +201,40 @@ service cloud.firestore {
         && (e.action == 'resolve' || e.entityKind == 'budget' ? true
           : e.action == 'delete' ? e.payload.status == 'deleted' && e.payload.diff(a.payload).affectedKeys().hasOnly(['status'])
           : e.payload.status == 'active');
+    }
+    function pairedMerge(id,eventId) {
+      let e = request.resource.data;
+      let t = get(tripPath(id)).data;
+      let p = get(eventPath(id,e.parentIds[0])).data;
+      let q = getAfter(eventPath(id,e.merge.peerOperationId)).data;
+      let fields = ['schemaVersion','operationId','entityKind','entityId','action','actorUid','actorPersonId','parentIds','logicalClock','before','payload','authoredAt','receivedAt','merge'];
+      return signed() && t.status == 'active' && e.keys().hasOnly(fields) && e.schemaVersion == 2 && e.operationId == eventId && uuid(eventId)
+        && e.actorUid == uid() && e.actorPersonId == t.memberBindings[uid()] && e.receivedAt == request.time && instant(e.authoredAt)
+        && e.entityKind == 'expense' && e.parentIds is list && e.parentIds.size() == 1 && e.before is list && e.before.size() == 1
+        && p.schemaVersion == 2 && parent(e,p,0) && e.logicalClock is int && e.logicalClock == p.logicalClock + 1 && e.logicalClock <= 1000000000
+        && e.merge.keys().hasAll(['mergeId','peerEntityId','peerOperationId','role']) && e.merge.keys().hasOnly(['mergeId','peerEntityId','peerOperationId','role'])
+        && uuid(e.merge.mergeId) && e.entityId != e.merge.peerEntityId && e.operationId != e.merge.peerOperationId
+        && !exists(eventPath(id,e.merge.peerOperationId))
+        && q.operationId == e.merge.peerOperationId && q.entityId == e.merge.peerEntityId && q.entityKind == 'expense'
+        && q.merge.mergeId == e.merge.mergeId && q.merge.peerEntityId == e.entityId && q.merge.peerOperationId == eventId
+        && q.actorUid == e.actorUid && q.actorPersonId == e.actorPersonId && q.receivedAt == request.time
+        && (e.action == 'mergeKeep' ? e.merge.role == 'keep' && q.action == 'mergeHide' && q.merge.role == 'hide' && p.payload.status in ['active','deleted'] && e.payload == p.payload
+          : e.action == 'mergeHide' && e.merge.role == 'hide' && q.action == 'mergeKeep' && q.merge.role == 'keep'
+            && e.payload.diff(p.payload).affectedKeys().hasOnly(['status','mergedInto']) && e.payload.status == 'merged' && e.payload.mergedInto == q.entityId);
+    }
+    function distinctDecision(id,eventId) {
+      let e = request.resource.data;
+      let t = get(tripPath(id)).data;
+      let a = get(eventPath(id,e.payload.revisions[0])).data;
+      let b = get(eventPath(id,e.payload.revisions[1])).data;
+      let fields = ['schemaVersion','operationId','entityKind','entityId','action','actorUid','actorPersonId','parentIds','logicalClock','before','payload','authoredAt','receivedAt','merge'];
+      return signed() && t.status == 'active' && e.keys().hasOnly(fields) && e.schemaVersion == 2 && e.operationId == eventId && e.entityId == eventId && uuid(eventId)
+        && e.actorUid == uid() && e.actorPersonId == t.memberBindings[uid()] && e.receivedAt == request.time && instant(e.authoredAt)
+        && e.entityKind == 'duplicateDecision' && e.action == 'create' && e.parentIds == [] && e.before == [] && e.logicalClock == 0 && e.merge == null
+        && e.payload.keys().hasAll(['expenseIds','revisions','decision']) && e.payload.keys().hasOnly(['expenseIds','revisions','decision'])
+        && e.payload.decision == 'distinct' && e.payload.expenseIds is list && e.payload.revisions is list && e.payload.expenseIds.size() == 2 && e.payload.revisions.size() == 2
+        && e.payload.expenseIds[0] < e.payload.expenseIds[1] && a.entityKind == 'expense' && b.entityKind == 'expense'
+        && a.entityId == e.payload.expenseIds[0] && b.entityId == e.payload.expenseIds[1];
     }
     match /users/{user} {
       allow get: if signed() && uid() == user;
@@ -249,7 +283,7 @@ service cloud.firestore {
       }
       match /events/{eventId} {
         allow read: if member(id);
-        allow create: if exists(tripPath(id)) ? financialCreate(id,eventId) : (verifiedOrganizer() && getAfter(tripPath(id)).data.ownerId == uid()
+        allow create: if exists(tripPath(id)) ? (request.resource.data.action == 'resolve' ? financialCreate(id,eventId) : request.resource.data.action in ['mergeKeep','mergeHide'] ? pairedMerge(id,eventId) : request.resource.data.entityKind == 'duplicateDecision' ? distinctDecision(id,eventId) : financialCreate(id,eventId)) : (verifiedOrganizer() && getAfter(tripPath(id)).data.ownerId == uid()
           && getAfter(tripPath(id)).data.budgetEntityId == eventId && uuid(eventId)
           && request.resource.data.keys().hasAll(['schemaVersion','operationId','entityKind','entityId','action','actorUid','actorPersonId','parentIds','logicalClock','before','payload','authoredAt','receivedAt','merge'])
           && request.resource.data.keys().hasOnly(['schemaVersion','operationId','entityKind','entityId','action','actorUid','actorPersonId','parentIds','logicalClock','before','payload','authoredAt','receivedAt','merge'])

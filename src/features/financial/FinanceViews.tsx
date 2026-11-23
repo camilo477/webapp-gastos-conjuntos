@@ -5,7 +5,8 @@ import { Dialog } from '../../components/Dialog';
 import { Field } from '../../components/Field';
 import { Notice } from '../../components/Notice';
 import { PageHeader } from '../../components/PageHeader';
-import { formatMoney, inclusiveDays, moneyToDto, parseMoney, validateBudgetEdit } from '../../domain';
+import { formatMoney, inclusiveDays, moneyToDto, parseMoney, projectFinancialEvents, validateBudgetEdit } from '../../domain';
+import { prepareResolution } from '../../repositories/financial/revisions';
 import type { FinancialEventV2Dto } from '../../domain';
 import type { TripRecord } from '../../repositories/access/contracts';
 import { prepareOperation } from '../../repositories/financial/events';
@@ -20,6 +21,10 @@ export type ViewProps = { trip: TripRecord; finance: Finance };
 const fieldLabels: Record<string,string> = { title: 'Concepto',total: 'Importe',note: 'Nota',category: 'Categoría',occurredAt: 'Fecha y hora',day: 'Día',payerIds: 'Pagadores',payerAmounts: 'Aportes',participantIds: 'Incluidos',shareAmounts: 'Cuotas',splitMode: 'División',weights: 'Pesos',status: 'Estado',fromPersonId: 'Quién entrega',toPersonId: 'Quién recibe',amount: 'Importe',lockedDays: 'Cupos manuales' };
 function personName(finance: Finance, id: string) { return finance.context?.people.find(person => person.personId === id)?.displayName ?? 'Persona no disponible'; }
 function eventLabel(event: FinancialEventV2Dto) {
+  if (event.entityKind === 'duplicateDecision') return 'Gastos mantenidos separados';
+  if (event.action === 'mergeKeep') return 'Unificación: gasto conservado';
+  if (event.action === 'mergeHide') return 'Unificación: duplicado oculto';
+  if (event.action === 'resolve') return 'Conflicto resuelto';
   if (event.entityKind === 'budget') return event.action === 'create' ? 'Presupuesto inicial' : 'Presupuesto modificado';
   const kind = event.entityKind === 'settlement' ? 'Abono' : 'Gasto';
   if (event.action === 'delete') return `${kind} eliminado`;
@@ -42,8 +47,8 @@ export function ActivityView(props: ViewProps & { entityId?: string }) {
   const rows = finance.events.filter(event => !entityId || event.entityId === entityId).slice().sort((a,b) => b.receivedAt.seconds - a.receivedAt.seconds || b.receivedAt.nanoseconds - a.receivedAt.nanoseconds || a.operationId.localeCompare(b.operationId));
   return <section aria-label="Historial financiero"><PageHeader title={entityId ? 'Historial del movimiento' : 'Actividad financiera'} description="Todas las revisiones se conservan. El orden de recepción no decide qué propuesta prevalece." />
     {!rows.length && <p>No hay movimientos registrados.</p>}
-    <ol className="financial-list">{rows.slice(0,visible).map(event => <li key={event.operationId}><article><h3>{eventLabel(event)}{'title' in event.payload ? ` · ${event.payload.title}` : ''}</h3><p className="small muted">{personName(finance,event.actorPersonId)} · <time dateTime={new Date(event.receivedAt.seconds * 1000).toISOString()}>{new Date(event.receivedAt.seconds * 1000).toLocaleString('es-CO',{ timeZone: trip.timezone })}</time> · {finance.state!.issues.some(issue => issue.entityId === event.entityId) ? 'Provisional' : finance.heads.some(head => head.operationId === event.operationId) ? 'Revisión vigente' : 'Histórica'}</p>
-      <details><summary>Ver cambios</summary>{event.before.length > 1 && <p>Propuestas de dos revisiones anteriores.</p>}{(event.before.length ? event.before : [null]).map((before,index) => <dl className="audit-fields" key={index}>{Object.entries(event.payload).filter(([key,value]) => (key in fieldLabels) && (!before || JSON.stringify(value) !== JSON.stringify((before as Record<string,unknown>)[key]))).map(([key,value]) => <div key={key}><dt>{fieldLabels[key]}</dt><dd>{before ? `${valueText((before as Record<string,unknown>)[key],key,props)} → ` : ''}{valueText(value,key,props)}</dd></div>)}</dl>)}</details>
+    <ol className="financial-list">{rows.slice(0,visible).map(event => <li key={event.operationId}><article><h3>{eventLabel(event)}{'title' in event.payload ? ` · ${event.payload.title}` : ''}</h3><p className="small muted">{personName(finance,event.actorPersonId)} · <time dateTime={event.receivedAt.seconds ? new Date(event.receivedAt.seconds * 1000).toISOString() : event.authoredAt}>{new Date(event.receivedAt.seconds ? event.receivedAt.seconds * 1000 : event.authoredAt).toLocaleString('es-CO',{ timeZone: trip.timezone })}</time> · {finance.state!.issues.some(issue => issue.entityId === event.entityId) ? 'Provisional' : finance.heads.some(head => head.operationId === event.operationId) ? 'Revisión vigente' : 'Histórica'}</p>
+      <details><summary>Ver cambios</summary><p>Revisión lógica {event.logicalClock} · {event.receivedAt.seconds ? 'Recibida por el servidor' : 'Hora declarada · pendiente de confirmación'}</p>{event.before.length > 1 && <p>Propuestas de dos revisiones anteriores.</p>}{(event.before.length ? event.before : [null]).map((before,index) => <dl className="audit-fields" key={index}>{Object.entries(event.payload).filter(([key,value]) => (key in fieldLabels) && (!before || JSON.stringify(value) !== JSON.stringify((before as Record<string,unknown>)[key]))).map(([key,value]) => <div key={key}><dt>{fieldLabels[key]}</dt><dd>{before ? `${valueText((before as Record<string,unknown>)[key],key,props)} → ` : ''}{valueText(value,key,props)}</dd></div>)}</dl>)}</details>
     {event.entityKind === 'expense' && <Link to={`/viajes/${trip.id}/gastos/${event.entityId}`}>Ver gasto</Link>}</article></li>)}</ol>{rows.length > visible && <Button variant="secondary" onClick={() => setVisible(visible + 50)}>Mostrar más actividad</Button>}
   </section>;
 }
@@ -71,13 +76,13 @@ export function BalanceView({ trip,finance }: ViewProps) {
 export function RevisionAction({ trip,finance,parent }: ViewProps & { parent: FinancialEventV2Dto }) {
   const { user } = useSession(), navigate = useNavigate(), [open,setOpen] = useState(false);
   const writer = useFinancialWrite(trip.id,() => { setOpen(false); navigate(`/viajes/${trip.id}${parent.entityKind === 'settlement' ? '/balance' : ''}`); });
-  if (parent.entityKind !== 'expense' && parent.entityKind !== 'settlement') return null;
+  if (parent.entityKind !== 'expense' && parent.entityKind !== 'settlement' || parent.payload.status === 'merged') return null;
   const deleted = parent.payload.status === 'deleted', label = deleted ? 'Restaurar' : 'Eliminar';
   return <><Button variant="quiet" onClick={() => setOpen(true)}>{label} {parent.entityKind === 'settlement' ? 'abono' : 'gasto'}</Button><Dialog open={open} title={`${label} movimiento`} onClose={() => { if (!writer.locked) setOpen(false); }}><p>{deleted ? 'Se creará una revisión activa con los valores conservados.' : 'El movimiento dejará de contar. Su historial e importes se conservan.'}</p><WriteFeedback writer={writer} /><Button disabled={writer.pending} onClick={() => { void writer.submit(() => prepareOperation(finance.context!,{ uid: user!.uid,personId: trip.memberBindings[user!.uid]! },parent.entityKind as 'expense' | 'settlement',{ ...parent.payload,status: deleted ? 'active' : 'deleted' },parent,deleted ? 'replace' : 'delete')); }}>{writer.operation ? 'Reintentar misma operación' : `Confirmar ${deleted ? 'restauración' : 'eliminación'}`}</Button></Dialog></>;
 }
 export function ExpenseDetail(props: ViewProps & { entityId: string }) {
   const { trip,finance,entityId } = props, head = editableHead(finance,entityId,'expense');
-  return <>{head?.entityKind === 'expense' ? <><PageHeader title={head.payload.title} description={head.payload.status === 'deleted' ? 'Gasto eliminado · importes conservados en el historial' : 'Gasto confirmado'} /><dl className="trip-facts">{Object.entries(head.payload).filter(([key]) => key in fieldLabels).map(([key,value]) => <div key={key}><dt>{fieldLabels[key]}</dt><dd>{valueText(value,key,props)}</dd></div>)}</dl><div className="action-row">{head.payload.status === 'active' && <Link className="button secondary" to={`/viajes/${trip.id}/gastos/${entityId}/editar`}>Editar gasto</Link>}<RevisionAction key={head.operationId} trip={trip} finance={finance} parent={head} /></div></> : <Notice kind="warning" title="Movimiento no disponible o en conflicto"><p>No se elige una revisión automáticamente. Consulta las propuestas en el historial; los balances son provisionales si hay incidencias.</p></Notice>}<ActivityView {...props} /></>;
+  return <>{head?.entityKind === 'expense' ? <><PageHeader title={head.payload.title} description={head.payload.status === 'deleted' ? 'Gasto eliminado · importes conservados en el historial' : finance.pending.some(g => g.events.some(e => e.entityId === entityId)) ? 'Gasto local · pendiente de confirmación' : 'Gasto confirmado'} /><dl className="trip-facts">{Object.entries(head.payload).filter(([key]) => key in fieldLabels).map(([key,value]) => <div key={key}><dt>{fieldLabels[key]}</dt><dd>{valueText(value,key,props)}</dd></div>)}</dl><div className="action-row">{head.payload.status === 'active' && <Link className="button secondary" to={`/viajes/${trip.id}/gastos/${entityId}/editar`}>Editar gasto</Link>}<RevisionAction key={head.operationId} trip={trip} finance={finance} parent={head} /></div></> : <Notice kind="warning" title="Movimiento no disponible o en conflicto"><p>No se elige una revisión automáticamente. Consulta las propuestas en el historial; los balances son provisionales si hay incidencias.</p></Notice>}<ActivityView {...props} /></>;
 }
 
 export function BudgetView(props: ViewProps) {
@@ -89,20 +94,27 @@ export function BudgetView(props: ViewProps) {
     <section className="section" aria-label="Evolución del presupuesto"><h2>Por día</h2><p className="small muted">Los cupos históricos son reconstrucciones con los eventos conocidos.</p><ul className="financial-list">{budget.days.map(row => <li key={row.day}><h3>{row.day}{row.manual ? ' · Manual' : ''}</h3><p>Gasto {money(row.spent)} · Cupo {money(row.allocated)} · Disponible {money(row.available)}</p><p>Acumulado {money(row.accumulated)} · Restante {money(row.remainingTotal)}</p></li>)}</ul><h2>Propuesta para días restantes</h2>{budget.future.length ? <ul className="financial-list">{budget.future.map(row => <li key={row.day}>{row.day}: {money(row.amount)}{row.manual ? ' · Reserva manual' : ''}</li>)}</ul> : <p>No quedan días por distribuir.</p>}</section>
   </>;
 }
-function BudgetEditor({ trip,finance,parent }: ViewProps & { parent: FinancialEventV2Dto }) {
+export function BudgetEditor({ trip,finance,parent,resolutionParents }: ViewProps & { parent: FinancialEventV2Dto; resolutionParents?: FinancialEventV2Dto[] }) {
   const { user } = useSession(), navigate = useNavigate();
   const previous = parent.entityKind === 'budget' ? parent.payload : null;
   const [amount,setAmount] = useState(previous?.total == null ? '' : moneyInput(previous.total,trip.currency)), [day,setDay] = useState(''), [cap,setCap] = useState(''), [remove,setRemove] = useState(false);
   const writer = useFinancialWrite(trip.id,() => navigate(`/viajes/${trip.id}/presupuesto`));
   if (!previous) return null;
+  if (user!.uid !== trip.ownerId) return <Notice title="Presupuesto del organizador"><p>Solo el organizador puede preparar cambios de presupuesto.</p></Notice>;
   return <details className="form-block"><summary>Modificar presupuesto</summary><form onSubmit={event => { event.preventDefault(); void writer.submit(() => {
     const lockedDays = day ? [...previous.lockedDays.filter(row => row.day !== day),...(remove ? [] : [{ day,amount: moneyToDto(parseMoney(cap,trip.currency)) }])].sort((a,b) => a.day.localeCompare(b.day)) : previous.lockedDays;
-    const payload = validateBudgetEdit(finance.state!,{ total: amount.trim() ? moneyToDto(parseMoney(amount,trip.currency)) : null, lockedDays,status: 'active' },finance.now);
+    const raw = { total: amount.trim() ? moneyToDto(parseMoney(amount,trip.currency)) : null, lockedDays,status: 'active' };
+    if (resolutionParents) {
+      const result = prepareResolution(finance.context!,{ uid: user!.uid,personId: trip.memberBindings[user!.uid]! },resolutionParents,raw);
+      validateBudgetEdit(projectFinancialEvents(finance.context!,[...finance.events,result],true),raw,finance.now);
+      return result;
+    }
+    const payload = validateBudgetEdit(finance.localState!,raw,finance.now);
     return prepareOperation(finance.context!,{ uid: user!.uid,personId: trip.memberBindings[user!.uid]! },'budget',payload,parent);
-  }); }}><fieldset className="financial-fields" disabled={writer.locked || finance.state!.provisional}><legend className="sr-only">Presupuesto y cupo manual</legend><Field label="Presupuesto total" hint="Vacío significa sin presupuesto. Retira antes cada reserva manual si deseas quitarlo." inputMode={trip.currency === 'COP' ? 'numeric' : 'decimal'} value={amount} onChange={event => setAmount(event.target.value)} />
+  }); }}><fieldset className="financial-fields" disabled={writer.locked || !resolutionParents && finance.localState!.provisional}><legend className="sr-only">Presupuesto y cupo manual</legend><Field label="Presupuesto total" hint="Vacío significa sin presupuesto. Retira antes cada reserva manual si deseas quitarlo." inputMode={trip.currency === 'COP' ? 'numeric' : 'decimal'} value={amount} onChange={event => setAmount(event.target.value)} />
     <div className="field"><label htmlFor="cap-day">Cupo manual a modificar</label><select id="cap-day" value={day} onChange={event => { setDay(event.target.value); const row = previous.lockedDays.find(row => row.day === event.target.value); setCap(row ? moneyInput(row.amount,trip.currency) : ''); }}><option value="">Conservar todos los cupos</option>{inclusiveDays(trip.startDate,trip.endDate).map(date => <option key={date} value={date}>{date}</option>)}</select></div>
     {day && <><label className="check-label"><input type="checkbox" checked={remove} onChange={event => setRemove(event.target.checked)} />Retirar este cupo manual</label>{!remove && <Field label="Importe del cupo manual" inputMode="decimal" value={cap} onChange={event => setCap(event.target.value)} required />}</>}
-    <p className="field-hint">Cada revisión modifica como máximo un cupo manual; los demás se mantienen.</p></fieldset><WriteFeedback writer={writer} /><Button type="submit" disabled={writer.pending || !writer.operation && finance.state!.provisional}>{writer.operation ? 'Reintentar misma operación' : 'Guardar presupuesto'}</Button></form></details>;
+    <p className="field-hint">Cada revisión modifica como máximo un cupo manual; los demás se mantienen.</p></fieldset><WriteFeedback writer={writer} /><Button type="submit" disabled={writer.pending || !finance.canWrite || !resolutionParents && !writer.operation && finance.localState!.provisional}>{writer.operation ? 'Reintentar misma operación' : 'Guardar presupuesto'}</Button></form></details>;
 }
 export function StatisticsView({ trip,finance }: ViewProps) {
   const stats = finance.summary!.statistics, money = (amount: bigint) => formatMoney(amount,trip.currency);

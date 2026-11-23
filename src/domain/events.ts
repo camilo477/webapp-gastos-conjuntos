@@ -48,7 +48,7 @@ export const financialEventSchema = z.discriminatedUnion('entityKind', [
     if (event.schemaVersion === 1 && [event.payload, ...event.before].some(snapshot => snapshot.splitMode === 'fixed')) issue('El modo fixed requiere contrato financiero v2.');
     if (event.action === 'dismissDuplicate') issue('Acción no válida para gasto.');
     const expectedStatus = event.action === 'delete' ? 'deleted' : event.action === 'mergeHide' ? 'merged' : 'active';
-    if (event.action === 'resolve' ? event.payload.status === 'merged' : event.payload.status !== expectedStatus) issue('Estado de gasto incompatible con la acción.');
+    if (event.action === 'resolve' || event.action === 'mergeKeep' ? event.payload.status === 'merged' : event.payload.status !== expectedStatus) issue('Estado de gasto incompatible con la acción.');
     if (event.payload.mergedInto === event.entityId) issue('Un gasto no puede unificarse consigo mismo.');
     if (event.merge && (event.merge.peerEntityId === event.entityId || event.merge.peerOperationId === event.operationId || event.merge.role !== (event.action === 'mergeKeep' ? 'keep' : 'hide'))) issue('Par de unificación inválido.');
     if (event.action === 'mergeHide' && event.payload.mergedInto !== event.merge?.peerEntityId) issue('Destino de unificación incoherente.');
@@ -73,6 +73,11 @@ export function migrateFinancialEventV1(raw: unknown): FinancialEventV2Dto {
 export function validateEventParents(raw: unknown, rawParents: readonly unknown[]): FinancialEventDto {
   const event = financialEventSchema.parse(raw);
   const parents = z.array(financialEventSchema).max(2).parse(rawParents);
+  return checkParsedEventParents(event, parents);
+}
+
+/** Internal boundary: both arguments have already passed financialEventSchema. */
+export function checkParsedEventParents(event: FinancialEventDto, parents: readonly FinancialEventDto[]): FinancialEventDto {
   requireCondition(parents.length === event.parentIds.length && new Set(parents.map(parent => parent.operationId)).size === parents.length,
     'MISSING_PARENT', 'Se requieren exactamente los padres directos declarados.');
   const byId = new Map(parents.map(parent => [parent.operationId, parent]));

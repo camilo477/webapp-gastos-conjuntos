@@ -100,3 +100,14 @@ no vuelven a evaluar calendarios inmutables. Esto corrigió un exceso inicial de
 1.000 expresiones en revocación sin suprimir controles de autorización/coherencia.
 Los casos positivos con diez miembros y todos los ataques se ejecutan contra las
 reglas finales. Estos presupuestos no cubren todavía merges ni padres financieros.
+
+## Reglas implementadas en Fase 6
+
+Los pares merge v2 exigen `getAfter`, referencias recíprocas, roles complementarios,
+mismo autor/recepción y contraparte inexistente antes del commit. Cada mitad debe
+superar sus reglas y hereda dinero de su padre v2. Distinct referencia revisiones
+de dos gastos del mismo viaje. Se mantienen denegación por defecto, inmutabilidad,
+bindings activos y presupuesto solo propietario. Cabezas actuales, ciclos y
+componentes incompletos se comprueban en el proyector, sin presentar esa comprobación
+local como autorización del servidor. Pruebas adversariales y límites medidos:
+[informe de Fase 6](phase6/REPORT.md).

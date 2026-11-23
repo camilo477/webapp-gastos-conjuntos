@@ -158,3 +158,13 @@ Listado de viajes mediante consulta restringida a `memberBindings.<uid> == perso
 Viaje abierto: suscribir metadatos, personas/miembros y registro completo de eventos del viaje. No suscribir todas las fotos: obtener por ID cuando se necesita. La proyección necesita todo el registro, no solo los últimos gastos. Paginar descargas grandes manteniendo estado «datos incompletos» hasta completar y reconciliar con listener. Un filtro por timestamp recibido sin empates e IDs podría perder eventos; no se introduce como optimización inicial.
 
 No se fijan índices compuestos hasta comprobar consultas reales; excluir payloads grandes y bytes de indexación. Medir lecturas y tiempo de proyección con 10.000 eventos como escenario de carga, sin afirmar capacidad ilimitada.
+
+## Habilitación de Fase 6
+
+Se mantienen campos, contratos financieros v2 y colección de eventos. La migración
+local IndexedDB v1→v2 crea únicamente un índice de estados; preserva registros,
+IDs, borradores y propuestas. No migra ni sobrescribe documentos Firestore.
+`mergeKeep` permite reafirmar el snapshot `deleted` del superviviente para que una
+eliminación posterior a un merge conserve costo cero sin reactivar el duplicado.
+Su pareja `mergeHide` sigue siendo obligatoria y atómica. Véase la compatibilidad
+y validación completa en [Fase 6](phase6/REPORT.md).

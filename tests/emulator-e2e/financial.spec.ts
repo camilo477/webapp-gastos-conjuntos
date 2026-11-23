@@ -25,10 +25,11 @@ async function create(page: Page) {
   await expect(page.getByRole('heading',{ name: title,exact: true })).toBeVisible(); await expect(page.getByText('Registro confirmado por el servidor',{ exact: true })).toBeVisible();
   return new URL(page.url()).pathname;
 }
-async function add(page: Page,concept: string,amount: string) {
+async function add(page: Page,concept: string,amount: string,waitForServer = true) {
   await page.getByRole('link',{ name: 'Agregar gasto',exact: true }).click(); await page.getByLabel('Concepto',{ exact: true }).fill(concept);
   await page.getByLabel('Importe en COP',{ exact: true }).fill(amount); await page.getByRole('button',{ name: 'Guardar gasto',exact: true }).click();
   await expect(page.getByRole('link',{ name: new RegExp(concept) })).toBeVisible();
+  if (waitForServer) await expect(page.getByText('Sincronizado',{ exact: true })).toBeVisible({ timeout: 60000 });
 }
 
 test('two independent members see expenses, revisions, settlement corrections, budgets and statistics without manual refresh', async ({ page,request,browser }) => {
@@ -70,16 +71,14 @@ test('two independent members see expenses, revisions, settlement corrections, b
   } finally { await context.close(); }
 });
 
-test('lost HTTP response retries the same operation once; offline is unconfirmed and never queued', async ({ page,request,context }) => {
+test('lost HTTP response is recovered with the same operation and offline writes remain durable', async ({ page,request,context }) => {
   await owner(page,request); await create(page);
-  let commits = 0;
-  await page.route('**/documents:commit',async route => { commits++; await route.fetch(); await route.abort('failed'); });
-  await page.getByRole('link',{ name: 'Agregar gasto',exact: true }).click(); await page.getByLabel('Concepto',{ exact: true }).fill('Una sola operación'); await page.getByLabel('Importe en COP',{ exact: true }).fill('101'); await page.getByRole('button',{ name: 'Guardar gasto',exact: true }).click();
-  await expect(page.getByRole('alert')).toContainText('no confirmada'); await expect(page.getByRole('button',{ name: 'Reintentar misma operación' })).toBeVisible();
-  await page.unroute('**/documents:commit'); await page.getByRole('button',{ name: 'Reintentar misma operación' }).click(); await expect(page.getByTestId('trip-total')).toHaveText('COP $101'); expect(commits).toBe(1);
-  await page.getByRole('link',{ name: 'Agregar gasto',exact: true }).click(); await page.getByLabel('Concepto',{ exact: true }).fill('No encolar'); await page.getByLabel('Importe en COP',{ exact: true }).fill('200');
-  await context.setOffline(true); await page.getByRole('button',{ name: 'Guardar gasto',exact: true }).click(); await expect(page.getByRole('alert')).toContainText('requiere conexión'); await expect(page.getByText('No encolar',{ exact: true })).toHaveCount(0);
-  await context.setOffline(false); await page.getByRole('link',{ name: 'Inicio del viaje',exact: true }).click(); await expect(page.getByTestId('trip-total')).toHaveText('COP $101'); await expect(page.getByRole('link',{ name: /No encolar/ })).toHaveCount(0);
+  let commits = 0,lostResponse = false;
+  await page.route('**/documents:commit',async route => { commits++; await route.fetch(); await route.abort('failed'); lostResponse = true; });
+  await add(page,'Una sola operación','101',false);
+  await expect.poll(() => lostResponse).toBe(true); await page.unroute('**/documents:commit'); await page.getByRole('button',{ name: 'Sincronizar ahora',exact: true }).click(); await expect(page.getByText('Sincronizado',{ exact: true })).toBeVisible({ timeout: 60000 }); await expect(page.getByTestId('trip-total')).toHaveText('COP $101'); expect(commits).toBe(1);
+  await context.setOffline(true); await add(page,'Guardado sin conexión','200',false); await expect(page.getByTestId('trip-total')).toHaveText('COP $301'); await expect(page.getByText(/cambios guardados en este dispositivo/)).toBeVisible();
+  await context.setOffline(false); await expect(page.getByText('Sincronizado',{ exact: true })).toBeVisible({ timeout: 60000 }); await expect(page.getByTestId('trip-total')).toHaveText('COP $301');
 });
 
 for (const width of [320,390,768,1440]) test(`financial forms and views are accessible and reflow in both themes at ${width}px`, async ({ page,request },info) => {

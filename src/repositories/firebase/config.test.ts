@@ -16,8 +16,14 @@ describe('Firebase environment boundary', () => {
   it('accepts only explicit local demo-project emulator settings', () => {
     expect(readFirebaseConfiguration(emulator, true)).toMatchObject({ status: 'emulators', host: '127.0.0.1', authPort: 9199, firestorePort: 8180 });
   });
-  it('never enables emulator services in a production build', () => {
+  it('keeps a conventional production build disconnected', () => {
     expect(readFirebaseConfiguration(emulator, false).status).toBe('invalid');
+  });
+  it('permits the explicit local PWA build for offline emulator testing', () => {
+    expect(readFirebaseConfiguration({ ...emulator,MODE: 'emulator-pwa' },false).status).toBe('emulators');
+  });
+  it.each([{ VITE_FIREBASE_PROJECT_ID: 'real-project' },{ VITE_FIREBASE_EMULATOR_HOST: 'remote.example.invalid' },{ VITE_FIREBASE_MODE: 'production' }])('the PWA build still blocks production or remote endpoints: %j',patch => {
+    expect(readFirebaseConfiguration({ ...emulator,...patch,MODE: 'emulator-pwa' },false).status).toBe('invalid');
   });
   it.each([
     { VITE_FIREBASE_MODE: 'production' }, { VITE_FIREBASE_PROJECT_ID: 'real-project' },
