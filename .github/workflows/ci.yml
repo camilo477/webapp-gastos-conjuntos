@@ -4,7 +4,8 @@ permissions:
   contents: read
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -18,15 +19,50 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm run test:rules
-      - run: npx playwright install --with-deps chromium firefox webkit
-      - run: npm run test:e2e
-      - run: npm run test:access
-      - run: npm run test:offline
-      - run: npm run test:images
+
+  browsers:
+    needs: validate
+    runs-on: ubuntu-26.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    env:
+      # Chromium's documented alternative to disabling Ubuntu's AppArmor or its
+      # own sandbox: use the root-owned helper already installed with Chrome.
+      CHROME_DEVEL_SANDBOX: /opt/google/chrome/chrome-sandbox
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: npm ci
+      - run: npx playwright install --with-deps ${{ matrix.browser }}
+      - name: Check browser infrastructure
+        id: browser
+        run: node scripts/check-browser.mjs ${{ matrix.browser }}
+      - name: Shell, accessibility and service worker
+        if: ${{ !cancelled() && steps.browser.outcome == 'success' }}
+        run: npm run test:e2e -- --project=${{ matrix.browser }}
+      - name: Access and financial integration
+        if: ${{ !cancelled() && steps.browser.outcome == 'success' }}
+        run: npx firebase emulators:exec --only auth,firestore --project demo-gastos-compartidos "node node_modules/playwright/cli.js test --config playwright.emulator.config.ts --project=${{ matrix.browser }}"
+      - name: Offline and convergence
+        if: ${{ !cancelled() && steps.browser.outcome == 'success' }}
+        run: npx firebase emulators:exec --only auth,firestore --project demo-gastos-compartidos "node node_modules/playwright/cli.js test --config playwright.offline.config.ts --project=${{ matrix.browser }}"
+      - name: Images and attachments
+        if: ${{ !cancelled() && steps.browser.outcome == 'success' }}
+        run: npx firebase emulators:exec --only auth,firestore --project demo-gastos-compartidos "node node_modules/playwright/cli.js test --config playwright.attachments.config.ts --project=${{ matrix.browser }}"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: browser-results
+          name: browser-results-${{ matrix.browser }}
           path: |
             playwright-report/
             test-results/

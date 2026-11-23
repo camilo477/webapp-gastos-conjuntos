@@ -29,7 +29,13 @@ icono/null más attachmentId; atribución completa solo en el adjunto. No almace
 originales ni bytes en eventos/SW, ni usar Storage/Blaze/Functions. Gasto durable
 antes del adjunto; sus entregas y reintentos son independientes. Migración local
 v2→v3 aditiva. No afirmar cámara física o API pública verificada por usar mocks.
-No iniciar Fase 8 ni funcionalidades posteriores.
+Fase 7 publicada en `a9ac5e22171681ad7319246b555695fcfe2c02aa`. El usuario
+autorizó Fase 8A: estabilización, auditoría y reparación de CI. Consultar
+`docs/phase8a/RISK_INVENTORY.md` y `docs/phase8a/REPORT.md`. Se recibió la
+continuación completa: auditorías financiera/offline/seguridad, compatibilidad,
+rendimiento y preparación documental. No declarar completa Fase 8A por reparar CI.
+Mantener producción deshabilitada; cierre y reasignación requieren garantías
+demostradas y decisiones ratificadas. No iniciar Fase 8B ni desplegar.
 Mantener Firestore en memoria: la cola propia es la única cola financiera.
 No afirmar guardado hasta completar la transacción IDB ni confirmación antes de
 read-back canónico del servidor. No descartar propuestas rechazadas. No producir

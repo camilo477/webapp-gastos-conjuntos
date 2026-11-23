@@ -77,9 +77,14 @@ test('reflows long names, large amounts and enlarged text without hiding content
 
 test('supports keyboard focus, native dialog Escape and origin focus', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 }); await page.goto('/');
+  // RouteFocus runs after React mounts, which can be later than the load event.
+  // Wait for navigation focus before testing the next real keyboard stop.
+  await expect(page.locator('#main')).toBeFocused();
   await page.keyboard.press('Tab');
-  const focused = page.locator(':focus');
-  expect(await focused.evaluate(element => getComputedStyle(element).outlineStyle)).not.toBe('none');
+  const firstControl = page.getByRole('link', { name: 'Ver formulario de ejemplo', exact: true });
+  await expect(firstControl).toBeFocused();
+  await expect(firstControl).toHaveCSS('outline-style', 'solid');
+  await expect(firstControl).toHaveCSS('outline-width', '3px');
   const more = page.getByRole('button', { name: 'Más opciones', exact: true });
   await more.focus(); await page.keyboard.press('Enter');
   await expect(page.getByRole('dialog')).toBeVisible();

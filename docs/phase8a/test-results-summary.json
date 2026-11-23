@@ -1,0 +1,18 @@
+{
+  "scope": "Phase 8A initial review and CI repair; phase not complete",
+  "baseSha": "a9ac5e22171681ad7319246b555695fcfe2c02aa",
+  "environment": { "firebase": "emulators only", "node": "24.22.3", "playwright": "1.65.1", "webkit": "27.2" },
+  "checks": { "lint": "passed", "typecheck": "passed", "build": "passed", "workflowYaml": "parsed" },
+  "suites": {
+    "vitest": { "passed": 243, "failed": 0, "files": 26 },
+    "firestoreRules": { "passed": 200, "failed": 0 },
+    "shellWebkit": { "passed": 19, "failed": 0, "durationSeconds": 55.1 },
+    "keyboardFocusRepetitions": { "firefox": 5, "webkit": 5, "failed": 0, "overlapsShellCase": true }
+  },
+  "audit": { "productionVulnerabilities": 0, "developmentModerate": 17, "high": 0, "critical": 0, "secretPatternMatches": 0 },
+  "baselineActions": { "runs": [45222279779, 45250138775, 45269708139], "shellPassedPerRun": 37, "shellFailedPerRun": 20, "chromiumLaunchFailuresPerRun": 19, "webkitFocusFailuresPerRun": 1, "laterSuites": "skipped" },
+  "remoteCorrection": "not run: Git index became read-only; no new commit or push",
+  "localInfrastructureAttempts": ["Chromium launch blocked by AppArmor/sandbox", "Initial rules invocation omitted emulator environment guards", "Initial full WebKit invocation found server port occupied; repeated after cleanup"],
+  "gemini": "read-only invocation timed out at 45 seconds; no completed review",
+  "unverified": ["Chromium helper on hosted runner", "Physical Android/iPhone", "Remaining Phase 8A scope: user message truncated at CI item 6"]
+}

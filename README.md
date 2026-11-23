@@ -2,17 +2,19 @@
 
 PWA privada para gastos de viajes entre 2 y 10 personas.
 
-**Estado: Fase 6 publicada; Fase 7 de imágenes y adjuntos implementada para Firebase Emulator Suite.**
+**Estado: Fases 0–7 publicadas; Fase 8A de estabilización en curso, exclusivamente en Firebase Emulator Suite.**
 Registro, verificación/recuperación, sesión anónima, viajes e invitaciones usan datos
 locales reales en modo emuladores. Gastos, abonos, revisiones, balances, presupuestos
 y estadísticas se derivan del registro financiero v2. Sin configuración permanece la demostración.
 No se habilita producción. La Fase 1 conserva su aceptación provisional y sus
 [pruebas multiplataforma pendientes](docs/phase1/AUTOMATED_TEST_REPORT.md).
 
-Git: `main`. Antes de modificar Fase 7 se verificó la Fase 6 publicada en
-`926aef92b9d1820f913252001c3d424893dc5d6f`, coincidente local/remoto.
+Git: `main`. Antes de comenzar Fase 8A se verificó la Fase 7 publicada en
+`a9ac5e22171681ad7319246b555695fcfe2c02aa`, coincidente local/remoto.
 Informes de [Fase 5](docs/phase5/REPORT.md) [Fase 6](docs/phase6/REPORT.md)
 y [Fase 7](docs/phase7/REPORT.md), con pruebas, limitaciones y publicación real.
+La revisión inicial de Fase 8A registra un [inventario de riesgos](docs/phase8a/RISK_INVENTORY.md)
+y la [reparación de CI](docs/phase8a/REPORT.md). No certifica preparación productiva.
 
 ## Requisitos e instalación
 
@@ -209,8 +211,8 @@ tests/                      setup de componentes, E2E HTTP y reglas
 
 El dominio implementa dinero BigInt, reparto igual/porcentaje/fixed, saldos,
 abonos, sugerencias, presupuestos, estadísticas y validación de snapshots/eventos.
-`sync/` persiste y entrega operaciones sin calcular dinero. `attachments/` sigue
-pendiente de otra fase. El mismo proyector valida grafos, conflictos y unificaciones
+`sync/` persiste y entrega operaciones sin calcular dinero. `attachments/` procesa
+y entrega miniaturas por separado. El mismo proyector valida grafos, conflictos y unificaciones
 conservadoras; ningún saldo derivado se guarda como autoridad.
 
 ```ts
@@ -259,7 +261,7 @@ de producción ni despliegue público. Las miniaturas son privadas en emuladores
 permanecen deshabilitados** hasta verificar sus garantías. Revocar conserva
 personas e historial, bloquea el servidor y evita reingreso del mismo UID;
 no puede borrar copias previamente descargadas ni identificar humanos únicos.
-Fase 8 requiere nueva autorización; no se inicia automáticamente.
+Fase 8A está autorizada y en curso; las fases posteriores requieren nueva autorización.
 
 - [Plan de Fase 5](docs/phase5/PLAN.md), [informe](docs/phase5/REPORT.md) y
   [resumen de pruebas](docs/phase5/test-results-summary.json).
