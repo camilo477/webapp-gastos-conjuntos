@@ -1,6 +1,11 @@
 # Propuesta de reglas y fronteras de seguridad
 
-Esto es una especificación para futuras reglas Firestore, **no un archivo desplegable ni una validación ejecutada**. Las pruebas Emulator Suite son una puerta obligatoria. Denegar por defecto toda ruta/operación no contemplada.
+Fase 4 implementa `firestore.rules` y prueba acceso, creación, join y revocación
+en Firebase Emulator Suite. No se han desplegado reglas ni conectado producción.
+Las secciones financieras/adjuntos siguientes conservan la especificación futura:
+solo se permite la raíz budget v2 inicial, sin padres ni reservas. Resto de
+escrituras financieras, adjuntos, cierre y reasignación: denegados. Ver
+[informe y límites de evaluación](phase4/REPORT.md). Denegación por defecto.
 
 ## Acceso y operaciones
 
@@ -73,3 +78,23 @@ Fuentes y límites: [condiciones de reglas](https://firebase.google.com/docs/fir
 Estimar caso peor de join: regla trip lee invitación y member/person posteriores (3); regla member lee trip previo/posterior e invitación (3); regla person lee trip previo/posterior y member posterior (3): objetivo 9 accesos, sin contar caché. Crear viaje con budget raíz y pares de merge necesitan presupuestos separados. Cada validación debe medirse con reglas reales; el esquema no demuestra que compile o admita todos los casos de diez personas.
 
 Probar clientes maliciosos directamente contra SDK/REST en emuladores: bypass de formulario, altas parciales, rol owner falso, campo adicional, lista repetida, abono incoherente, update/delete de eventos y parent inexistente. No se autoriza despliegue hasta que estas pruebas y las carreras de capacidad pasen.
+
+
+## Cotas de acceso verificadas · Fase 4
+
+La estimación original de nueve accesos para join era un objetivo de diseño.
+La implementación agrega comprobaciones explícitas de inexistencia y contrapartes:
+crear viaje usa una cota de **17 invocaciones** de acceso (6+4+4+3 por write),
+join **15** (5+5+5), revocación **9** (4+5, contando evaluación de ramas fallidas).
+Cada operación queda por debajo de 10 y cada commit de 20 **sin descontar caché**.
+Metadatos: 0; crear invitación: 2; revocarla: 1. Las lecturas cliente de la
+transacción son peticiones separadas, no nuevas llamadas get/getAfter de reglas.
+El informe diferencia esta revisión estática conservadora de la cobertura real
+del emulador, que no proporciona una traza por petición de accesos facturados.
+
+La creación valida el documento completo. Las actualizaciones preservan campos
+inmutables mediante diff/affectedKeys y validan los campos modificados y espejos;
+no vuelven a evaluar calendarios inmutables. Esto corrigió un exceso inicial de
+1.000 expresiones en revocación sin suprimir controles de autorización/coherencia.
+Los casos positivos con diez miembros y todos los ataques se ejecutan contra las
+reglas finales. Estos presupuestos no cubren todavía merges ni padres financieros.

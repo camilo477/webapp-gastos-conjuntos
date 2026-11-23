@@ -1,7 +1,182 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Phase 2 has no product reads/writes, including authenticated clients.
+    function signed() { return request.auth != null; }
+    function uid() { return request.auth.uid; }
+    function tripPath(id) { return /databases/$(database)/documents/trips/$(id); }
+    function memberPath(id, user) { return /databases/$(database)/documents/trips/$(id)/members/$(user); }
+    function personPath(id, person) { return /databases/$(database)/documents/trips/$(id)/people/$(person); }
+    function eventPath(id, event) { return /databases/$(database)/documents/trips/$(id)/events/$(event); }
+    function verifiedOrganizer() {
+      return signed() && request.auth.token.get('email_verified', false) == true
+        && request.auth.token.get('firebase', {}).get('sign_in_provider', '') == 'password';
+    }
+    function member(id) { return signed() && uid() in get(tripPath(id)).data.memberBindings; }
+    function owner(id) { return signed() && get(tripPath(id)).data.ownerId == uid(); }
+    function validName(value, maximum) {
+      return value is string && value.size() >= 1 && value.size() <= maximum && value.matches('^\\S([\\s\\S]*\\S)?$');
+    }
+    function uuid(value) { return value is string && value.matches('^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$'); }
+    function token(value) { return value is string && value.matches('^[A-Z2-7]{32}$'); }
+    function money(value) { return value is int && value >= 0 && value <= 1000000000000; }
+    function day(value) {
+      return value is string && value.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$');
+    }
+    function dayTime(value) {
+      let parts = value.split('-');
+      return timestamp.date(int(parts[0]), int(parts[1]), int(parts[2]));
+    }
+    function validDay(value) {
+      return day(value) && dayTime(value).year() == int(value.split('-')[0])
+        && dayTime(value).month() == int(value.split('-')[1]) && dayTime(value).day() == int(value.split('-')[2]);
+    }
+    function cover(value) {
+      return value == null || (value is map && value.keys().hasAll(['kind', 'key']) && value.keys().hasOnly(['kind', 'key'])
+        && value.kind == 'icon' && value.key in ['mountain', 'car', 'wallet']);
+    }
+    function validAccess(t) {
+      return t.memberBindings is map && t.memberBindings.size() >= 1 && t.memberBindings.size() <= 10
+        && t.memberBindings.values().toSet().size() == t.memberBindings.size()
+        && t.activeUids is list && t.activeUids.size() == t.memberBindings.size() && t.activeUids.toSet() == t.memberBindings.keys().toSet()
+        && t.participantIds is list && t.participantIds.size() >= t.activeUids.size() && t.participantIds.size() <= 1000
+        && t.participantIds.toSet().size() == t.participantIds.size() && t.participantIds.toSet().hasAll(t.memberBindings.values())
+        && t.ownerId in t.memberBindings && t.memberBindings[t.ownerId] == t.ownerId;
+    }
+    function validTrip(t) {
+      let fields = ['schemaVersion','ownerId','title','destination','startDate','endDate','timezone','currency','currencyExponent','status',
+        'memberBindings','activeUids','participantIds','budgetEntityId','cover','metadataVersion','membershipVersion','createdAt','updatedAt','closedAt'];
+      return t.keys().hasAll(fields) && t.keys().hasOnly(fields) && t.schemaVersion == 1
+        && validName(t.title, 100) && (t.destination == null || (t.destination is string && t.destination.size() <= 120))
+        && validDay(t.startDate) && validDay(t.endDate) && t.endDate >= t.startDate
+        && dayTime(t.endDate) - dayTime(t.startDate) <= duration.value(365, 'd')
+        && t.timezone is string && t.timezone.size() <= 100 && t.timezone.matches('^(UTC|[A-Za-z_]+(/[A-Za-z0-9_+.-]+)+)$')
+        && ((t.currency == 'COP' && t.currencyExponent == 0) || (t.currency in ['USD','EUR'] && t.currencyExponent == 2))
+        && t.status in ['active','closed'] && validAccess(t) && uuid(t.budgetEntityId) && cover(t.cover)
+        && t.metadataVersion is int && t.metadataVersion >= 0 && t.membershipVersion is int && t.membershipVersion >= 0
+        && t.createdAt is timestamp && t.updatedAt is timestamp && (t.closedAt == null || t.closedAt is timestamp);
+    }
+    function validMember(m) {
+      let fields = ['schemaVersion','personId','displayName','role','status','inviteId','joinedAt','revokedAt'];
+      return m.keys().hasAll(fields) && m.keys().hasOnly(fields) && m.schemaVersion == 1 && validName(m.displayName, 60)
+        && m.personId is string && m.role in ['owner','member'] && m.status in ['active','revoked']
+        && m.joinedAt is timestamp && (m.revokedAt == null || m.revokedAt is timestamp);
+    }
+    function validPerson(p) {
+      return p.keys().hasAll(['displayName','createdAt','createdBy','schemaVersion']) && p.keys().hasOnly(['displayName','createdAt','createdBy','schemaVersion'])
+        && validName(p.displayName, 60) && p.schemaVersion == 1 && p.createdAt == request.time && p.createdBy == uid();
+    }
+    function createTrip(id) {
+      let t = request.resource.data;
+      let m = getAfter(memberPath(id, uid())).data;
+      let p = getAfter(personPath(id, uid())).data;
+      let b = getAfter(eventPath(id, t.budgetEntityId)).data;
+      return verifiedOrganizer() && uuid(id) && validTrip(t) && t.ownerId == uid() && t.status == 'active' && t.closedAt == null
+        && t.createdAt == request.time && t.updatedAt == request.time && t.metadataVersion == 0 && t.membershipVersion == 0
+        && t.memberBindings.keys() == [uid()] && t.memberBindings[uid()] == uid()
+        && t.activeUids == [uid()] && t.participantIds == [uid()]
+        && !exists(memberPath(id, uid())) && !exists(personPath(id, uid())) && !exists(eventPath(id, t.budgetEntityId))
+        && m.personId == uid() && m.role == 'owner' && m.status == 'active' && m.inviteId == null && m.displayName == p.displayName
+        && b.schemaVersion == 2 && b.operationId == t.budgetEntityId && b.actorUid == uid();
+    }
+    function validInvitation(id, inviteId, ownerId) {
+      let invite = get(/databases/$(database)/documents/trips/$(id)/invites/$(inviteId)).data;
+      return token(inviteId) && invite.schemaVersion == 1 && invite.createdBy == ownerId && invite.revoked == false && invite.expiresAt > request.time && invite.createdAt <= request.time;
+    }
+    function joinTrip(id) {
+      let old = resource.data;
+      let next = request.resource.data;
+      let m = getAfter(memberPath(id, uid())).data;
+      let p = getAfter(personPath(id, uid())).data;
+      return signed() && old.status == 'active' && !(uid() in old.memberBindings)
+        && !exists(memberPath(id, uid())) && !exists(personPath(id, uid()))
+        && next.diff(old).affectedKeys().hasOnly(['memberBindings','activeUids','participantIds','membershipVersion','updatedAt'])
+        && next.memberBindings.diff(old.memberBindings).addedKeys() == [uid()].toSet()
+        && next.memberBindings.diff(old.memberBindings).removedKeys().size() == 0 && next.memberBindings.diff(old.memberBindings).changedKeys().size() == 0
+        && next.memberBindings[uid()] == uid() && next.membershipVersion == old.membershipVersion + 1 && next.updatedAt == request.time
+        && next.participantIds.size() == old.participantIds.size() + 1 && next.participantIds.toSet() == old.participantIds.toSet().union([uid()].toSet())
+        && validAccess(next) && m.personId == uid() && m.role == 'member' && m.status == 'active'
+        && m.displayName == p.displayName && validInvitation(id, m.inviteId, old.ownerId);
+    }
+    function editMetadata() {
+      let old = resource.data;
+      let next = request.resource.data;
+      return signed() && old.ownerId == uid() && old.status == 'active' && validName(next.title,100)
+        && (next.destination == null || (next.destination is string && next.destination.size() <= 120)) && cover(next.cover)
+        && next.diff(old).affectedKeys().hasOnly(['title','destination','cover','metadataVersion','updatedAt'])
+        && next.metadataVersion == old.metadataVersion + 1 && next.updatedAt == request.time;
+    }
+    function revoke(id) {
+      let old = resource.data;
+      let next = request.resource.data;
+      let gone = old.memberBindings.keys().removeAll(next.memberBindings.keys());
+      return signed() && old.ownerId == uid() && gone.size() == 1 && gone[0] != old.ownerId
+        && next.diff(old).affectedKeys().hasOnly(['memberBindings','activeUids','membershipVersion','updatedAt'])
+        && next.memberBindings.diff(old.memberBindings).addedKeys().size() == 0 && next.memberBindings.diff(old.memberBindings).changedKeys().size() == 0
+        && validAccess(next) && next.membershipVersion == old.membershipVersion + 1 && next.updatedAt == request.time
+        && getAfter(memberPath(id, gone[0])).data.status == 'revoked' && getAfter(memberPath(id, gone[0])).data.revokedAt == request.time;
+    }
+    match /users/{user} {
+      allow get: if signed() && uid() == user;
+      allow create: if signed() && uid() == user && request.resource.data.keys().hasAll(['displayName','createdAt','schemaVersion'])
+        && request.resource.data.keys().hasOnly(['displayName','createdAt','schemaVersion']) && validName(request.resource.data.displayName, 60)
+        && request.resource.data.schemaVersion == 1 && request.resource.data.createdAt == request.time;
+      allow update: if signed() && uid() == user && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['displayName']) && validName(request.resource.data.displayName, 60);
+    }
+    match /trips/{id} {
+      allow get: if member(id);
+      allow list: if signed() && uid() in resource.data.activeUids;
+      allow create: if createTrip(id);
+      allow update: if editMetadata() || joinTrip(id) || revoke(id);
+      match /members/{user} {
+        allow get: if signed() && (uid() == user || member(id));
+        allow list: if member(id);
+        allow create: if signed() && uid() == user && validMember(request.resource.data)
+          && request.resource.data.personId == uid() && request.resource.data.status == 'active' && request.resource.data.revokedAt == null
+          && request.resource.data.joinedAt == request.time && getAfter(tripPath(id)).data.memberBindings[uid()] == uid()
+          && getAfter(personPath(id, uid())).data.displayName == request.resource.data.displayName
+          && ((!exists(tripPath(id)) && request.resource.data.role == 'owner' && request.resource.data.inviteId == null && getAfter(tripPath(id)).data.ownerId == uid())
+            || (exists(tripPath(id)) && !(uid() in get(tripPath(id)).data.memberBindings) && request.resource.data.role == 'member' && token(request.resource.data.inviteId)));
+        allow update: if owner(id) && user != uid() && resource.data.status == 'active'
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','revokedAt'])
+          && request.resource.data.status == 'revoked' && request.resource.data.revokedAt == request.time
+          && user in get(tripPath(id)).data.memberBindings && !(user in getAfter(tripPath(id)).data.memberBindings)
+          && getAfter(tripPath(id)).data.membershipVersion == get(tripPath(id)).data.membershipVersion + 1;
+      }
+      match /people/{person} {
+        allow read: if member(id);
+        allow create: if signed() && person == uid() && validPerson(request.resource.data)
+          && getAfter(tripPath(id)).data.memberBindings[uid()] == uid()
+          && getAfter(memberPath(id, uid())).data.personId == uid() && getAfter(memberPath(id, uid())).data.displayName == request.resource.data.displayName
+          && (!exists(tripPath(id)) || !(uid() in get(tripPath(id)).data.memberBindings));
+      }
+      match /invites/{inviteId} {
+        allow get: if signed() && (owner(id) || (token(inviteId) && resource.data.schemaVersion == 1 && resource.data.revoked == false && resource.data.expiresAt > request.time));
+        allow list: if owner(id);
+        allow create: if owner(id) && get(tripPath(id)).data.status == 'active' && token(inviteId)
+          && request.resource.data.keys().hasAll(['schemaVersion','createdBy','createdAt','expiresAt','revoked'])
+          && request.resource.data.keys().hasOnly(['schemaVersion','createdBy','createdAt','expiresAt','revoked']) && request.resource.data.schemaVersion == 1
+          && request.resource.data.createdBy == uid() && request.resource.data.createdAt == request.time && request.resource.data.revoked == false
+          && request.resource.data.expiresAt is timestamp && request.resource.data.expiresAt > request.time && request.resource.data.expiresAt <= request.time + duration.value(7,'d');
+        allow update: if owner(id) && resource.data.revoked == false && request.resource.data.revoked == true
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['revoked']);
+      }
+      match /events/{eventId} {
+        allow read: if member(id);
+        allow create: if verifiedOrganizer() && !exists(tripPath(id)) && getAfter(tripPath(id)).data.ownerId == uid()
+          && getAfter(tripPath(id)).data.budgetEntityId == eventId && uuid(eventId)
+          && request.resource.data.keys().hasAll(['schemaVersion','operationId','entityKind','entityId','action','actorUid','actorPersonId','parentIds','logicalClock','before','payload','authoredAt','receivedAt','merge'])
+          && request.resource.data.keys().hasOnly(['schemaVersion','operationId','entityKind','entityId','action','actorUid','actorPersonId','parentIds','logicalClock','before','payload','authoredAt','receivedAt','merge'])
+          && request.resource.data.schemaVersion == 2 && request.resource.data.operationId == eventId && request.resource.data.entityId == eventId
+          && request.resource.data.entityKind == 'budget' && request.resource.data.action == 'create'
+          && request.resource.data.actorUid == uid() && request.resource.data.actorPersonId == uid()
+          && request.resource.data.parentIds == [] && request.resource.data.before == [] && request.resource.data.logicalClock == 0
+          && request.resource.data.merge == null && request.resource.data.receivedAt == request.time
+          && request.resource.data.authoredAt is string && request.resource.data.authoredAt.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\\.[0-9]{3}Z$')
+          && validDay(request.resource.data.authoredAt.split('T')[0])
+          && request.resource.data.payload.keys().hasAll(['total','lockedDays','status']) && request.resource.data.payload.keys().hasOnly(['total','lockedDays','status'])
+          && (request.resource.data.payload.total == null || money(request.resource.data.payload.total)) && request.resource.data.payload.lockedDays == [] && request.resource.data.payload.status == 'active';
+      }
+    }
     match /{document=**} {
       allow read, write: if false;
     }

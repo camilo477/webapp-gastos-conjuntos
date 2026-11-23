@@ -43,12 +43,23 @@ sigue pendiente de viabilidad; la validación cliente no protege al servidor.
 
 El contenido siguiente mantiene el modelo documentado y explicita la extensión.
 
-Estado: Fase 3 implementa esquemas de snapshots/eventos financieros y contexto
-de cálculo; los documentos completos de usuarios, membresías, invitaciones y
-adjuntos continúan como contratos futuros. Metadatos en `schemaVersion: 1`,
-eventos financieros nuevos en `schemaVersion: 2`. Campos no permitidos se
-rechazan y opcionales se normalizan a null. Una nueva versión exige migración
-explícita; no hay escrituras financieras reales implementadas.
+Estado actual: Fase 4 implementa documentos de viaje, usuario, miembro, persona
+contable e invitación en `schemaVersion: 1`, con esquemas Zod en el repositorio
+Firebase y campos exactos en reglas. Solo se permite persistir la **raíz de
+presupuesto financiero v2**, dentro de la creación atómica del viaje. Se valida
+con el esquema financiero compartido de Fase 3 antes de escribir; la lectura
+convierte Timestamp a DTO y vuelve a validarlo. No se persisten gastos/abonos ni
+se migra v1 silenciosamente. Adjuntos y demás eventos siguen denegados.
+
+Implementado: monedas COP/USD/EUR, 1–10 accesos activos, hasta 1.000 personas
+históricas, UUID v4 de viaje/presupuesto, portada null o icono local
+mountain/car/wallet. La hora `authoredAt` de la raíz usa ISO UTC canónico con
+milisegundos; `receivedAt` usa tiempo servidor. Título/destino/portada son los
+únicos metadatos editables, con versión +1. `memberBindings` es autoridad;
+`activeUids` es espejo para consultas y `participantIds` conserva el historial.
+La reasignación y transición a closed están deshabilitadas, tanto en UI como
+reglas. El listado admite historial cerrado ya existente, sin crear un cierre
+artificial para demostrar consistencia financiera. [Detalle Fase 4](phase4/REPORT.md).
 
 ## Tipos comunes
 

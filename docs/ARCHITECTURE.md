@@ -5,7 +5,7 @@
 El repositorio está inicializado en `main` y el commit inicial está publicado.
 La Fase 1 fue aceptada provisionalmente y la Fase 2 autorizada el 2026-11-22.
 La base React/TypeScript/Vite y el shell PWA están implementados; Firebase Auth
-y Firestore solo se preparan para emuladores. Ver [informe de Fase 2](phase2/REPORT.md).
+y Firestore funcionan exclusivamente en emuladores para Fase 4. Ver [informe de Fase 2](phase2/REPORT.md).
 No hay backend propio, Functions ni Storage. La arquitectura financiera que sigue
 es una propuesta de Fase 0: sus pruebas de viabilidad siguen pendientes.
 
@@ -22,6 +22,27 @@ flowchart TD
     W[Service worker: shell estático] --> UI
     I[Adaptador de imágenes] --> V[Openverse / miniaturas separadas]
 ```
+
+## Implementación de acceso · Fase 4
+
+`features/access` conserva el diseño y usa un contexto de sesión mínimo.
+`repositories/access` separa Auth, viajes, invitaciones y contratos persistidos;
+el dominio financiero permanece intacto. Auth usa persistencia local del SDK;
+Firestore conserva únicamente memoria. Suscripciones ignoran snapshots sin
+confirmación del servidor y vistas privadas se desmontan al cambiar UID.
+
+Crear viaje usa transacción SDK online con cuatro documentos, incluido budget
+v2. El join usa `documents:commit` REST con ID token Auth de un cliente normal:
+tres writes con máscara FieldPath/transforms y precondiciones, sin leer trip ni
+usar Admin SDK. Así no se agrega un batch administrativo a una cola offline.
+La autorización permanece en Firestore y no depende de la interfaz ni del REST.
+Metadatos, invitaciones y revocación usan transacciones online del SDK.
+
+Las reglas se validan con clientes ordinarios, getAfter y la carrera de la última
+plaza. Cierre/reasignación, escrituras financieras posteriores y fotos continúan
+denegados. [Informe y límites comprobados](phase4/REPORT.md).
+El diagrama del contexto incluye módulos de fases futuras: outbox, adjuntos y
+sincronización distribuida todavía no existen.
 
 ## Límites y módulos previstos
 
@@ -58,7 +79,7 @@ Los metadatos de viaje y los accesos usan escrituras atómicas y revisiones comp
 
 El invitado no puede leer `trips/{id}` antes de pertenecer al viaje. Por ello **no se diseña un join que lea ese documento en una transacción cliente**. Se usa una escritura ciega atómica con perfil de miembro y adición del propio UID al mapa acotado de accesos. Las reglas inspeccionan estado previo/posterior y la invitación. El cliente recibe datos privados únicamente después del commit. Ver [SECURITY_RULES](SECURITY_RULES.md).
 
-La lista activa admite hasta 10 UIDs vinculados a personas distintas. Las personas históricas no se borran al revocar acceso. Un propietario puede sustituir el UID de una persona histórica con consentimiento explícito; el nombre no permite reclamar esa identidad.
+La lista activa admite hasta 10 UIDs vinculados a personas distintas. Las personas históricas no se borran al revocar acceso. La sustitución del UID histórico requiere un procedimiento seguro pendiente; en Fase 4 se mantiene denegada. El nombre no permite reclamar esa identidad.
 
 ## Confianza y garantías
 

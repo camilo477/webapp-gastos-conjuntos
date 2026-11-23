@@ -2,18 +2,16 @@
 
 PWA privada para gastos de viajes entre 2 y 10 personas.
 
-**Estado: base técnica de Fase 2 publicada y motor financiero puro de Fase 3
-implementado.** La interfaz sigue siendo una demostración sin datos reales y
-todavía no consume el motor. La Fase 1 fue aceptada provisionalmente el 2026-11-22.
-Sus pruebas multiplataforma pendientes se conservan en el
-[informe original](docs/phase1/AUTOMATED_TEST_REPORT.md). No se inició la Fase 4.
+**Estado: Fase 3 publicada y Fase 4 implementada para Firebase Emulator Suite.**
+Registro, verificación/recuperación, sesión anónima, viajes e invitaciones usan datos
+locales reales en modo emuladores. Sin configuración permanece la demostración.
+No se habilita producción. La Fase 1 conserva su aceptación provisional y sus
+[pruebas multiplataforma pendientes](docs/phase1/AUTOMATED_TEST_REPORT.md).
 
-Git está inicializado en `main`. La Fase 2 está publicada en el commit `9071de8` de
+Git: `main`, Fase 3 publicada como `7524563b13b0efa4c681101e9cea050870663a0d` en
 [GitHub](https://github.com/camilo477/webapp-gastos-conjuntos).
-El estado exacto de validación y publicación de Fase 2 se registra en
-[el informe técnico](docs/phase2/REPORT.md).
-Los resultados y el estado de publicación de Fase 3 están en
-[su informe](docs/phase3/REPORT.md).
+Validación, limitaciones y estado de publicación de Fase 4 en
+[el informe](docs/phase4/REPORT.md). Fase 5 no iniciada.
 
 ## Requisitos e instalación
 
@@ -30,8 +28,9 @@ npm run dev
 ```
 
 Abrir la URL que imprime Vite (habitualmente `http://127.0.0.1:5173`). No hace
-falta `.env`. Las pantallas contienen ejemplos explícitos; crear viajes, guardar
-gastos, abonos e invitar están deshabilitados. No introducir datos personales.
+falta `.env`. Las pantallas contienen ejemplos explícitos; crear viajes y guardar
+gastos y abonos están deshabilitados. Para probar viajes e invitaciones, activar
+el modo de emuladores descrito abajo. Usar únicamente datos sintéticos.
 
 ## Comandos
 
@@ -40,15 +39,17 @@ gastos, abonos e invitar están deshabilitados. No introducir datos personales.
 | `npm run dev` | React con recarga de desarrollo; sin service worker |
 | `npm run typecheck` | TypeScript estricto, aplicación y pruebas |
 | `npm run typecheck:domain` | Dominio sin lib DOM ni tipos React/Firebase |
-| `npm run lint` | ESLint sobre código y configuración de Fase 2 |
+| `npm run lint` | ESLint sobre código, pruebas y configuración |
 | `npm test` | Vitest + Testing Library, sin servicios reales |
 | `npm run test:domain` | Motor y contratos en Node, sin setup de React/DOM |
 | `npm run build` | Typecheck + build PWA en `dist/` |
 | `npm run preview` | Build local en `http://127.0.0.1:4173` |
 | `npm run check` | Lint + Vitest + typecheck/build |
 | `npm run emulators` | Auth y Firestore locales, proyecto `demo-` |
-| `npm run test:rules` | Emuladores temporales y pruebas deny-all |
+| `npm run test:rules` | Emuladores temporales y pruebas adversariales de acceso |
 | `npm run test:e2e` | Dos builds reales y Playwright HTTP, incluidos SW/offline/actualización |
+| `npm run test:access` | Emuladores temporales + UI real en Chromium, Firefox y WebKit |
+| `npm run test:access:firefox` | La misma integración, solo Firefox |
 | `npm run icons` | Regenerar iconos PNG con Python estándar |
 
 Preparar navegadores con `npx playwright install chromium firefox webkit`.
@@ -72,23 +73,44 @@ solo queda confirmado después de publicar y comprobar la ejecución en GitHub.
 La ausencia de configuración habilita la demostración. No se conecta a servicios
 Firebase. El build de producción tampoco habilita Firebase en esta fase.
 
-Para preparar el SDK **solo en desarrollo**:
+Para probar la Fase 4 **solo en desarrollo**:
 
-1. Copiar `.env.example` a `.env.local` y cambiar
-   `VITE_FIREBASE_MODE=emulators`.
-2. Mantener `demo-gastos-compartidos`, los valores sintéticos del ejemplo,
-   host `127.0.0.1`, Auth 9199 y Firestore 8180.
+1. Copiar `.env.example` a `.env.local` y cambiar `VITE_FIREBASE_MODE=emulators`.
+2. Mantener `demo-gastos-compartidos`, valores sintéticos, host `127.0.0.1`,
+   Auth 9199 y Firestore 8180. No hace falta `firebase login`.
 3. Ejecutar `npm run emulators` y `npm run dev` en terminales separadas.
-4. Abrir Actividad. El SDK se inicializa de forma diferida, una sola vez, sin
-   crear usuarios ni leer/escribir datos. El mensaje distingue inicialización de
-   disponibilidad del emulador; las pruebas de reglas comprueban acceso real.
+4. Abrir `/registro`, crear cuenta sintética y usar el enlace de verificación
+   impreso por **Auth Emulator** en su terminal. Volver a `/verificar` y pulsar
+   «Actualizar verificación». No se envía correo real. Recuperación funciona
+   de la misma forma mediante `/recuperar` y el enlace local impreso.
+5. Crear el viaje desde `/viajes/nuevo`. En detalles se puede editar título,
+   destino o icono, consultar personas y generar/revocar invitaciones.
+6. Abrir el enlace/QR en otro perfil de navegador: validar, escribir nombre y
+   confirmar ingreso. El código manual contiene UUID del viaje y token completo.
+   El QR se genera/lee localmente; también se acepta una imagen PNG/JPEG/WebP.
 
-Solo se aceptan proyectos `demo-`, loopback y puertos válidos distintos. Una
-configuración inválida produce un mensaje visible y conserva la demostración.
-Auth y Firestore usan memoria; la persistencia de datos financieros está pendiente.
-Las reglas deniegan toda lectura/escritura, incluso de clientes autenticados.
-El modo demo de Firebase evita acceder por accidente a recursos reales ausentes
-cuando se usan emuladores: [documentación oficial](https://firebase.google.com/docs/emulator-suite/connect_firestore).
+Auth conserva sesión en IndexedDB, con fallback localStorage; si ambos fallan,
+no se ofrece una sesión anónima supuestamente durable. Firestore usa memoria,
+sin persistencia privada en disco ni respuestas Firebase en la caché del SW.
+Las pantallas requieren confirmación del servidor. Administración y join requieren
+conexión; no existe cola financiera ni envío administrativo diferido offline.
+Salir de una sesión anónima, borrar almacenamiento, cambiar perfil, dispositivo
+u origen puede perder esa identidad. El nombre no permite recuperarla.
+
+Los emuladores se reinician sin datos salvo que el usuario configure una
+exportación local. No versionar exportaciones, códigos OOB, tokens ni estados
+Auth de pruebas. La persistencia del navegador no conserva el servidor borrado.
+Solo se aceptan proyectos `demo-`, loopback y puertos válidos distintos.
+Una configuración inválida muestra el motivo y conserva la demostración.
+Las reglas autorizan únicamente las operaciones de esta fase, con denegación
+por defecto. No habilitan escrituras financieras ordinarias.
+
+La interfaz de acceso se prueba sobre Vite de desarrollo, con SW bloqueado.
+Los tests PWA sirven dos builds de demostración. Esto distingue Auth/Firestore
+locales del comportamiento instalable del shell; todavía no se distribuye un
+build conectado a Firebase. La configuración loopback no permite usar otro
+móvil en la LAN: esa prueba física requiere revisar origen/HTTPS/configuración,
+sin cambiar silenciosamente el cerrojo contra producción.
 
 En una fase posterior habrá que proporcionar `projectId`, `apiKey`, `appId` y
 `authDomain` de la configuración web del proyecto de pruebas, elegir región y
@@ -120,8 +142,10 @@ ni persistencia de gastos.**
 ```text
 src/app/                    routing, tema, conectividad y ciclo de la PWA
 src/components/             botones, campos, diálogos, mensajes, filas, contenedores
+src/features/access/        sesión, formularios, viajes, participantes y QR locales
 src/features/demo/          pantallas y fixtures visuales de solo lectura
 src/features/status/        actividad y estado de configuración
+src/repositories/access/    Auth, contratos persistidos, viajes y admisión REST atómica
 src/repositories/firebase/  validación de entorno y SDK modular diferido
 src/domain/                 modelos Zod, DTO versionados y motor financiero puro
 public/icons/               iconos instalables y licencia
@@ -149,7 +173,8 @@ usan BigInt. `prepareFinancialState` valida y selecciona snapshots;
 y cabezas incompatibles. Todos los cálculos consumen el mismo estado y propagan
 `provisional`. El reloj y la zona
 son explícitos. El contrato financiero v2 admite `fixed`; v1 se migra mediante
-una función explícita. No se generan IDs ni se escriben documentos.
+una función explícita. El dominio no genera IDs ni escribe documentos. Fase 4 genera IDs en el
+repositorio y persiste únicamente la raíz de presupuesto v2 al crear un viaje.
 
 Se conservan paleta, fuente de sistema, tokens, separadores, navegación de tres
 destinos, temas e iconos locales Lucide de Fase 1. El
@@ -171,8 +196,12 @@ la aplicación. Las pantallas React no trasladan su motor simulado.
 - [Plan de Fase 3](docs/phase3/PLAN.md), [informe](docs/phase3/REPORT.md)
   y [resumen de pruebas](docs/phase3/test-results-summary.json).
 
-No hay cuentas reales, gastos persistentes, invitaciones, QR reales, fotos ni
-sincronización entre dispositivos. Las estadísticas del motor están probadas
-con fixtures; no hay viajes reales conectados a la interfaz.
-Las decisiones de producto todavía propuestas no se ratifican por instalar la
-base. No hay despliegue público. La Fase 4 requiere una nueva autorización.
+- [Plan de Fase 4](docs/phase4/PLAN.md), [informe](docs/phase4/REPORT.md)
+  y [resumen de pruebas](docs/phase4/test-results-summary.json).
+
+No hay cuentas de producción, gastos/abonos persistentes, fotos, sincronización
+financiera ni despliegue público. **Finalizar y reasignar identidad histórica
+permanecen deshabilitados** hasta verificar sus garantías. Revocar conserva
+personas e historial, bloquea el servidor y evita reingreso del mismo UID;
+no puede borrar copias previamente descargadas ni identificar humanos únicos.
+La siguiente fase requiere nueva autorización.

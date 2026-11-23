@@ -10,7 +10,10 @@ y pruebas multiplataforma pendientes. La Fase 2 está expresamente autorizada:
 React/TypeScript/Vite, Firebase limitado a emuladores y shell PWA. No rediseñar
 ni reemplazar el prototipo. El usuario autorizó expresamente la Fase 3: motor
 financiero puro y modelos de dominio, sin integración con gastos reales.
-No iniciar Fase 4 ni funcionalidades posteriores sin una nueva instrucción explícita.
+La Fase 3 está publicada (`7524563`). El usuario autorizó expresamente Fase 4:
+Auth, viajes e invitaciones exclusivamente en emuladores, con reglas reales.
+Cierre y reasignación siguen deshabilitados por consistencia/identidad pendientes.
+No iniciar Fase 5 ni funcionalidades posteriores sin una nueva instrucción explícita.
 
 ## Git y publicación
 

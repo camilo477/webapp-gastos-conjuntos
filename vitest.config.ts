@@ -9,7 +9,8 @@ export default defineConfig({
     restoreMocks: true,
     projects: [
       { extends: true, test: { name: 'domain', environment: 'node', include: ['src/domain/**/*.test.ts'], setupFiles: [] } },
-      { extends: true, test: { name: 'ui', environment: 'jsdom', include: ['src/**/*.test.{ts,tsx}'], exclude: ['src/domain/**'], setupFiles: ['tests/setup.ts'] } },
+      { extends: true, test: { name: 'access', environment: 'node', include: ['src/repositories/access/**/*.test.ts'], setupFiles: [] } },
+      { extends: true, test: { name: 'ui', environment: 'jsdom', include: ['src/**/*.test.{ts,tsx}'], exclude: ['src/domain/**','src/repositories/access/**'], setupFiles: ['tests/setup.ts'] } },
     ],
   },
 });

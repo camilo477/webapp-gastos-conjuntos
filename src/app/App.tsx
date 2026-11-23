@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
+import { firebaseConfiguration } from '../repositories/firebase/config';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import { Container } from '../components/Container';
 import { Dialog } from '../components/Dialog';
@@ -18,7 +19,13 @@ import { RouteFocus } from './RouteFocus';
 import { useTheme } from './useTheme';
 import type { ThemePreference } from './theme';
 
+const ConnectedApp = lazy(() => import('../features/access/ConnectedApp'));
+
 export function App() {
+  return firebaseConfiguration.status === 'emulators' ? <Suspense fallback={<main><h1>Abriendo entorno local…</h1></main>}><ConnectedApp /></Suspense> : <DemoApp />;
+}
+
+function DemoApp() {
   const { pathname } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const { preference, changeTheme, saved } = useTheme();

@@ -219,3 +219,12 @@ La consulta final a GitHub confirma `main` todavía en el SHA de Fase 2:
 `9071de8da696ad698f99cf127511cc9c2aaca4d5`. Localmente `main` sigue `origin/main`
 y no hay conflictos. Los comandos para revisar, publicar y comprobar SHA desde
 Ubuntu están en [GIT_SETUP](../GIT_SETUP.md). No se declara publicada la Fase 3.
+
+
+## Actualización de publicación verificada al iniciar Fase 4
+
+La limitación Git descrita arriba corresponde a la entrega original. Se confirmó
+posteriormente en GitHub que Fase 3 sí fue publicada como
+[`7524563b13b0efa4c681101e9cea050870663a0d`](https://github.com/camilo477/webapp-gastos-conjuntos/commit/7524563b13b0efa4c681101e9cea050870663a0d).
+Al iniciar Fase 4, `main` local y remoto coincidían y el árbol estaba limpio.
+Se conserva el informe original y sus resultados sin reinterpretarlos.

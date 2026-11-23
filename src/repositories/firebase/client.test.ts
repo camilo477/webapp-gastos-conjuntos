@@ -3,7 +3,7 @@ import { readFirebaseConfiguration } from './config';
 
 const mocks = vi.hoisted(() => ({ app: {}, auth: {}, firestore: {}, initializeApp: vi.fn(), initializeAuth: vi.fn(), initializeFirestore: vi.fn(), connectAuthEmulator: vi.fn(), connectFirestoreEmulator: vi.fn() }));
 vi.mock('firebase/app', () => ({ initializeApp: mocks.initializeApp }));
-vi.mock('firebase/auth', () => ({ initializeAuth: mocks.initializeAuth, connectAuthEmulator: mocks.connectAuthEmulator, inMemoryPersistence: 'memory' }));
+vi.mock('firebase/auth', () => ({ initializeAuth: mocks.initializeAuth, connectAuthEmulator: mocks.connectAuthEmulator, indexedDBLocalPersistence: 'indexeddb', browserLocalPersistence: 'local' }));
 vi.mock('firebase/firestore', () => ({ initializeFirestore: mocks.initializeFirestore, connectFirestoreEmulator: mocks.connectFirestoreEmulator, memoryLocalCache: () => 'memory' }));
 
 beforeEach(() => {
@@ -29,6 +29,7 @@ describe('modular SDK initialization', () => {
     expect(first?.auth).toBe(mocks.auth);
     expect(mocks.connectAuthEmulator).toHaveBeenCalledWith(mocks.auth, 'http://127.0.0.1:9199', { disableWarnings: true });
     expect(mocks.connectFirestoreEmulator).toHaveBeenCalledWith(mocks.firestore, '127.0.0.1', 8180);
+    expect(mocks.initializeAuth).toHaveBeenCalledWith(mocks.app, { persistence: ['indexeddb','local'] });
     expect(getFirebaseClient(configuration)).toBe(first);
     expect(mocks.initializeApp).toHaveBeenCalledTimes(1);
   });

@@ -9,6 +9,14 @@ comprobaciones de reglas/UI de esos casos que pertenecen a fases posteriores
 siguen pendientes; probar el dominio no equivale a probar el servidor.
 Cada requisito RF del [PRD](PRD.md) referencia al menos un caso siguiente.
 
+Resultados de Fase 4 en [REPORT](phase4/REPORT.md) y su
+[resumen verificable](phase4/test-results-summary.json): AUTH-01/02/03,
+SEC-01–05 y partes de AUTH-04/SEC-06/08/09/10 y TRIP-01. No se aprueban
+reasignación, cierre TRIP-02 ni reglas de conflictos/eventos de fases futuras.
+Las pruebas de interfaz emulada se ejecutan en Vite DEV; PWA se verifica por
+separado sobre builds reales. Las pruebas físicas y motores bloqueados siguen
+pendientes sin invalidar ni reescribir los informes anteriores.
+
 ## Capas y datos
 
 - Vitest: funciones puras, esquemas, proyector y cola con adaptadores de pruebas. Reloj, IDs y zona horaria explícitos. Iterar cantidad de miembros 2–10 y permutaciones del orden de entrada; generador determinista para importes/pesos, sin requerir dependencia extra de property testing inicialmente.

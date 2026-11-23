@@ -118,3 +118,32 @@ de las suites nuevas está en [Fase 2](phase2/REPORT.md).
   del SDK 12.19.0 elegido. Sus peers `0.x` permitían mezclar paquetes core/compat
   de la línea posterior; la prueba real falló con `firestore is not a function`.
   El lockfile conserva una sola instancia consistente de cada paquete.
+
+
+## Decisiones técnicas de Fase 4 (autorización explícita)
+
+- D-30: Auth permanente password con correo verificado para propietario. Invitados
+  Anonymous Auth; persistencia SDK IndexedDB/localStorage. No escribir contraseñas
+  ni atribuir recuperación a un nombre. Firestore continúa en memoria.
+- D-31: crear trip/member/person/raíz budget v2 en transacción online, reutilizando
+  validación de Fase 3. No reinterpretar v1 ni abrir CRUD financiero general.
+- D-32: admisión ciega por REST commit autenticado de cliente, con tres writes,
+  transforms y getAfter en reglas. Evitar que writeBatch SDK encole administración
+  offline. No hay privilegios Admin ni lectura privada previa de trip.
+- D-33: 20 bytes criptográficos, Base32 completo de 32 caracteres, siete días
+  máximo, revocación monotónica. Fragmento retirado al abrir; QR y lector locales.
+  qrcode y ZXing se cargan bajo demanda. QR conserva quiet zone de cuatro módulos.
+  El detector rechazó un PNG válido a 512 px; fallback PURE_BARCODE comprobado
+  tras detección normal, con el peer explícito ya instalado @zxing/library.
+- D-34: mantener denegados cierre/reasignación hasta comprobar consistencia
+  financiera y consentimiento de identidad. Se implementa revocación que preserva
+  historial y bloquea reingreso del mismo UID. Una identidad nueva consume nueva
+  persona histórica; nunca hereda deudas por coincidencia de nombre.
+- D-35: la primera regla de revocación excedía expresiones por revalidar fechas
+  inmutables en cada rama. Validar documento completo al crear y luego diff de
+  campos permitidos + invariantes de acceso, conservando la garantía inductiva.
+  Cotas sin caché: crear 17, join 15, revocar 9 accesos por commit; se comprueban
+  con reglas reales. Padres/merges financieros siguen pendientes.
+- D-36: demo sin credenciales y build PWA separados del entorno de acceso DEV.
+  No publicar un build conectado ni exponer emuladores en LAN por conveniencia.
+  Vistas privadas ligadas al UID y confirmadas online; caché no concede permisos.

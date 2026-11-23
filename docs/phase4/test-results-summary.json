@@ -1,0 +1,138 @@
+{
+  "phase": 4,
+  "scope": "Firebase Emulator Suite only; no production or deployment",
+  "verifiedAtUtc": "2026-11-23T02:08:57.849244+00:00",
+  "baseline": {
+    "branch": "main",
+    "sha": "7524563b13b0efa4c681101e9cea050870663a0d",
+    "phase3PublishedVerified": true,
+    "initialWorktreeClean": true
+  },
+  "validation": {
+    "check": {
+      "command": "npm run check",
+      "lint": "passed",
+      "typecheckApp": "passed",
+      "typecheckDomainWithoutDOM": "passed",
+      "vitest": {
+        "passed": 180,
+        "failed": 0,
+        "files": 19,
+        "domainTestsUnchanged": 135
+      },
+      "build": "passed",
+      "pwaPrecacheEntries": 23
+    },
+    "rules": {
+      "command": "npm run test:rules",
+      "passed": 45,
+      "failed": 0,
+      "previousTestsPreserved": 15,
+      "phase4Tests": 30,
+      "privilegedAssertions": false,
+      "rulesSha256": "040add262c308d6a78e3822591d55edf1c783b5c0c0d50c1ccc457cfb75224e3",
+      "accessCallConservativeBoundsWithoutCache": {
+        "create": [
+          6,
+          4,
+          4,
+          3
+        ],
+        "join": [
+          5,
+          5,
+          5
+        ],
+        "revoke": [
+          4,
+          5
+        ]
+      },
+      "coverageSourceLinesEvaluated": 133,
+      "expressionLimitErrorsInFinalRun": 0
+    },
+    "accessBrowser": {
+      "command": "npm run test:access:firefox",
+      "engine": "Firefox",
+      "server": "Vite DEV + Auth/Firestore emulators",
+      "serviceWorkers": "blocked",
+      "passed": 10,
+      "failed": 0,
+      "flaky": 0,
+      "durationMs": 112033.332,
+      "viewports": [
+        "320x568",
+        "375x667",
+        "390x844",
+        "430x932",
+        "768x1024",
+        "1440x900"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "enlargedComputedText": "200%",
+      "twoLiveTabsRevocationAndLogout": true,
+      "localQrDecodeRegressionScales": [
+        256,
+        512,
+        768
+      ]
+    },
+    "existingPwaBrowser": {
+      "command": "npm run test:e2e -- --project=firefox",
+      "engine": "Firefox",
+      "server": "two production demo builds over HTTP",
+      "passed": 19,
+      "failed": 0,
+      "flaky": 0,
+      "durationMs": 48343.382,
+      "offlineShell": "passed",
+      "updateBetweenTwoBuilds": "passed",
+      "firebaseCallsInDemo": 0
+    },
+    "supportedFinalTotal": 254,
+    "blockedBrowsers": {
+      "chromium": "No usable sandbox. Sandbox remains enabled.",
+      "webkit": "Missing system libraries libevent-2.1.so.7/libavif.so.16. No passing run claimed."
+    },
+    "physicalDevices": "not executed; previous reports retained",
+    "gemini": {
+      "status": "skipped",
+      "reason": "Authentication unavailable as previously established; no repeated attempt."
+    },
+    "audit": {
+      "runtimeVulnerabilities": 0,
+      "allDependencies": {
+        "moderate": 17,
+        "high": 0,
+        "critical": 0
+      },
+      "notes": "Inherited development-tool warnings; QR libraries added without major upgrades.",
+      "sourceFilesScanned": 266,
+      "sourceCandidates": 273,
+      "secretPatternFindings": 0,
+      "markdownFilesChecked": 32,
+      "brokenLocalLinks": 0,
+      "ignoreChecksPassed": 15
+    }
+  },
+  "disabled": [
+    "trip closure",
+    "historical identity reassignment",
+    "ordinary financial event writes",
+    "attachments",
+    "distributed synchronization",
+    "production Firebase"
+  ],
+  "git": {
+    "staging": "blocked",
+    "error": "Unable to create .git/index.lock: Read-only file system",
+    "indexEmpty": true,
+    "newCommit": null,
+    "pushPerformed": false,
+    "remoteMainSha": "7524563b13b0efa4c681101e9cea050870663a0d",
+    "publicationCommands": "../GIT_SETUP.md"
+  }
+}

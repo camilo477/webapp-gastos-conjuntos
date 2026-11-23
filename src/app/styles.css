@@ -746,6 +746,18 @@ main.auth-main {
 .form-block { margin-top: 28px; }
 summary { min-height: 44px; padding: 10px 0; }
 .form-footer { margin-top: 32px; }
+.field select { width: 100%; min-height: 48px; border: 1px solid var(--control); background: var(--surface); padding: 10px 14px; border-radius: 9px; }
+.field input[type="file"] { white-space: normal; }
+.member-row .button { max-width: 100%; overflow-wrap: anywhere; }
+.trip-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+.trip-row > div { min-width: 0; overflow-wrap: anywhere; }
+.trip-row .action-row { margin-top: 0; }
+.trip-facts { margin: 0 0 32px; }
+.trip-facts > div { padding: 16px 0; border-bottom: 1px solid var(--line); }
+.trip-facts dt { color: var(--muted); font-size: 14px; }
+.trip-facts dd { margin: 6px 0 0; overflow-wrap: anywhere; }
+.invite-qr { display: block; width: 256px; height: auto; padding: 8px; background: #fff; margin: 24px 0; }
+.qr-video { display: block; width: 100%; max-height: 360px; margin: 20px 0; }
 .add-dock .button { width: 100%; min-height: 48px; }
 dialog { color: var(--ink); background: var(--surface); border: 0; border-radius: 18px; padding: 28px; max-width: 460px; width: calc(100% - 40px); max-height: 85dvh; overflow: auto; margin: auto; }
 dialog::backdrop { background: #10171366; }

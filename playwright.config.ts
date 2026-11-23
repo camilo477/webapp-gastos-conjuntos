@@ -1,6 +1,7 @@
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
+  outputDir: 'test-results/shell',
   testDir: './tests/e2e',
   testMatch: '**/*.spec.ts',
   timeout: 45_000,

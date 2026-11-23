@@ -1,5 +1,55 @@
 # Git y publicación inicial
 
+## Fase 4 · Publicación de acceso, viajes e invitaciones
+
+Fase 3 verificada en `main` local/remoto como
+`7524563b13b0efa4c681101e9cea050870663a0d`. El estado de entrega de Fase 4 está
+en [su informe](phase4/REPORT.md). Este entorno mantiene `.git` en solo lectura;
+no se debe eludir mediante otra ruta, API de escritura ni privilegios.
+
+Desde una terminal Ubuntu normal, con Node 24:
+
+```bash
+cd /mnt/Datos/gastos
+nvm use
+git status --short --branch
+git branch --show-current
+git fetch origin
+git log --oneline --left-right HEAD...origin/main
+```
+
+Continuar en `main` solo tras inspeccionar cualquier avance remoto, conservando
+trabajo ajeno. No usar force push. Pruebas reproducibles:
+
+```bash
+npm ci
+npm run check
+npm run test:rules
+npm run test:access:firefox
+npm run test:e2e -- --project=firefox
+```
+
+Los emuladores de los tests son temporales; cerrar otros que ocupen 9199/8180.
+Para motores disponibles en otro sistema, `npm run test:access` y
+`npm run test:e2e` prueban los tres. No usar `--project=firefox` después de
+`npm run test:access`: sería interpretado por Firebase CLI, no por Playwright.
+
+Tras revisar secretos y archivos ignorados:
+
+```bash
+git add .
+git diff --cached --check
+git diff --cached
+git commit -m "feat: implement authentication trips and invitations"
+git push origin main
+git rev-parse HEAD
+git ls-remote origin refs/heads/main
+git status --short --branch
+```
+
+Los dos SHA deben coincidir. Verificar además la ejecución de CI después de
+publicar. Los apartados siguientes se conservan como historial de fases anteriores.
+
 ## Fase 3 · Publicación del motor
 
 La Fase 2 se confirmó en `origin/main` y GitHub con SHA
