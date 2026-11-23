@@ -29,9 +29,9 @@ jobs:
       matrix:
         browser: [chromium, firefox, webkit]
     env:
-      # Chromium's documented alternative to disabling Ubuntu's AppArmor or its
-      # own sandbox: use the root-owned helper already installed with Chrome.
-      CHROME_DEVEL_SANDBOX: /opt/google/chrome/chrome-sandbox
+      # Chrome's installed path is already allowed by Ubuntu's AppArmor profile.
+      # Retain Chromium's sandbox; do not change host policies or SUID permissions.
+      GASTOS_CHROMIUM_CHANNEL: chrome
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -43,7 +43,10 @@ jobs:
           distribution: temurin
           java-version: '21'
       - run: npm ci
-      - run: npx playwright install --with-deps ${{ matrix.browser }}
+      - if: matrix.browser == 'chromium'
+        run: npx playwright install-deps chromium
+      - if: matrix.browser != 'chromium'
+        run: npx playwright install --with-deps ${{ matrix.browser }}
       - name: Check browser infrastructure
         id: browser
         run: node scripts/check-browser.mjs ${{ matrix.browser }}

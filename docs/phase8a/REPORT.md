@@ -102,3 +102,18 @@ declaran reparadas remotamente sin esa evidencia.
 [Comandos de publicación desde Ubuntu](PUBLISH.md). La Fase 8A sigue abierta:
 queda la continuación del alcance, la verificación remota y el resto del
 inventario; no se afirma que el MVP esté listo para producción.
+
+## Continuación y primera validación remota
+
+Se recibió el alcance completo y Git volvió a permitir escritura. Se publicó
+`a763ce52d798e5b1b77c686cd74b1ee2aa3c9c68`; push comprobado. La ejecución
+[45274580059](https://github.com/camilo477/webapp-gastos-conjuntos/actions/runs/45274580059)
+pasó validate y el shell Firefox/WebKit. El preflight Chromium rechazó el helper
+SUID porque no cumple propietario/permisos requeridos en esa imagen. No se
+relajan comprobaciones ni se cambian permisos del host. La segunda configuración
+usa el Chrome preinstalado en la ruta admitida por AppArmor, con sandbox activo;
+los tres proyectos comparten selección en playwright.browsers.ts y conservan
+todos los casos. Se identifica como Chrome en el log, sin atribuir el resultado
+al Chromium empaquetado de Playwright. Su ejecución remota sigue pendiente.
+WebKit acceso falló en esa primera ejecución; se investiga mediante reproducción
+local y logs antes de atribuirlo a producto o infraestructura.

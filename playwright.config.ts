@@ -1,4 +1,5 @@
 import { defineConfig } from '@playwright/test';
+import { browserProjects } from './playwright.browsers';
 
 export default defineConfig({
   outputDir: 'test-results/shell',
@@ -11,10 +12,6 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: [['list'], ['json', { outputFile: 'test-results/e2e-results.json' }], ['html', { open: 'never' }]],
   use: { baseURL: 'http://127.0.0.1:4173', serviceWorkers: 'allow', trace: 'retain-on-failure', screenshot: 'only-on-failure' },
-  projects: [
-    { name: 'chromium', use: { browserName: 'chromium', launchOptions: { chromiumSandbox: true } } },
-    { name: 'firefox', use: { browserName: 'firefox' } },
-    { name: 'webkit', use: { browserName: 'webkit' } },
-  ],
+  projects: browserProjects,
   webServer: { command: 'node tests/e2e/server.mjs', url: 'http://127.0.0.1:4173', reuseExistingServer: false, timeout: 15_000 },
 });
