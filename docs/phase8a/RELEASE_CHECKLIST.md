@@ -9,17 +9,17 @@ cierre del informe; nunca interpretar «pendiente» como aprobado.
 | --- | --- | --- |
 | Integridad exacta 2–10 personas, porcentajes/fixed, multipagador y abonos | Dominio existente auditado; nuevas referencias mixtas COP/USD/EUR pasan | Suites financieras y reglas verdes con mismo SHA |
 | DAG, conflicto, borrado/restauración y merge | Mantener historial y subtotal provisional; regresiones existentes y dos clientes | Ninguna rama perdida ni ganador por timestamp |
-| IndexedDB y recuperación | Corregida apertura transitoria y conexiones tardías; regresión local pendiente de consolidación final | Sin falsa durabilidad, sin duplicación tras interrupción |
+| IndexedDB y recuperación | Corregida apertura transitoria y conexiones tardías; regresiones unitarias y PWA pasan; consolidación final en curso | Sin falsa durabilidad, sin duplicación tras interrupción |
 | Dos dispositivos y pestañas | Regresión de integración en ejecución | IDs comprobados en servidor y balances iguales, ambos órdenes |
 | Rechazos, revocación, cambio de usuario y SW | Pruebas adversas incluidas en suite | Propuestas conservadas; datos A nunca en B |
 | Security Rules, Auth, invitaciones y adjuntos | Mantener denegación/inmutabilidad y pruebas ordinarias | Cero fallo crítico de autorización; límites reales de reglas respetados |
-| CI | Primer commit publicado; validate y shell Firefox/WebKit pasan; Chromium bloqueado por helper, segunda configuración preparada | Verificar Actions del SHA final; sin suites ocultas/omitidas como éxito |
+| CI | Chrome sandboxed ya pasa shell/finanzas; auditoría publicada con matriz 12 jobs y validate aprobado | Verificar Actions del SHA final; sin suites ocultas/omitidas como éxito |
 | Accesibilidad y responsive | Shell WebKit y foco repetido pasan; finanzas Firefox pasan | Completar motores disponibles; QA de lector/teclado en móviles |
 | Cámara/galería y PWA física | Pendiente Android/iPhone reales | Ejecutar MOB-01–16 y registrar versiones/origen |
 | Openverse público | Búsqueda curl/miniatura 200; búsqueda exacta 504; copia real CORS en Firefox comprobada | Opcional: mantener fallback; no anunciar búsqueda pública estable |
-| Rendimiento | 10.000 eventos ~0,7 s proyección Node, sin alterar semántica | Revisar memoria/latencia del piloto en teléfonos; no confundir benchmark con SLA |
+| Rendimiento | 10.000 eventos ~0,83 s proyección Node, sin alterar semántica | Revisar memoria/latencia del piloto en teléfonos; no confundir benchmark con SLA |
 | Dependencias/secretos | Cero vulnerabilidades producción; 17 moderadas herramientas; escaneo previo limpio | Revalidar diff final y contenido de build/artefactos |
-| Cierre | Sigue deshabilitado, decisiones/barriera concurrente pendientes | Protocolo de congelación/lectura completa, permisos y recuperación auditados |
+| Cierre | Sigue deshabilitado, decisiones/barrera concurrente pendientes | Protocolo de congelación/lectura completa, permisos y recuperación auditados |
 | Recuperación invitado | Sigue deshabilitada | Ratificar prueba de identidad, consentimiento, revocación del UID viejo y migración |
 | Firebase real | Bloqueado deliberadamente por configuración | Nueva autorización, adaptador HTTPS y reglas/índices/domino verificados |
 | Backup y operación | Sin backup independiente productivo garantizado | Ratificar nivel de recuperación y procedimiento probado, responsable/cuotas |

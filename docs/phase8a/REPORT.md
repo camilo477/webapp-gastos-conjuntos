@@ -64,8 +64,8 @@ La suite ampliada verifica cuatro compras de dos identidades sin conexión,
 recarga y ambos órdenes de reconexión; recepción de operaciones publicadas por
 el otro cliente; ACK perdido después del commit; dos pestañas; interrupción del
 documento después del commit y recuperación del lease de 45 s; cuota/IDB
-inaccesible; apertura y caché transitoriamente fallidas; proceso Firefox cerrado
-y reabierto con perfil durable; borradores; cambio de cuenta; revocación;
+inaccesible; apertura y caché transitoriamente fallidas; proceso Firefox cerrado limpiamente
+y reabierto con perfil durable (no equivale a corte eléctrico/expulsión por SO); borradores; cambio de cuenta; revocación;
 cierre administrativo simulado; migración local y eliminación del almacenamiento;
 SW actualizado con dinero e imagen pendientes.
 
@@ -102,8 +102,12 @@ de otra cuenta, pero no cifra ante un atacante con acceso al perfil/origen: no
 se promete borrado remoto de copias ni protección contra compromiso del equipo.
 
 Auditoría npm actual: **17 moderadas de herramientas, cero altas/críticas**;
-la auditoría de producción anterior tenía cero vulnerabilidades y se revalida
-al cierre. Sin actualización general de dependencias para maquillar el resultado.
+la auditoría separada `npm audit --omit=dev` también devuelve cero. Los avisos
+afectan transitivas de firebase-tools/workbox (glob/minimatch, uuid y propagación
+de baggage OpenTelemetry); las soluciones sugeridas incluyen downgrades mayores
+de herramientas. No se aplican automáticamente ni se confunden con código
+servido al navegador. Mantener herramientas locales/emuladores sin exposición
+pública y revisar actualizaciones compatibles antes del piloto.
 Escaneo de fuentes/historial, exclusiones y enlaces locales se repite antes de
 publicar. Los patrones son una comprobación adicional, no prueba de inexistencia
 de cualquier secreto imaginable. Artefactos y perfiles de emulador no van a Git.
@@ -168,6 +172,12 @@ atribuye mejora estadística. La referencia previa sin optimizar era 4055 ms.
 Se desactiva únicamente WebSocket/discovery del servidor de benchmark para no
 iniciar trabajo ajeno a la medición. No se aplicó optimización especulativa.
 
+Tres contextos nuevos por motor a 390×844 midieron inicio hasta login usable:
+Firefox 684–945 ms, WebKit 560–585 ms; navegación login→registro 49–76 ms y
+54–58 ms respectivamente. JS decodificado inicial ~1,12 MB; sin throttling ni
+red de teléfono, con caché de SO compartida y variación por host/GC. No es una
+medición de primera instalación en red móvil ni memoria total del proceso.
+
 UI 500 gastos bajo reglas ordinarias: Firefox ~4,6 s, WebKit ~4,9–5,1 s en este
 host; no es SLA de teléfonos. Las vistas memorizan proyección por datos, no por
 interacción visual. Lectura inicial de todo el historial, copias JSON/IDB y
@@ -179,12 +189,26 @@ responsive, zoom/texto ampliado, scroll y formularios/teclado numérico. Se corr
 el desbordamiento a 320 px sin rediseño. Los chequeos automáticos no sustituyen
 lectores de pantalla y teclado virtual físicos.
 
+## Correspondencia con el plan de pruebas
+
+| Grupo | Evidencia y límite |
+| --- | --- |
+| FIN/VAL/BUD/STAT | Dominio exacto y 19 integraciones financieras/acceso por motor; referencias mixtas independientes nuevas |
+| SYNC-01–08, DUP-01–04 | Outbox/IDB/coordinador, DAG, reglas y dos contextos independientes; ACK perdido se contrasta con Firestore real del emulador |
+| SYNC-09 | Fixture administrativo cambia a cerrado, servidor ordinario rechaza y propuesta se conserva. No demuestra cierre concurrente habilitable; esa función sigue denegada |
+| SYNC-10 | Reapertura de proceso Firefox y salida del documento tras commit. Suspensión/expulsión por SO móvil y corte eléctrico quedan pendientes físicos |
+| SEC-07–10, AUD-01 | Reglas adversariales, revocación/aislamiento y revisiones/historial en integración; sin cliente privilegiado para las aserciones |
+| IMG-01–05 | Archivos/cámara simulados, WebP/EXIF/límites, imagen offline/reintento/privacidad. Openverse público parcial y cámara/HEIC físicos sin aprobar |
+| Accesibilidad | Axe, foco/teclado, temas y viewport/texto ampliado; TalkBack/VoiceOver y teclado virtual pendientes |
+
 ## Verificación y CI
 
-Lint, TypeScript/build y **255 Vitest en 29 archivos** pasan. Resultados locales
+Lint, TypeScript/build y **258 Vitest en 29 archivos** pasan. Resultados locales
 consolidados pendientes de finalización: shell Firefox/WebKit 40/40; acceso y
 finanzas Firefox 19/19, WebKit 19/19; reglas 204/204; ocho regresiones de imágenes
-Firefox/WebKit 8/8. Las suites offline e imágenes completas están ejecutándose.
+Firefox/WebKit 8/8. Offline Firefox/WebKit: **43 aprobadas y 1 omitida** (reapertura de perfil solo
+Firefox); imágenes completas: **60/60**. Estos resultados locales no aprueban
+por sí solos CI ni compatibilidad física.
 Los conteos de regresiones dirigidas no se suman de nuevo a suites completas.
 
 Se leyeron logs completos y artefactos de los fallos de Fases 5–7, conservados

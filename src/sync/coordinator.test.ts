@@ -4,6 +4,7 @@ import { SyncCoordinator,retryDelay } from './coordinator';
 import { DeliveryError } from '../repositories/financial/events';
 import { financialEventV2Schema } from '../domain';
 import { expense,now,uuid } from '../domain/testing/fixtures';
+import { prepareDistinct } from '../repositories/financial/revisions';
 import type { PendingGroup,OfflineStore } from './storage';
 import type { FirebaseClient } from '../repositories/firebase/client';
 const event = financialEventV2Schema.parse({ schemaVersion: 2,operationId: uuid(1),entityId: uuid(1),actorUid: 'A',actorPersonId: 'A',entityKind: 'expense',action: 'create',parentIds: [],logicalClock: 0,before: [],payload: expense(),authoredAt: now,receivedAt: { seconds: 0,nanoseconds: 0 },merge: null });
@@ -31,6 +32,17 @@ describe('coordinator delivery guarantees',() => {
   it('waits for an unconfirmed local parent and preserves a child of a rejected parent',async () => {
     const s = setup(); const child = { ...s.group,id: uuid(2),events: [financialEventV2Schema.parse({ ...event,operationId: uuid(2),parentIds: [event.operationId],logicalClock: 1,action: 'replace',before: [event.payload] })],state: 'pending' as const };
     s.store.groups.mockResolvedValue([child,{ ...s.group,state: 'error',nextAttemptAt: Date.now() + 60000 }]); s.coordinator.start(); await vi.waitFor(() => expect(s.store.groups).toHaveBeenCalled()); await s.coordinator.run(); s.coordinator.stop(); expect(s.send).not.toHaveBeenCalled();
+  });
+  for (const state of ['error','sending','rejected'] as const) it(`a distinct decision waits for referenced expenses instead of publishing before a ${state} dependency`,async () => {
+    const s = setup(),other = financialEventV2Schema.parse({ ...event,operationId: uuid(2),entityId: uuid(2) });
+    const decision = prepareDistinct({ uid: 'A',personId: 'A' },[event,other]);
+    const pending = { ...s.group,id: decision.operationId,events: [decision] };
+    const parent = { ...s.group,state,nextAttemptAt: state === 'error' ? Date.now() + 60000 : 0,leaseUntil: state === 'sending' ? Date.now() + 45000 : 0 };
+    s.store.groups.mockResolvedValue([pending,parent]); s.store.claim.mockImplementation(async (_id,owner) => ({ ...pending,state: 'sending',leaseOwner: owner }));
+    s.coordinator.start(); await vi.waitFor(() => expect(s.store.groups).toHaveBeenCalled());
+    await s.coordinator.run(); s.coordinator.stop(); expect(s.send).not.toHaveBeenCalled();
+    if (state === 'rejected') { expect(s.store.result).toHaveBeenCalledWith(expect.objectContaining({ id: decision.operationId }),expect.any(String),expect.objectContaining({ permanent: true })); }
+    else expect(s.store.claim).not.toHaveBeenCalled();
   });
   it('backoff grows and is capped even after many attempts',() => { expect(retryDelay(1,0.5)).toBe(2000); expect(retryDelay(5,0.5)).toBe(32000); expect(retryDelay(500,0.5)).toBe(60000); expect(retryDelay(500,1)).toBeLessThanOrEqual(72000); });
 });

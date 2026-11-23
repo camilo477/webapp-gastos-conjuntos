@@ -30,7 +30,7 @@ export class SyncCoordinator {
       for (const candidate of groups.sort((a,b) => Math.min(...a.events.map(event => event.logicalClock)) - Math.min(...b.events.map(event => event.logicalClock)) || a.createdAt - b.createdAt)) {
         if (this.stopped || this.client.auth.currentUser?.uid !== this.store.uid) break;
         if (['confirmed','rejected'].includes(candidate.state) || candidate.nextAttemptAt > Date.now() || candidate.leaseUntil > Date.now()) continue;
-        const dependencies = candidate.events.flatMap(event => event.parentIds).map(id => byOperation.get(id)).filter((group): group is PendingGroup => !!group && group.id !== candidate.id);
+        const dependencies = candidate.events.flatMap(event => event.entityKind === 'duplicateDecision' ? event.payload.revisions : event.parentIds).map(id => byOperation.get(id)).filter((group): group is PendingGroup => !!group && group.id !== candidate.id);
         if (dependencies.some(group => group.state !== 'confirmed' && group.state !== 'rejected')) continue;
         const group = await this.store.claim(candidate.id,this.owner,Date.now()); if (!group) continue;
         try {

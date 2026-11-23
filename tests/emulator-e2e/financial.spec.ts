@@ -1,3 +1,4 @@
+import { financialReadiness } from './diagnostics';
 import { test, expect } from '@playwright/test';
 import type { Page, APIRequestContext } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
@@ -150,3 +151,5 @@ test('simultaneous edits preserve both proposals and show provisional balances i
     for (const actor of [page,guest]) { await expect(actor.getByText('Balances provisionales',{ exact: true })).toBeVisible(); await expect(actor.getByTestId('trip-total')).toHaveText('COP $0'); await actor.getByRole('link',{ name: 'Actividad financiera',exact: true }).click(); await expect(actor.getByRole('heading',{ name: 'Gasto modificado · Edición simultánea',exact: true })).toHaveCount(2); }
   } finally { await context.close(); }
 });
+
+test.afterEach(async ({ page },info) => { if (info.status !== info.expectedStatus) console.log('Financial readiness flags',JSON.stringify(await financialReadiness(page).catch(() => null))); });

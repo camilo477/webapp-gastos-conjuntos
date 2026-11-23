@@ -1,3 +1,4 @@
+import { horizontalOverflow } from './diagnostics';
 import { expect, test } from '@playwright/test';
 import type { APIRequestContext, Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
@@ -158,3 +159,5 @@ test('QR image decoding handles the detector regression at several pixel scales'
     await expect(page.getByLabel('Código completo o enlace',{ exact: true })).toHaveValue(link);
   }
 });
+
+test.afterEach(async ({ page },info) => { if (info.status !== info.expectedStatus) console.log('Horizontal layout flags',JSON.stringify(await horizontalOverflow(page).catch(() => null))); });

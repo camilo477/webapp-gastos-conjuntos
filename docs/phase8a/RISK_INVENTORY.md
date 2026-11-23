@@ -43,3 +43,19 @@ Lectura inicial: AGENTS, README, informes Fases 1–7 (y revisión documental de
 en DECISIONS), decisiones y plan de pruebas; reglas, dominio/proyector, transporte,
 IndexedDB, coordinadores, sesión, imágenes, SW y configuración CI. Los informes
 anteriores se conservan como evidencia histórica, incluidos sus bloqueos Git.
+
+## Actualización durante la continuación
+
+- Sandbox de Chrome remoto y foco WebKit corregidos; doce jobs separados evitan
+  ocultar suites. La ejecución de auditoría 45284819783 debe terminar antes de
+  declarar CI verde. El Chromium empaquetado local permanece bloqueado.
+- Se demostraron y corrigieron apertura IDB irrecuperable, falta de reintento de
+  caché, anuncio de descarga prematuro, pérdida de invitación fría y desbordamiento
+  con texto ampliado. Detalles y regresiones en el informe.
+- Dominio sin cambios, referencias COP/USD/EUR añadidas; 204 reglas pasan sin
+  ampliar permisos. Cierre y robo de identidad explícitamente rechazados.
+- Openverse: búsqueda simple/miniatura públicas 200 y compresión CORS real; búsqueda
+  exacta 504. Iconos/fotos locales siguen siendo la alternativa; no aprobación global.
+- Diez mil eventos: 830 ms proyección +8 ms resumen; sin optimización especulativa.
+- Las puertas físicas, adaptadores de producción, backup y decisiones D-13/D-14
+  permanecen separadas de la corrección local; ver checklist y planes específicos.
