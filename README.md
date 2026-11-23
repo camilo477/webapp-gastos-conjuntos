@@ -2,16 +2,18 @@
 
 PWA privada para gastos de viajes entre 2 y 10 personas.
 
-**Estado: Fase 3 publicada y Fase 4 implementada para Firebase Emulator Suite.**
+**Estado: Fase 4 publicada y Fase 5 implementada para Firebase Emulator Suite.**
 Registro, verificación/recuperación, sesión anónima, viajes e invitaciones usan datos
-locales reales en modo emuladores. Sin configuración permanece la demostración.
+locales reales en modo emuladores. Gastos, abonos, revisiones, balances, presupuestos
+y estadísticas se derivan del registro financiero v2. Sin configuración permanece la demostración.
 No se habilita producción. La Fase 1 conserva su aceptación provisional y sus
 [pruebas multiplataforma pendientes](docs/phase1/AUTOMATED_TEST_REPORT.md).
 
-Git: `main`, Fase 3 publicada como `7524563b13b0efa4c681101e9cea050870663a0d` en
+Git: `main`, Fase 4 publicada como `545fb36bc41d9781d23b8f55946133c718232f2a` en
 [GitHub](https://github.com/camilo477/webapp-gastos-conjuntos).
 Validación, limitaciones y estado de publicación de Fase 4 en
-[el informe](docs/phase4/REPORT.md). Fase 5 no iniciada.
+[el informe anterior](docs/phase4/REPORT.md). Implementación, pruebas y publicación
+de Fase 5 en [su informe](docs/phase5/REPORT.md).
 
 ## Requisitos e instalación
 
@@ -28,8 +30,8 @@ npm run dev
 ```
 
 Abrir la URL que imprime Vite (habitualmente `http://127.0.0.1:5173`). No hace
-falta `.env`. Las pantallas contienen ejemplos explícitos; crear viajes y guardar
-gastos y abonos están deshabilitados. Para probar viajes e invitaciones, activar
+falta `.env`. La demostración contiene ejemplos explícitos de solo lectura.
+Para registrar viajes y movimientos persistidos localmente, activar
 el modo de emuladores descrito abajo. Usar únicamente datos sintéticos.
 
 ## Comandos
@@ -73,7 +75,7 @@ solo queda confirmado después de publicar y comprobar la ejecución en GitHub.
 La ausencia de configuración habilita la demostración. No se conecta a servicios
 Firebase. El build de producción tampoco habilita Firebase en esta fase.
 
-Para probar la Fase 4 **solo en desarrollo**:
+Para probar las Fases 4 y 5 **solo en desarrollo**:
 
 1. Copiar `.env.example` a `.env.local` y cambiar `VITE_FIREBASE_MODE=emulators`.
 2. Mantener `demo-gastos-compartidos`, valores sintéticos, host `127.0.0.1`,
@@ -88,12 +90,29 @@ Para probar la Fase 4 **solo en desarrollo**:
 6. Abrir el enlace/QR en otro perfil de navegador: validar, escribir nombre y
    confirmar ingreso. El código manual contiene UUID del viaje y token completo.
    El QR se genera/lee localmente; también se acepta una imagen PNG/JPEG/WebP.
+7. Desde el viaje, pulsar «Agregar gasto», indicar concepto e importe y guardar.
+   Pagas tú; se divide entre activos. «Pagadores y división» permite exclusiones,
+   varios aportes, porcentajes exactos e importes fijos. Categoría/fecha/hora/nota
+   están en las opciones. Las fechas se interpretan en la zona del viaje.
+8. Consultar Balance para registrar/corregir/eliminar/restaurar abonos declarados;
+   abrir un gasto para editarlo, eliminarlo o restaurarlo mediante otra revisión.
+   Actividad conserva todas las propuestas. Presupuesto admite revisiones por
+   organizador y un cambio de cupo manual por revisión, preservando los demás.
+9. Abrir el mismo viaje en dos perfiles: los eventos confirmados se actualizan
+   sin recarga. Si hay ramas incompatibles o datos incompletos, los balances
+   son provisionales y se excluyen las entidades afectadas del subtotal.
 
 Auth conserva sesión en IndexedDB, con fallback localStorage; si ambos fallan,
 no se ofrece una sesión anónima supuestamente durable. Firestore usa memoria,
 sin persistencia privada en disco ni respuestas Firebase en la caché del SW.
 Las pantallas requieren confirmación del servidor. Administración y join requieren
 conexión; no existe cola financiera ni envío administrativo diferido offline.
+Cada intento financiero usa commit REST autenticado create-only, timeout e ID
+preasignado. Un reintento comprueba ese ID y contenido en servidor. Ante resultado
+incierto se mantiene la propuesta solo en la pantalla y se ofrece el mismo intento;
+no se afirma guardado durable. Salir/recargar puede perderla: comprobar historial
+antes de registrar otra operación. Las escrituras locales pendientes nunca
+representan confirmación. No existe outbox de Fase 6.
 Salir de una sesión anónima, borrar almacenamiento, cambiar perfil, dispositivo
 u origen puede perder esa identidad. El nombre no permite recuperarla.
 
@@ -103,7 +122,10 @@ Auth de pruebas. La persistencia del navegador no conserva el servidor borrado.
 Solo se aceptan proyectos `demo-`, loopback y puertos válidos distintos.
 Una configuración inválida muestra el motivo y conserva la demostración.
 Las reglas autorizan únicamente las operaciones de esta fase, con denegación
-por defecto. No habilitan escrituras financieras ordinarias.
+por defecto. Permiten eventos financieros v2 inmutables y presupuestos solo por
+propietario. Las reglas verifican conservación y padres; algoritmo de restos
+mayores, coherencia IANA y semántica global se validan en el proyector. Véanse
+las [fronteras precisas de seguridad](docs/phase5/REPORT.md).
 
 La interfaz de acceso se prueba sobre Vite de desarrollo, con SW bloqueado.
 Los tests PWA sirven dos builds de demostración. Esto distingue Auth/Firestore
@@ -144,6 +166,8 @@ src/app/                    routing, tema, conectividad y ciclo de la PWA
 src/components/             botones, campos, diálogos, mensajes, filas, contenedores
 src/features/access/        sesión, formularios, viajes, participantes y QR locales
 src/features/demo/          pantallas y fixtures visuales de solo lectura
+src/features/financial/     formularios y proyecciones financieras online
+src/repositories/financial/ eventos v2, listeners y commits idempotentes online
 src/features/status/        actividad y estado de configuración
 src/repositories/access/    Auth, contratos persistidos, viajes y admisión REST atómica
 src/repositories/firebase/  validación de entorno y SDK modular diferido
@@ -199,9 +223,18 @@ la aplicación. Las pantallas React no trasladan su motor simulado.
 - [Plan de Fase 4](docs/phase4/PLAN.md), [informe](docs/phase4/REPORT.md)
   y [resumen de pruebas](docs/phase4/test-results-summary.json).
 
-No hay cuentas de producción, gastos/abonos persistentes, fotos, sincronización
-financiera ni despliegue público. **Finalizar y reasignar identidad histórica
+Hay gastos y abonos persistidos exclusivamente en emuladores y actualizaciones
+entre usuarios conectados. No hay cuentas de producción, fotos, outbox durable,
+sincronización distribuida completa ni despliegue público. **Finalizar y reasignar identidad histórica
 permanecen deshabilitados** hasta verificar sus garantías. Revocar conserva
 personas e historial, bloquea el servidor y evita reingreso del mismo UID;
 no puede borrar copias previamente descargadas ni identificar humanos únicos.
-La siguiente fase requiere nueva autorización.
+Fase 6 requiere nueva autorización; no se inicia automáticamente.
+
+- [Plan de Fase 5](docs/phase5/PLAN.md), [informe](docs/phase5/REPORT.md) y
+  [resumen de pruebas](docs/phase5/test-results-summary.json).
+
+Carga reproducible del motor: `node scripts/measure-financial.mjs` (Node 24);
+resultados regenerables en `.cache/phase5/performance.json`. El registro se descarga
+completo; actividad muestra 50 entradas por bloque. No se prometen latencias ni
+cuotas de producción a partir de estas pruebas locales.

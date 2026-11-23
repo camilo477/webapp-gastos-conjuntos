@@ -6,8 +6,9 @@ El repositorio está inicializado en `main` y el commit inicial está publicado.
 La Fase 1 fue aceptada provisionalmente y la Fase 2 autorizada el 2026-11-22.
 La base React/TypeScript/Vite y el shell PWA están implementados; Firebase Auth
 y Firestore funcionan exclusivamente en emuladores para Fase 4. Ver [informe de Fase 2](phase2/REPORT.md).
-No hay backend propio, Functions ni Storage. La arquitectura financiera que sigue
-es una propuesta de Fase 0: sus pruebas de viabilidad siguen pendientes.
+No hay backend propio, Functions ni Storage. Fase 5 conecta el registro financiero
+v2 con React y emuladores; [implementación y límites](phase5/REPORT.md). El outbox
+y la sincronización distribuida del diagrama siguen siendo propuestas de Fase 6.
 
 ```mermaid
 flowchart TD
@@ -39,8 +40,8 @@ La autorización permanece en Firestore y no depende de la interfaz ni del REST.
 Metadatos, invitaciones y revocación usan transacciones online del SDK.
 
 Las reglas se validan con clientes ordinarios, getAfter y la carrera de la última
-plaza. Cierre/reasignación, escrituras financieras posteriores y fotos continúan
-denegados. [Informe y límites comprobados](phase4/REPORT.md).
+plaza. Cierre/reasignación y fotos continúan denegados. Fase 5 habilita únicamente
+create financiero v2 validado; update/delete siguen denegados. [Informe y límites comprobados](phase4/REPORT.md).
 El diagrama del contexto incluye módulos de fases futuras: outbox, adjuntos y
 sincronización distribuida todavía no existen.
 

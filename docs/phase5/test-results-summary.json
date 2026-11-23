@@ -1,0 +1,174 @@
+{
+  "phase": 5,
+  "verifiedAtUtc": "2026-11-23T15:21:19.309572+00:00",
+  "scope": "Firebase Emulator Suite only; online-first immutable v2 events; no production/deployment/Phase 6",
+  "baseline": {
+    "branch": "main",
+    "sha": "545fb36bc41d9781d23b8f55946133c718232f2a",
+    "phase4PublishedVerified": true,
+    "initialWorktreeClean": true
+  },
+  "validation": {
+    "node": "24.22.3",
+    "npm": "11.6.4",
+    "check": {
+      "command": "npm run check",
+      "lint": "passed",
+      "typecheckApp": "passed",
+      "typecheckDomainWithoutDOM": "passed",
+      "build": "passed",
+      "vitest": {
+        "passed": 197,
+        "failed": 0,
+        "files": 23,
+        "previousTestsPreserved": 180
+      }
+    },
+    "rules": {
+      "command": "npm run test:rules (equivalent direct node suite against running Auth/Firestore emulators)",
+      "passed": 117,
+      "failed": 0,
+      "previousTestsPreserved": 45,
+      "expressionLimitErrorsInFinalRun": 0,
+      "rulesSha256": "9cde64733f245fdbea038a6a970f6f0795e0fe830105cc173699486b583a2e2c",
+      "ordinaryWriteAccessBoundsWithoutCache": {
+        "root": 2,
+        "oneParent": 3,
+        "twoParents": 4
+      },
+      "tenPayersTenParticipantsTwoParentsWithChangedMoneyAndLongNote": true,
+      "budget366ReservationsTwoParents": true
+    },
+    "firefoxAccess": {
+      "passed": 10,
+      "failed": 0,
+      "source": "earlier full run, .cache/phase5-browser-all.log"
+    },
+    "firefoxFinancial": {
+      "passed": 9,
+      "failed": 0,
+      "source": "final run, .cache/phase5-browser-final.log",
+      "command": "node node_modules/playwright/cli.js test tests/emulator-e2e/financial.spec.ts --config playwright.emulator.config.ts --project=firefox",
+      "twoIndependentContexts": true,
+      "liveUpdatesWithoutRefresh": true,
+      "idempotentRetryAfterLostHttpResponse": true,
+      "concurrentRevisionsProvisional": true,
+      "ordinaryAuthenticated500ExpenseWritesAndLiveUiMs": 7055,
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "viewports": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "enlargedText": "200%",
+      "axe": "passed"
+    },
+    "firefoxPwa": {
+      "command": "npm run test:e2e -- --project=firefox",
+      "passed": 19,
+      "failed": 0,
+      "serviceWorkerAndOfflineShell": "passed",
+      "updateBetweenTwoBuilds": "passed"
+    },
+    "supportedFinalTotal": 352,
+    "otherBrowsers": "Chromium/WebKit not executed in this phase; no passing result claimed",
+    "physicalDevices": "not executed",
+    "performance": {
+      "measuredAt": "2026-11-23T15:06:34.086Z",
+      "node": "v24.22.3",
+      "scope": "Node pure domain; heap delta includes GC noise; not network/browser/production benchmark",
+      "results": [
+        {
+          "events": 500,
+          "projectionMs": 340,
+          "summaryMs": 2,
+          "jsonBytes": 341891,
+          "heapDeltaBytes": 15106912,
+          "total": "50500",
+          "provisional": false
+        },
+        {
+          "events": 2500,
+          "projectionMs": 1292,
+          "summaryMs": 2,
+          "jsonBytes": 1711391,
+          "heapDeltaBytes": 44812848,
+          "total": "252500",
+          "provisional": false
+        },
+        {
+          "events": 10000,
+          "projectionMs": 4955,
+          "summaryMs": 10,
+          "jsonBytes": 6848891,
+          "heapDeltaBytes": 73982192,
+          "total": "1010000",
+          "provisional": false
+        }
+      ]
+    },
+    "gemini": {
+      "status": "skipped as effective review",
+      "cliExecuted": true,
+      "planningReviewCompleted": false,
+      "reason": "Provider quota exceeded; 45-second timeout; no retries."
+    },
+    "audit": {
+      "runtimeVulnerabilities": 0,
+      "allDependencies": {
+        "info": 0,
+        "low": 0,
+        "moderate": 17,
+        "high": 0,
+        "critical": 0,
+        "total": 17
+      },
+      "sourceAudit": {
+        "candidates": 293,
+        "textFiles": 286,
+        "secretPatternFindings": 0,
+        "historyCommitsScanned": 4,
+        "historySecretPatternFindings": 0,
+        "markdownFiles": 35,
+        "brokenLinks": 0,
+        "ignoreChecksPassed": 17
+      }
+    }
+  },
+  "securityBoundaries": {
+    "server": "active membership, actor binding, v2, immutable creation, conservation, direct parents/before/clock, budget owner",
+    "projectorOnly": [
+      "largest remainder and deterministic quota semantics",
+      "IANA/time/day semantics",
+      "unique reservation dates and aggregate funding",
+      "graph heads and completeness",
+      "exact UTF-8 32 KiB limit"
+    ]
+  },
+  "disabled": [
+    "production Firebase",
+    "deployment",
+    "durable offline outbox",
+    "distributed conflict resolution UI",
+    "duplicate merges",
+    "photos/Openverse",
+    "trip closure",
+    "historical identity reassignment"
+  ],
+  "git": {
+    "staging": "initial 30 files staged; final documentation updates blocked",
+    "error": "Unable to create .git/index.lock: Read-only file system",
+    "indexInitiallyReviewed": true,
+    "newCommit": null,
+    "pushPerformed": false,
+    "remoteMainSha": "545fb36bc41d9781d23b8f55946133c718232f2a",
+    "localMainSha": "545fb36bc41d9781d23b8f55946133c718232f2a",
+    "tracking": "origin/main",
+    "remoteCi": "not verified",
+    "publicationCommands": "PUBLISH.md"
+  }
+}

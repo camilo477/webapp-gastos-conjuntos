@@ -7,6 +7,9 @@ La Fase 3 implementa FIN-01–11, VAL-01–02, BUD-01–05 y STAT-01 en el proye
 Vitest Node, con resultados reales en [su informe](phase3/REPORT.md). Las
 comprobaciones de reglas/UI de esos casos que pertenecen a fases posteriores
 siguen pendientes; probar el dominio no equivale a probar el servidor.
+Fase 5: [resultados de integración financiera online](phase5/REPORT.md),
+incluidos dos contextos Firefox, revisiones, abonos, presupuestos, estadísticas,
+seguridad adversarial y carga. No aprueba SYNC/DUP de Fase 6 ni pruebas físicas.
 Cada requisito RF del [PRD](PRD.md) referencia al menos un caso siguiente.
 
 Resultados de Fase 4 en [REPORT](phase4/REPORT.md) y su

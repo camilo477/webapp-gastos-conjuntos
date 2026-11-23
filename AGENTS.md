@@ -13,7 +13,13 @@ financiero puro y modelos de dominio, sin integración con gastos reales.
 La Fase 3 está publicada (`7524563`). El usuario autorizó expresamente Fase 4:
 Auth, viajes e invitaciones exclusivamente en emuladores, con reglas reales.
 Cierre y reasignación siguen deshabilitados por consistencia/identidad pendientes.
-No iniciar Fase 5 ni funcionalidades posteriores sin una nueva instrucción explícita.
+La Fase 4 se verificó publicada en `545fb36`. El usuario autorizó expresamente
+Fase 5 el 2026-11-23: eventos financieros v2 inmutables, gastos, abonos, historial,
+balances, presupuestos y estadísticas exclusivamente online en emuladores.
+Consultar `docs/phase5/REPORT.md` para resultados y estado real de publicación.
+No iniciar Fase 6 ni funcionalidades posteriores sin nueva instrucción explícita.
+No convertir esta integración en una cola offline: las propuestas sin confirmar
+permanecen solo en pantalla y conservan el mismo ID al reintentar.
 
 ## Git y publicación
 

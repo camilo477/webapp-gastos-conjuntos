@@ -2,9 +2,11 @@
 
 Fase 4 implementa `firestore.rules` y prueba acceso, creación, join y revocación
 en Firebase Emulator Suite. No se han desplegado reglas ni conectado producción.
-Las secciones financieras/adjuntos siguientes conservan la especificación futura:
-solo se permite la raíz budget v2 inicial, sin padres ni reservas. Resto de
-escrituras financieras, adjuntos, cierre y reasignación: denegados. Ver
+Fase 5 permite gastos, abonos y revisiones budget v2 inmutables, con padres directos,
+conservación y autor real. Adjuntos, cierre, reasignación y unificaciones siguen
+denegados. La especificación completa de fases futuras se conserva abajo; las
+[garantías efectivas y límites de Fase 5](phase5/REPORT.md) distinguen servidor
+y proyector. Ver
 [informe y límites de evaluación](phase4/REPORT.md). Denegación por defecto.
 
 ## Acceso y operaciones

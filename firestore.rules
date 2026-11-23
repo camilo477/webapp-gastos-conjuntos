@@ -115,6 +115,93 @@ service cloud.firestore {
         && validAccess(next) && next.membershipVersion == old.membershipVersion + 1 && next.updatedAt == request.time
         && getAfter(memberPath(id, gone[0])).data.status == 'revoked' && getAfter(memberPath(id, gone[0])).data.revokedAt == request.time;
     }
+    // Financial events: direct-parent validation, no graph winner selection.
+    function instant(value) {
+      return value is string && value.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\\.[0-9]{3}Z$');
+    }
+    function note(value) { return value == null || (value is string && value.size() <= 2000); }
+    function monetaryList(a, total) {
+      let v = a.concat([0,0,0,0,0,0,0,0,0,0]);
+      let sum = v[0]+v[1]+v[2]+v[3]+v[4]+v[5]+v[6]+v[7]+v[8]+v[9];
+      // join + a bounded decimal regex validates sign/width in one expression.
+      // Integer arithmetic rejects numeric-looking strings and fractional types.
+      // 10 x 13 digits cannot overflow int64; the exact sum bounds each entry.
+      return a is list && a.size() <= 10 && a.join(',').matches('^[0-9]{1,13}(,[0-9]{1,13}){0,9}$')
+        && sum is int && sum == total;
+    }
+    function identities(ids, allowed) {
+      return ids is list && ids.size() >= 1 && ids.size() <= 10 && ids.toSet().size() == ids.size() && allowed.hasAll(ids);
+    }
+    function occurrence(p,t) { return instant(p.occurredAt) && day(p.day) && p.day >= t.startDate && p.day <= t.endDate; }
+    function expensePayload(p,t,allowed) {
+      let fields = ['title','note','total','category','occurredAt','day','payerIds','payerAmounts','participantIds','shareAmounts','splitMode','weights','visual','attachmentId','status','mergedInto'];
+      return p.keys().hasOnly(fields) && validName(p.title,100) && note(p.note)
+        && money(p.total) && p.total > 0 && p.category in ['food','transport','lodging','activities','shopping','other'] && occurrence(p,t)
+        && identities(p.payerIds,allowed) && identities(p.participantIds,allowed)
+        && p.payerAmounts.size() == p.payerIds.size() && p.shareAmounts.size() == p.participantIds.size()
+        && monetaryList(p.payerAmounts,p.total) && !p.payerAmounts.hasAny([0]) && monetaryList(p.shareAmounts,p.total)
+        && p.weights is list && (p.splitMode == 'fixed' ? p.weights == []
+          : p.weights.size() == p.participantIds.size() && (p.splitMode == 'equal' ? p.weights.toSet() == [1].toSet()
+            : p.splitMode == 'percentage' && monetaryList(p.weights,10000)))
+        && p.visual == null && p.attachmentId == null && p.mergedInto == null && p.status in ['active','deleted'];
+    }
+    function settlementPayload(p,t,allowed) {
+      let fields = ['fromPersonId','toPersonId','amount','occurredAt','day','note','status'];
+      return p.keys().hasOnly(fields) && p.fromPersonId != p.toPersonId
+        && allowed.hasAll([p.fromPersonId,p.toPersonId]) && money(p.amount) && p.amount > 0
+        && occurrence(p,t) && note(p.note) && p.status in ['active','deleted'];
+    }
+    function reserve(row,t) {
+      return row is map && row.keys().hasAll(['day','amount']) && row.keys().hasOnly(['day','amount'])
+        && validDay(row.day) && row.day >= t.startDate && row.day <= t.endDate && money(row.amount);
+    }
+    function budgetPayload(p,previous,t) {
+      let added = p.lockedDays.removeAll(previous.lockedDays);
+      let removed = previous.lockedDays.removeAll(p.lockedDays);
+      return p.keys().hasAll(['total','lockedDays','status']) && p.keys().hasOnly(['total','lockedDays','status'])
+        && (p.total == null || money(p.total)) && p.status == 'active' && p.lockedDays is list && p.lockedDays.size() <= 366
+        && p.lockedDays.toSet().size() == p.lockedDays.size() && (p.total != null || p.lockedDays == [])
+        // Inductively validate one changed reservation per revision, including removal.
+        && added.size() <= 1 && removed.size() <= 1 && (added.size() == 0 || reserve(added[0],t));
+    }
+    function parent(e,p,i) {
+      return p.entityId == e.entityId && p.entityKind == e.entityKind && e.before[i] == p.payload;
+    }
+    function financialCreate(id,eventId) {
+      let e = request.resource.data;
+      let t = get(tripPath(id)).data;
+      let fields = ['schemaVersion','operationId','entityKind','entityId','action','actorUid','actorPersonId','parentIds','logicalClock','before','payload','authoredAt','receivedAt','merge'];
+      let count = e.parentIds.size();
+      let author = uid();
+      // A missing binding fails closed at actorPersonId below.
+      return signed() && t.status == 'active'
+        && e.keys().hasOnly(fields) && e.schemaVersion == 2
+        && e.operationId == eventId && uuid(eventId) && e.actorUid == author && e.actorPersonId == t.memberBindings[author]
+        && e.receivedAt == request.time && instant(e.authoredAt) && e.merge == null
+        && e.logicalClock is int && e.logicalClock <= 1000000000
+        && e.parentIds is list && e.before is list && count == e.before.size()
+        && (e.action == 'create' ? count == 0 && e.entityId == eventId && e.logicalClock == 0 && e.entityKind != 'budget'
+          : e.action in ['replace','delete','resolve'] && e.operationId != e.entityId
+            && count == (e.action == 'resolve' ? 2 : 1))
+        && financialRevision(id,e,t);
+    }
+    function financialRevision(id,e,t) {
+      let a = e.parentIds.size() > 0 ? get(eventPath(id,e.parentIds[0])).data : e;
+      let b = e.parentIds.size() > 1 ? get(eventPath(id,e.parentIds[1])).data : a;
+      let active = t.memberBindings.values();
+      let historical = e.action == 'create' ? [] : e.entityKind == 'expense' ? a.payload.payerIds.concat(a.payload.participantIds).concat(e.parentIds.size() == 2 ? b.payload.payerIds.concat(b.payload.participantIds) : [])
+        : e.entityKind == 'settlement' ? [a.payload.fromPersonId,a.payload.toPersonId,b.payload.fromPersonId,b.payload.toPersonId] : [];
+      let allowed = (e.action == 'create' ? active : active.concat(historical)).toSet();
+      return (e.action == 'create' ? true : parent(e,a,0) && (e.parentIds.size() == 1 ? true : e.parentIds[0] != e.parentIds[1] && parent(e,b,1))
+          && e.logicalClock == (a.logicalClock > b.logicalClock ? a.logicalClock : b.logicalClock) + 1)
+        && (e.entityKind == 'expense' ? expensePayload(e.payload,t,allowed)
+          : e.entityKind == 'settlement' ? settlementPayload(e.payload,t,allowed)
+          : (e.entityKind == 'budget' && uid() == t.ownerId && e.entityId == t.budgetEntityId
+            && e.action in ['replace','resolve'] && budgetPayload(e.payload,a.payload,t)))
+        && (e.action == 'resolve' || e.entityKind == 'budget' ? true
+          : e.action == 'delete' ? e.payload.status == 'deleted' && e.payload.diff(a.payload).affectedKeys().hasOnly(['status'])
+          : e.payload.status == 'active');
+    }
     match /users/{user} {
       allow get: if signed() && uid() == user;
       allow create: if signed() && uid() == user && request.resource.data.keys().hasAll(['displayName','createdAt','schemaVersion'])
@@ -162,7 +249,7 @@ service cloud.firestore {
       }
       match /events/{eventId} {
         allow read: if member(id);
-        allow create: if verifiedOrganizer() && !exists(tripPath(id)) && getAfter(tripPath(id)).data.ownerId == uid()
+        allow create: if exists(tripPath(id)) ? financialCreate(id,eventId) : (verifiedOrganizer() && getAfter(tripPath(id)).data.ownerId == uid()
           && getAfter(tripPath(id)).data.budgetEntityId == eventId && uuid(eventId)
           && request.resource.data.keys().hasAll(['schemaVersion','operationId','entityKind','entityId','action','actorUid','actorPersonId','parentIds','logicalClock','before','payload','authoredAt','receivedAt','merge'])
           && request.resource.data.keys().hasOnly(['schemaVersion','operationId','entityKind','entityId','action','actorUid','actorPersonId','parentIds','logicalClock','before','payload','authoredAt','receivedAt','merge'])
@@ -174,7 +261,7 @@ service cloud.firestore {
           && request.resource.data.authoredAt is string && request.resource.data.authoredAt.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\\.[0-9]{3}Z$')
           && validDay(request.resource.data.authoredAt.split('T')[0])
           && request.resource.data.payload.keys().hasAll(['total','lockedDays','status']) && request.resource.data.payload.keys().hasOnly(['total','lockedDays','status'])
-          && (request.resource.data.payload.total == null || money(request.resource.data.payload.total)) && request.resource.data.payload.lockedDays == [] && request.resource.data.payload.status == 'active';
+          && (request.resource.data.payload.total == null || money(request.resource.data.payload.total)) && request.resource.data.payload.lockedDays == [] && request.resource.data.payload.status == 'active');
       }
     }
     match /{document=**} {

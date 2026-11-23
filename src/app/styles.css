@@ -830,3 +830,25 @@ dialog .navigation { margin-bottom: 24px; }
   *, *::before, *::after { scroll-behavior: auto !important; }
   button:active:not(:disabled) { transform: none; }
 }
+
+/* Fase 5: el registro financiero reutiliza tokens y separadores existentes. */
+.financial-nav { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-block: 16px 24px; }
+.financial-nav a { display: inline-flex; align-items: center; min-height: 44px; }
+.financial-fields { border: 0; margin: 0; padding: 0; min-width: 0; }
+.financial-fields fieldset { border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; min-width: 0; }
+.financial-fields legend { padding-inline: 4px; font-weight: 600; }
+.financial-list { list-style: none; margin: 12px 0 20px; padding: 0; }
+.financial-list > li { padding-block: 16px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.financial-movement { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; min-height: 44px; text-decoration: none; color: var(--ink); }
+.financial-movement span span { display: block; }
+.hero-section { padding-block: 24px; }
+.hero-amount { font-size: clamp(28px, 6vw, 44px); font-weight: 650; letter-spacing: -1px; overflow-wrap: anywhere; }
+.allocation-row { margin-block: 8px 16px; }
+.check-label { display: flex; align-items: center; gap: 12px; min-height: 44px; overflow-wrap: anywhere; }
+.check-label input { width: 24px; height: 24px; flex: 0 0 24px; accent-color: var(--accent); }
+.audit-fields { margin: 16px 0; }
+.audit-fields > div { margin-block: 8px; }
+.audit-fields dt { color: var(--muted); }
+.audit-fields dd { margin: 0; overflow-wrap: anywhere; }
+textarea { display: block; width: 100%; max-width: 100%; border: 1px solid var(--control); border-radius: 8px; background: var(--surface); padding: 12px; }
+.financial-fields:disabled { opacity: .8; }

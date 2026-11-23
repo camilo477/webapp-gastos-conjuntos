@@ -147,3 +147,27 @@ de las suites nuevas está en [Fase 2](phase2/REPORT.md).
 - D-36: demo sin credenciales y build PWA separados del entorno de acceso DEV.
   No publicar un build conectado ni exponer emuladores en LAN por conveniencia.
   Vistas privadas ligadas al UID y confirmadas online; caché no concede permisos.
+
+
+## Decisiones de Fase 5 (2026-11-23)
+
+- F5-01: reutilizar exclusivamente DTO financieros v2, proyector y cálculos de
+  Fase 3; ningún cambio al dominio ni una segunda fuente financiera.
+- F5-02: commit REST autenticado create-only con ID preasignado, confirmación por
+  lectura y reintento canónico. Mantener propuesta únicamente en pantalla; sin
+  cola SDK, outbox ni promesa de persistencia offline.
+- F5-03: listeners completos por viaje/UID para eventos y personas históricas;
+  metadata, raíz budget esperada e incidencias determinan completitud.
+- F5-04: un cambio de reserva manual por revisión valida inductivamente filas
+  hasta 366 días sin bucles en reglas. Conservar las demás reservas. Unicidad
+  semántica por fecha y financiación global se verifican en dominio.
+- F5-05: reglas usan ramas explícitas, invariantes inductivas y suma entera
+  acotada para admitir diez personas y dos padres dentro de 1.000 expresiones.
+  La cadena decimal limita signo/anchura, no autentica tipos por sí sola: se
+  combina con suma de tipo int y exacta. Ataques de tipo/fracciones se prueban.
+- F5-06: mantener base revisada al editar; ramas concurrentes visibles, sin
+  ganador por timestamp. La interfaz no resuelve conflictos distribuidos.
+- F5-07: actividad renderizada en bloques de 50; descarga y proyección siguen
+  completas. Medir antes de añadir workers o snapshots autoritativos.
+
+Evidencia, riesgos y comandos: [informe de Fase 5](phase5/REPORT.md).
