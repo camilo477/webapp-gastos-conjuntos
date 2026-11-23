@@ -4,10 +4,11 @@ Base: `a9ac5e22171681ad7319246b555695fcfe2c02aa`, `main` limpio y coincidente
 con GitHub antes de editar. Fecha: 2026-11-23. Este inventario distingue defectos
 observados, límites conocidos y verificaciones pendientes; no certifica el MVP.
 
-El mensaje recibido termina en el punto 6 de la reparación de CI. Se solicitó
-su continuación. Mientras llega, el alcance ejecutado es revisión inicial y
-reparación de los fallos de Actions expresamente descritos. Producción, cierre
-y reasignación permanecen deshabilitados.
+La revisión inicial recibió un mensaje truncado en el punto 6 de CI. Después
+se recibió la continuación completa y se ejecutó la auditoría integral. La tabla
+siguiente conserva el inventario inicial; el estado actualizado y las evidencias
+están en [REPORT.md](REPORT.md). Producción, cierre y reasignación permanecen
+deshabilitados; no se confunde auditoría con autorización de lanzamiento.
 
 | Prioridad | Riesgo / evidencia | Acción o puerta de aceptación |
 | --- | --- | --- |

@@ -1,6 +1,7 @@
 import { test,expect } from '@playwright/test';
 import { owner,create,invite,confirmed,serverOperations } from '../offline-e2e/helpers';
 import { syntheticImage,pick,begin,localImages,remoteImages } from './helpers';
+import { installCommitFault,commitFaultState,clearCommitFault } from '../offline-e2e/commitFaults';
 
 test('an offline photo survives reload; two clients see the confirmed WebP without changing financial balances',async ({ page,request,context,browser },info) => {
   await owner(page,request); const base = await create(page),peer = await invite(page,browser,base);
@@ -15,10 +16,10 @@ test('an offline photo survives reload; two clients see the confirmed WebP witho
 });
 
 test('an attachment upload rejection preserves money and retries only the same thumbnail',async ({ page,request,context }) => {
-  await owner(page,request); const base = await create(page); let financialWrites = 0;
-  await context.route('**/documents:commit',async route => { const writes = (route.request().postDataJSON() as { writes?: { update?: { name?: string } }[] }).writes ?? []; if (writes.some(w => w.update?.name?.includes('/attachments/'))) await route.fulfill({ status: 403,body: '{}' }); else { financialWrites += writes.filter(w => w.update?.name?.includes('/events/')).length; await route.continue(); } });
-  await begin(page,'Foto rechazada'); await pick(page,await syntheticImage(page)); await page.getByRole('button',{ name: 'Guardar gasto',exact: true }).click(); await confirmed(page); await page.getByRole('link',{ name: /Foto rechazada/ }).click(); await expect(page.getByText('Imagen rechazada · gasto conservado',{ exact: true })).toBeVisible({ timeout: 60000 }); await expect(page.getByRole('heading',{ name: 'Foto rechazada',exact: true })).toBeVisible(); const id = (await localImages(page))[0]!.attachmentId; expect((await serverOperations(request,base))).toHaveLength(2); expect(financialWrites).toBe(1);
-  await context.unroute('**/documents:commit'); await page.getByRole('button',{ name: 'Reintentar imagen',exact: true }).click(); await expect(page.getByText('Imagen confirmada por el servidor',{ exact: true })).toBeVisible({ timeout: 60000 }); expect((await localImages(page))[0]!.attachmentId).toBe(id); expect((await remoteImages(request,base))).toHaveLength(1); expect((await serverOperations(request,base))).toHaveLength(2); await page.goto(base); await expect(page.getByTestId('trip-total')).toHaveText('COP $20.000');
+  await owner(page,request); const base = await create(page);
+  await installCommitFault(context,'reject','image',false);
+  await begin(page,'Foto rechazada'); await pick(page,await syntheticImage(page)); await page.getByRole('button',{ name: 'Guardar gasto',exact: true }).click(); await expect(page).toHaveURL(base); await confirmed(page); await page.getByRole('link',{ name: /Foto rechazada/ }).click(); await expect(page.getByRole('heading',{ name: 'Foto rechazada',exact: true })).toBeVisible(); await page.locator('.detail-image').scrollIntoViewIfNeeded(); await expect(page.getByText('Imagen rechazada · gasto conservado',{ exact: true })).toBeVisible({ timeout: 60000 }); const id = (await localImages(page))[0]!.attachmentId; expect((await serverOperations(request,base))).toHaveLength(2); expect((await commitFaultState(page)).financialWrites).toBe(1);
+  await clearCommitFault(context); await page.getByRole('button',{ name: 'Reintentar imagen',exact: true }).click(); await expect(page.getByText('Imagen confirmada por el servidor',{ exact: true })).toBeVisible({ timeout: 60000 }); expect((await localImages(page))[0]!.attachmentId).toBe(id); expect((await remoteImages(request,base))).toHaveLength(1); expect((await serverOperations(request,base))).toHaveLength(2); await page.goto(base); await expect(page.getByTestId('trip-total')).toHaveText('COP $20.000');
 });
 
 for (const storageFailure of ['QuotaExceededError','UnknownError']) test(`thumbnail IndexedDB ${storageFailure} cannot abort or duplicate a durable financial operation`,async ({ page,request }) => {
@@ -35,5 +36,5 @@ for (const kind of ['heic','corrupt','oversized','tiny','panorama','hugePixels']
 });
 
 test('JPEG orientation is applied and EXIF metadata is absent from the persisted WebP',async ({ page,request }) => {
-  await owner(page,request); await create(page); await begin(page,'Orientación'); const input = await syntheticImage(page,{ width: 200,height: 100,type: 'image/jpeg',orientation: 6 }); await pick(page,input); await page.getByRole('button',{ name: 'Guardar gasto',exact: true }).click(); const rows = await localImages(page); expect(rows[0]!.attachment.width).toBe(100); expect(rows[0]!.attachment.height).toBe(200); expect(Buffer.from(rows[0]!.attachment.bytes).includes(Buffer.from('Exif'))).toBe(false); expect(Buffer.from(rows[0]!.attachment.bytes).includes(Buffer.from('SYNTHETIC-GPS'))).toBe(false);
+  await owner(page,request); const base = await create(page); await begin(page,'Orientación'); const input = await syntheticImage(page,{ width: 200,height: 100,type: 'image/jpeg',orientation: 6 }); await pick(page,input); await page.getByRole('button',{ name: 'Guardar gasto',exact: true }).click(); await expect(page).toHaveURL(base); const rows = await localImages(page); expect(rows).toHaveLength(1); expect(rows[0]!.attachment.width).toBe(100); expect(rows[0]!.attachment.height).toBe(200); expect(Buffer.from(rows[0]!.attachment.bytes).includes(Buffer.from('Exif'))).toBe(false); expect(Buffer.from(rows[0]!.attachment.bytes).includes(Buffer.from('SYNTHETIC-GPS'))).toBe(false);
 });

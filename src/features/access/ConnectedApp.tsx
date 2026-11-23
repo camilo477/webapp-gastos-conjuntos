@@ -55,11 +55,6 @@ function ConnectedShell({ initialCode }: { initialCode: string }) {
   </>;
 }
 
-export default function ConnectedApp() {
-  const [initialCode] = useState(() => {
-    const value = window.location.pathname === '/join' ? window.location.hash.slice(1) : '';
-    if (value) window.history.replaceState(window.history.state,'',window.location.pathname + window.location.search);
-    return value;
-  });
+export default function ConnectedApp({ initialCode }: { initialCode: string }) {
   return <SessionProvider><SyncProvider><ConnectedShell initialCode={initialCode} /></SyncProvider></SessionProvider>;
 }

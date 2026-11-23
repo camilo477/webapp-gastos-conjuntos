@@ -94,6 +94,20 @@ test('supports keyboard focus, native dialog Escape and origin focus', async ({ 
   await expect(page.locator('#main')).toBeFocused();
 });
 
+test('mobile navigation contains enlarged labels without horizontal scroll or overlapping targets', async ({ page }) => {
+  await page.setViewportSize({ width: 320,height: 568 }); await page.goto('/');
+  const nav = page.getByRole('navigation',{ name: 'Navegación principal móvil',exact: true });
+  await nav.getByRole('link').evaluateAll(links => links.forEach(link => { (link as HTMLElement).style.fontSize = '32px'; }));
+  await noOverflow(page);
+  const bounds = await nav.boundingBox(); let previousRight = 0;
+  for (const link of await nav.getByRole('link').all()) {
+    const box = await link.boundingBox(); expect(box!.x).toBeGreaterThanOrEqual(previousRight);
+    expect(box!.x + box!.width).toBeLessThanOrEqual(bounds!.x + bounds!.width);
+    expect(box!.height).toBeGreaterThanOrEqual(44); previousRight = box!.x + box!.width;
+    await expect(link).toBeVisible();
+  }
+});
+
 test('passes automated accessibility checks on all available screens in both themes', async ({ page }) => {
   for (const theme of ['light', 'dark']) for (const path of routes) {
     await page.goto(path); await page.getByRole('combobox', { name: 'Tema' }).selectOption(theme);

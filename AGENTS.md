@@ -33,7 +33,10 @@ Fase 7 publicada en `a9ac5e22171681ad7319246b555695fcfe2c02aa`. El usuario
 autorizó Fase 8A: estabilización, auditoría y reparación de CI. Consultar
 `docs/phase8a/RISK_INVENTORY.md` y `docs/phase8a/REPORT.md`. Se recibió la
 continuación completa: auditorías financiera/offline/seguridad, compatibilidad,
-rendimiento y preparación documental. No declarar completa Fase 8A por reparar CI.
+rendimiento y preparación documental. No declarar completa Fase 8A por reparar CI. Conservar regresiones de apertura
+IDB recuperable, acuse durable del snapshot, invitación capturada antes de React
+y fallos de transporte previos al SW en pruebas. CI separa navegador y suite;
+Chrome del runner mantiene sandbox y ruta permitida, sin modificar AppArmor.
 Mantener producción deshabilitada; cierre y reasignación requieren garantías
 demostradas y decisiones ratificadas. No iniciar Fase 8B ni desplegar.
 Mantener Firestore en memoria: la cola propia es la única cola financiera.

@@ -21,8 +21,8 @@ import type { ThemePreference } from './theme';
 
 const ConnectedApp = lazy(() => import('../features/access/ConnectedApp'));
 
-export function App() {
-  return firebaseConfiguration.status === 'emulators' ? <Suspense fallback={<main><h1>Abriendo entorno local…</h1></main>}><ConnectedApp /></Suspense> : <DemoApp />;
+export function App({ initialCode = '' }: { initialCode?: string }) {
+  return firebaseConfiguration.status === 'emulators' ? <Suspense fallback={<main><h1>Abriendo entorno local…</h1></main>}><ConnectedApp initialCode={initialCode} /></Suspense> : <DemoApp />;
 }
 
 function DemoApp() {

@@ -115,8 +115,10 @@ test('a live trip projects 500 confirmed expenses and keeps the activity list bo
     expect(result.ok(),await result.text()).toBe(true);
   }
   await expect(page.getByTestId('trip-total')).toHaveText('COP $500');
+  // A live server projection can precede the durable IndexedDB snapshot.
+  await expect(page.getByText('Sincronizado',{ exact: true })).toBeVisible({ timeout: 60000 });
   console.log(`500 expenses through ordinary authenticated rules and live UI: ${Date.now() - started} ms`);
-  await page.goto(`${base}/estadisticas`); await expect(page.getByTestId('statistics-total')).toHaveText('COP $500'); await expect(page.getByText('500 gastos · 0 abonos',{ exact: true })).toBeVisible();
+  await page.goto(`${base}/estadisticas`); await expect(page.getByText('Sincronizado',{ exact: true })).toBeVisible({ timeout: 60000 }); await expect(page.getByTestId('statistics-total')).toHaveText('COP $500'); await expect(page.getByText('500 gastos · 0 abonos',{ exact: true })).toBeVisible();
   await page.goto(`${base}/actividad`); const history = page.getByRole('region',{ name: 'Historial financiero' });
   await expect(history.getByRole('listitem')).toHaveCount(50); await history.getByRole('button',{ name: 'Mostrar más actividad' }).click(); await expect(history.getByRole('listitem')).toHaveCount(100);
 });

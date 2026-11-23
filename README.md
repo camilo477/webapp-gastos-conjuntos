@@ -14,7 +14,10 @@ Git: `main`. Antes de comenzar Fase 8A se verificó la Fase 7 publicada en
 Informes de [Fase 5](docs/phase5/REPORT.md) [Fase 6](docs/phase6/REPORT.md)
 y [Fase 7](docs/phase7/REPORT.md), con pruebas, limitaciones y publicación real.
 La revisión inicial de Fase 8A registra un [inventario de riesgos](docs/phase8a/RISK_INVENTORY.md)
-y la [reparación de CI](docs/phase8a/REPORT.md). No certifica preparación productiva.
+y la [auditoría integral](docs/phase8a/REPORT.md). Incluye
+[checklist de lanzamiento](docs/phase8a/RELEASE_CHECKLIST.md),
+[plan Firebase Spark/Raspberry](docs/phase8a/DEPLOYMENT_PLAN.md) y
+[QA Android/iPhone pendiente](docs/phase8a/MOBILE_TEST_PLAN.md). No certifica preparación productiva.
 
 ## Requisitos e instalación
 

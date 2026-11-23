@@ -2,7 +2,7 @@ import { test,expect,firefox } from '@playwright/test';
 import { mkdtemp,rm,mkdir } from 'node:fs/promises';
 import { owner,create,invite,add,localGroups,confirmed,baseURL } from './helpers';
 import type { Page } from '@playwright/test';
-async function logout(page: Page) { await page.getByRole('button',{ name: 'Más opciones',exact: true }).click(); await page.getByRole('button',{ name: 'Cerrar sesión',exact: true }).click(); await page.getByRole('button',{ name: 'Confirmar cierre de sesión',exact: true }).click(); await page.goto('/viajes'); await expect(page.getByRole('link',{ name: 'Iniciar sesión',exact: true })).toBeVisible(); }
+async function logout(page: Page) { await page.getByRole('button',{ name: 'Más opciones',exact: true }).click(); await page.getByRole('button',{ name: 'Cerrar sesión',exact: true }).click(); await page.getByRole('button',{ name: 'Confirmar cierre de sesión',exact: true }).click(); await expect(page.getByRole('dialog',{ name: 'Cerrar sesión',exact: true })).toBeHidden(); await page.goto('/viajes'); await expect(page.getByRole('link',{ name: 'Iniciar sesión',exact: true })).toBeVisible(); }
 
 test('logout and account change isolate pending operations across tabs and only the original UID resumes them',async ({ page,request,context }) => {
   const emailA = await owner(page,request),base = await create(page); await context.setOffline(true); await add(page,'Privado de Camilo','21000'); const original = (await localGroups(page))[0]!;

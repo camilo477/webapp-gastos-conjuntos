@@ -8,12 +8,14 @@ import { useSession } from '../access/session';
 import { useNetwork } from '../../app/useNetwork';
 import { useLocalTrip } from '../../sync/useLocalTrip';
 import { useSyncServices } from '../../sync/context';
+import { retryDelay } from '../../sync/coordinator';
 
 export function useFinance(trip: TripRecord) {
   const { client,user } = useSession(), uid = user!.uid, online = useNetwork(), services = useSyncServices(), local = useLocalTrip(trip.id);
   const [events,setEvents] = useState<{ key: string;value: EventCollection } | null>(null);
   const [people,setPeople] = useState<{ key: string;value: TripContext | null;confirmed: boolean } | null>(null);
   const [failure,setFailure] = useState(''), [cacheError,setCacheError] = useState('');
+  const [downloaded,setDownloaded] = useState<{ trip: TripRecord;context: TripContext;collection: EventCollection } | null>(null);
   const [now,setNow] = useState(() => new Date().toISOString());
   const eventKey = `${uid}/${trip.id}`, peopleKey = `${eventKey}/${trip.membershipVersion}`;
   useEffect(() => watchEvents(client,trip.id,uid,value => setEvents({ key: eventKey,value }),() => { setFailure(eventKey); void services?.store.block(trip.id).catch(() => {}); }),[client,trip.id,uid,eventKey,services]);
@@ -26,9 +28,18 @@ export function useFinance(trip: TripRecord) {
   const rootPresent = !!collection?.events.some(raw => raw && typeof raw === 'object' && 'operationId' in raw && raw.operationId === trip.budgetEntityId);
   useEffect(() => {
     if (!services || !serverComplete || !liveContext || !collection || !rootPresent) return;
-    let active = true;
-    void services.store.cache(trip,liveContext,collection.events).then(() => { if (active) setCacheError(''); }).catch(() => { if (active) setCacheError('No se pudo completar la descarga en este dispositivo. No salgas sin copiar los datos pendientes.'); });
-    return () => { active = false; };
+    let active = true,attempts = 0;
+    let retry: ReturnType<typeof setTimeout> | undefined;
+    const download = async () => {
+      try { await services.store.cache(trip,liveContext,collection.events); if (active) { setCacheError(''); setDownloaded({ trip,context: liveContext,collection }); } }
+      catch {
+        if (!active) return;
+        setCacheError('No se pudo completar la descarga en este dispositivo. No salgas sin copiar los datos pendientes.');
+        retry = setTimeout(() => { void download(); },retryDelay(++attempts));
+      }
+    };
+    void download();
+    return () => { active = false; clearTimeout(retry); };
   },[services,serverComplete,liveContext,collection,rootPresent,trip]);
   const pending = local.groups.filter(group => group.state !== 'confirmed');
   const pendingJson = JSON.stringify(pending.filter(group => group.state !== 'rejected').flatMap(group => group.events));
@@ -51,7 +62,8 @@ export function useFinance(trip: TripRecord) {
   const summary = useMemo(() => state ? summarizeTrip(state,now) : null,[state,now]);
   const heads = useMemo(() => { const referenced = new Set(validEvents.flatMap(event => event.parentIds)); return validEvents.filter(event => !referenced.has(event.operationId)); },[validEvents]);
   const canWrite = !!local.trip?.downloaded && !local.trip.blocked && trip.status === 'active' && !!trip.memberBindings[uid] && !!context && context.people.length === trip.participantIds.length;
-  return { context,state,localState,summary,events: validEvents,heads,complete,invalidCount: collection?.invalidCount ?? 0,failed: failure === eventKey,now,pending,canWrite,offlineReady: !!local.trip?.downloaded,storageError: cacheError || local.error,services };
+  const cachePending = !!services && serverComplete && rootPresent && (downloaded?.trip !== trip || downloaded.context !== liveContext || downloaded.collection !== collection);
+  return { context,state,localState,summary,events: validEvents,heads,complete,invalidCount: collection?.invalidCount ?? 0,failed: failure === eventKey,now,pending,canWrite,offlineReady: !!local.trip?.downloaded,cachePending,storageError: cacheError || local.error,services };
 }
 export type Finance = ReturnType<typeof useFinance>;
 export function editableHead(finance: Finance,entityId: string,kind: FinancialEventV2Dto['entityKind']) {

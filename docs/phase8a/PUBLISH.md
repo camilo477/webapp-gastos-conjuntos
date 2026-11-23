@@ -1,48 +1,53 @@
-# Publicar la corrección inicial de CI desde Ubuntu
+# Publicación de Fase 8A
 
-El entorno de Codex permitió el staging inicial y después protegió .git.
-No hay commit nuevo ni push. El árbol conserva todos los archivos finales;
-el índice conserva una versión anterior del informe y carece del resumen final.
-Ejecutar desde una terminal normal donde Git tenga permisos, sin sudo ni force.
+Los primeros intentos encontraron .git de solo lectura; ese bloqueo histórico
+no representa el estado posterior. Se publicaron y verificaron:
 
-Primero inspeccionar rama y avances. Base esperada de esta entrega:
-`a9ac5e22171681ad7319246b555695fcfe2c02aa`. Si aparece trabajo nuevo o divergencia,
-detenerse y revisarlo antes de integrar; no descartar cambios ni hacer push forzado.
+- `a763ce52d798e5b1b77c686cd74b1ee2aa3c9c68`: foco y separación de motores.
+- `1b8158fd53b56895ed12096d0c3320433d75ba58`: Chrome sandboxed en Actions.
+
+La continuación publica las correcciones de durabilidad y sus regresiones, luego
+consolida resultados. Ver [REPORT.md](REPORT.md) para SHA/Actions finales. No
+interpretar un push como despliegue ni como aprobación automática de CI.
+
+## Si el entorno vuelve a proteger .git
+
+Conservar archivos, no usar sudo ni cambiar permisos ni eludir el bloqueo.
+Desde Ubuntu normal, inspeccionar primero; si hay avances ajenos o divergencia,
+revisarlos antes de integrar sin descartar trabajo:
 
 ```bash
 cd /mnt/Datos/gastos
 git status --short --branch
 git branch --show-current
 git fetch origin
-git rev-parse HEAD
 git log --oneline --left-right main...origin/main
 ```
 
-Con main/base comprobadas y sin divergencia, preparar **todos** los entregables
-finales y revisar el contenido exacto:
+Con main comprobada, pruebas ejecutadas y diff/secretos auditados, preparar solo
+los archivos de la fase. Ejecutar cada comando por separado, comprobar el índice
+completo y detenerse ante cambios inesperados:
 
 ```bash
-git add .github/workflows/ci.yml scripts/check-browser.mjs tests/e2e/shell.spec.ts README.md AGENTS.md docs/phase8a/RISK_INVENTORY.md docs/phase8a/REPORT.md docs/phase8a/test-results-summary.json docs/phase8a/PUBLISH.md
+git add .github/workflows/ci.yml AGENTS.md README.md docs/phase8a scripts/measure-financial.mjs src tests
 git diff --cached --check
 git diff --cached
-git commit -m "fix: stabilize browser CI and keyboard focus checks"
+git commit -m "fix: stabilize offline durability and audit MVP readiness"
 git push origin main
 git rev-parse HEAD
 git ls-remote origin refs/heads/main
 git status --short --branch
 ```
 
-Los dos SHA finales deben coincidir. Comprobar después la ejecución del commit
-en [Actions](https://github.com/camilo477/webapp-gastos-conjuntos/actions).
-Si gh está autenticado, estos comandos son de solo lectura:
+Si ya se creó el commit y solo faltó push, no crear otro innecesariamente.
+Los SHA local/remoto deben coincidir. Comprobar la ejecución del mismo SHA en
+[Actions](https://github.com/camilo477/webapp-gastos-conjuntos/actions), incluyendo
+validate y los doce jobs navegador × suite. Con gh autenticado:
 
 ```bash
 gh run list --repo camilo477/webapp-gastos-conjuntos --workflow ci.yml --branch main --limit 5
 gh run view RUN_ID --repo camilo477/webapp-gastos-conjuntos --log-failed
 ```
 
-RUN_ID debe corresponder al SHA recién publicado. Verificar validate y los tres
-jobs browsers, sus cuatro suites y artefactos. El helper debe existir y pasar
-preflight en Chromium. Si falla, conservar logs y corregir el entorno; no
-desactivar sandbox/AppArmor para conseguir verde. Un check omitido no es aprobado.
-No desplegar ni conectar Firebase productivo al publicar esta corrección.
+No relajar sandbox, omitir casos ni declarar verde un check pendiente/fallido.
+No desplegar ni conectar Firebase productivo al publicar esta auditoría.

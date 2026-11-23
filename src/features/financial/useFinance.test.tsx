@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, renderHook } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { prepareOperation } from '../../repositories/financial/events';
@@ -7,12 +7,16 @@ import type { FirebaseClient } from '../../repositories/firebase/client';
 import type { TripRecord } from '../../repositories/access/contracts';
 import { sessionContext } from '../access/session';
 import { useFinance } from './useFinance';
+import { syncContext } from '../../sync/context';
+import type { OfflineStore } from '../../sync/storage';
 const mocks = vi.hoisted(() => ({ events: vi.fn(),people: vi.fn(),stopEvents: vi.fn(),stopPeople: vi.fn() }));
 vi.mock('../../repositories/financial/events',async original => ({ ...await original<typeof import('../../repositories/financial/events')>(),watchEvents: mocks.events,watchPeople: mocks.people }));
+vi.mock('../../sync/useLocalTrip',() => ({ useLocalTrip: () => ({ trip: null,groups: [],ready: true,error: '' }) }));
 const context = { ...trip(),id: uuid(1) }, root = prepareOperation(context,{ uid: 'A',personId: 'A' },'budget',budget());
 const record = { ...context,budgetEntityId: root.operationId,membershipVersion: 0,memberBindings: { A: 'A',B: 'B' } } as unknown as TripRecord;
 const wrapper = ({ children }: { children: ReactNode }) => <sessionContext.Provider value={{ client: {} as FirebaseClient,user: { uid: 'A',email: null,displayName: null,emailVerified: true,isAnonymous: false } }}>{children}</sessionContext.Provider>;
 beforeEach(() => { vi.resetAllMocks(); mocks.events.mockReturnValue(mocks.stopEvents); mocks.people.mockReturnValue(mocks.stopPeople); });
+afterEach(() => { vi.useRealTimers(); });
 describe('financial subscription completeness', () => {
   it('does not call an empty collection complete when the declared budget root is missing', () => {
     const { result } = renderHook(() => useFinance(record),{ wrapper });
@@ -27,5 +31,30 @@ describe('financial subscription completeness', () => {
     act(() => mocks.people.mock.calls[0]![3](null));
     expect(result.current.context).toEqual(context); expect(result.current.complete).toBe(false); expect(result.current.state?.provisional).toBe(true);
     unmount(); expect(mocks.stopEvents).toHaveBeenCalledTimes(1); expect(mocks.stopPeople).toHaveBeenCalledTimes(1);
+  });
+  it('retries a failed durable download with backoff and clears the error only after storage succeeds', async () => {
+    vi.useFakeTimers(); vi.spyOn(Math,'random').mockReturnValue(0.5);
+    const cache = vi.fn().mockRejectedValueOnce(new Error('Transient storage failure')).mockResolvedValue(undefined);
+    const services = { store: { cache } as unknown as OfflineStore,coordinator: {} as never,attachments: {} as never };
+    const synced = ({ children }: { children: ReactNode }) => wrapper({ children: <syncContext.Provider value={services}>{children}</syncContext.Provider> });
+    const { result,unmount } = renderHook(() => useFinance(record),{ wrapper: synced });
+    await act(async () => { mocks.people.mock.calls[0]![3](context); mocks.events.mock.calls[0]![3]({ events: [root],complete: true,invalidCount: 0 }); });
+    expect(cache).toHaveBeenCalledTimes(1); expect(result.current.storageError).not.toBe('');
+    await act(async () => { await vi.advanceTimersByTimeAsync(1999); }); expect(cache).toHaveBeenCalledTimes(1);
+    await act(async () => { await vi.advanceTimersByTimeAsync(1); });
+    expect(cache).toHaveBeenCalledTimes(2); expect(result.current.storageError).toBe('');
+    expect(cache.mock.calls[1]).toEqual([record,context,[root]]);
+    unmount(); expect(vi.getTimerCount()).toBe(0);
+  });
+  it('keeps the latest download pending until its actual storage transaction acknowledges', async () => {
+    let acknowledge = () => {};
+    const receipt = new Promise<void>(resolve => { acknowledge = resolve; });
+    const services = { store: { cache: vi.fn(() => receipt) } as unknown as OfflineStore,coordinator: {} as never,attachments: {} as never };
+    const synced = ({ children }: { children: ReactNode }) => wrapper({ children: <syncContext.Provider value={services}>{children}</syncContext.Provider> });
+    const { result,unmount } = renderHook(() => useFinance(record),{ wrapper: synced });
+    act(() => { mocks.people.mock.calls[0]![3](context); mocks.events.mock.calls[0]![3]({ events: [root],complete: true,invalidCount: 0 }); });
+    expect(result.current.complete).toBe(true); expect(result.current.cachePending).toBe(true);
+    await act(async () => { acknowledge(); await receipt; });
+    expect(result.current.cachePending).toBe(false); unmount();
   });
 });

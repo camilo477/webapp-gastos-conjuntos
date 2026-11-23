@@ -808,7 +808,7 @@ dialog .navigation { margin-bottom: 24px; }
   .movement .movement-icon { width: 40px; height: 40px; }
   .movement-end { max-width: 44%; }
   .bottom-nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid var(--line); padding: 7px 16px calc(7px + env(safe-area-inset-bottom)); z-index: 20; }
-  .bottom-nav .nav-link { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: var(--muted); font-size: 12px; min-height: 50px; padding: 8px 4px; }
+  .bottom-nav .nav-link { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: var(--muted); font-size: 12px; min-height: 50px; min-width: 0; padding: 8px 4px; overflow-wrap: anywhere; text-align: center; }
   .bottom-nav .nav-link[aria-current="page"] { background: none; color: var(--accent); font-weight: 600; }
   .desktop-add { display: none; }
   .add-dock { display: block; position: fixed; bottom: var(--nav-height, 80px); left: 0; right: 0; padding: 12px 24px; background: var(--bg); z-index: 19; }

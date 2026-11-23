@@ -1,5 +1,6 @@
 import { test,expect } from '@playwright/test';
 import { owner,create,invite,add,localGroups,confirmed,serverOperations } from './helpers';
+import { installCommitFault,commitFaultState,clearCommitFault } from './commitFaults';
 
 for (const order of ['owner-first','guest-first']) test(`two devices retain four offline purchases across reload and converge ${order}`, async ({ page,request,browser,context }) => {
   await owner(page,request); const base = await create(page); const peer = await invite(page,browser,base);
@@ -38,13 +39,12 @@ test('lost commit response and two tabs never duplicate a durable operation', as
   await owner(page,request); const base = await create(page);
   await context.setOffline(true); await add(page,'Un único café','20000'); const groups = await localGroups(page), original = groups.find(g => g.state !== 'confirmed')!;
   const second = await context.newPage(); await second.goto(base); await expect(second.getByTestId('trip-total')).toHaveText('COP $20.000');
-  let commits = 0,lostResponse = false;
-  await context.route('**/documents:commit',async route => { commits++; await route.fetch(); await route.abort('failed'); lostResponse = true; });
-  await context.setOffline(false); await expect.poll(() => lostResponse).toBe(true);
-  await context.unroute('**/documents:commit'); await page.getByRole('button',{ name: 'Sincronizar ahora',exact: true }).click();
+  await installCommitFault(context,'lose-ack','financial');
+  await context.setOffline(false); await expect.poll(async () => (await commitFaultState(page)).arrived).toBe(true);
+  await clearCommitFault(context); await page.getByRole('button',{ name: 'Sincronizar ahora',exact: true }).click();
   await confirmed(page); await confirmed(second); await expect(page.getByTestId('trip-total')).toHaveText('COP $20.000');
   expect((await serverOperations(request,base)).filter(id => id === original.events[0]!.operationId)).toHaveLength(1);
-  expect((await localGroups(page)).filter(g => g.id === original.id)).toHaveLength(1); expect((await localGroups(page)).find(g => g.id === original.id)?.events[0]?.operationId).toBe(original.events[0]!.operationId); expect(commits).toBe(1);
+  expect((await localGroups(page)).filter(g => g.id === original.id)).toHaveLength(1); expect((await localGroups(page)).find(g => g.id === original.id)?.events[0]?.operationId).toBe(original.events[0]!.operationId); expect((await commitFaultState(page)).financialWrites).toBe(1);
 });
 
 test('quota failure preserves the form, exposes a copy and never reports a successful local save', async ({ page,request }) => {
@@ -59,4 +59,58 @@ test('IndexedDB opening failure does not pretend a download or a financial save'
   await owner(page,request); const base = await create(page);
   await context.addInitScript(() => { const original = IDBFactory.prototype.open; IDBFactory.prototype.open = function(...args: Parameters<typeof original>) { if (args[0].startsWith('gastos-offline-v1:')) throw new DOMException('Synthetic unavailable storage','InvalidStateError'); return original.apply(this,args); }; });
   await page.goto(base); await expect(page.getByText('Almacenamiento no disponible',{ exact: true })).toBeVisible(); await expect(page.getByText(/Viaje descargado para este usuario/)).toHaveCount(0);
+});
+
+test('a transient IndexedDB opening error recovers without discarding the downloaded trip or changing the operation ID', async ({ page,request,context }) => {
+  await owner(page,request); const base = await create(page);
+  await context.addInitScript(() => {
+    const original = IDBFactory.prototype.open; let failed = false;
+    IDBFactory.prototype.open = function(...args: Parameters<typeof original>) {
+      if (!failed && args[0].startsWith('gastos-offline-v1:')) { failed = true; throw new DOMException('Transient storage failure','InvalidStateError'); }
+      return original.apply(this,args);
+    };
+  });
+  await page.reload(); await expect(page.getByText(/Viaje descargado para este usuario/)).toBeVisible();
+  await context.setOffline(true); await add(page,'Recuperado tras error local','913');
+  const pending = (await localGroups(page)).find(group => group.state !== 'confirmed')!;
+  await page.reload(); await expect(page.getByTestId('trip-total')).toHaveText('COP $913');
+  await context.setOffline(false); await confirmed(page);
+  expect((await serverOperations(request,base)).filter(id => id === pending.events[0]!.operationId)).toHaveLength(1);
+  expect((await localGroups(page)).find(group => group.id === pending.id)?.state).toBe('confirmed');
+});
+
+test('an interrupted local receipt after server commit recovers the sending lease and confirms the same immutable operation', async ({ page,request,context }) => {
+  await owner(page,request); const base = await create(page);
+  await context.setOffline(true); await add(page,'Confirmación interrumpida','12001');
+  const original = (await localGroups(page)).find(group => group.state !== 'confirmed')!;
+  await installCommitFault(context,'hold-ack','financial');
+  try {
+    await context.setOffline(false); await expect.poll(async () => (await commitFaultState(page)).arrived).toBe(true);
+    expect((await serverOperations(request,base)).filter(id => id === original.id)).toHaveLength(1);
+    await page.goto('/icons/app.svg'); await clearCommitFault(context);
+    expect((await localGroups(page)).find(group => group.id === original.id)?.state).toBe('sending');
+    await page.goto(base); await expect(page.getByTestId('trip-total')).toHaveText('COP $12.001');
+    await confirmed(page);
+    expect((await localGroups(page)).find(group => group.id === original.id)?.state).toBe('confirmed');
+    expect((await serverOperations(request,base)).filter(id => id === original.id)).toHaveLength(1);
+    expect((await commitFaultState(page)).financialWrites).toBe(1);
+  } finally { await clearCommitFault(context); }
+});
+
+test('a failed durable trip-cache transaction retries without falsely reporting storage success or losing an expense', async ({ page,request,context }) => {
+  await owner(page,request); const base = await create(page);
+  await context.addInitScript(() => {
+    const put = IDBObjectStore.prototype.put; let failed = false;
+    IDBObjectStore.prototype.put = function(...args: Parameters<typeof put>) {
+      if (!failed && this.name === 'trips') { failed = true; throw new DOMException('Transient cache write failure','UnknownError'); }
+      return put.apply(this,args);
+    };
+  });
+  await page.reload(); const error = page.getByText('No se pudo completar la descarga en este dispositivo. No salgas sin copiar los datos pendientes.',{ exact: true });
+  await expect(error).toBeVisible(); await expect(error).not.toBeVisible({ timeout: 15000 });
+  await context.setOffline(true); await add(page,'Descarga reintentada','817');
+  const pending = (await localGroups(page)).find(group => group.state !== 'confirmed')!;
+  await page.reload(); await expect(page.getByTestId('trip-total')).toHaveText('COP $817');
+  await context.setOffline(false); await confirmed(page);
+  expect((await serverOperations(request,base)).filter(id => id === pending.id)).toHaveLength(1);
 });

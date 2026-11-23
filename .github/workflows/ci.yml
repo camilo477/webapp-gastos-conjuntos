@@ -23,11 +23,13 @@ jobs:
   browsers:
     needs: validate
     runs-on: ubuntu-26.04
-    timeout-minutes: 45
+    timeout-minutes: 30
     strategy:
       fail-fast: false
+      max-parallel: 6
       matrix:
         browser: [chromium, firefox, webkit]
+        suite: [shell, access, offline, images]
     env:
       # Chrome's installed path is already allowed by Ubuntu's AppArmor profile.
       # Retain Chromium's sandbox; do not change host policies or SUID permissions.
@@ -51,21 +53,21 @@ jobs:
         id: browser
         run: node scripts/check-browser.mjs ${{ matrix.browser }}
       - name: Shell, accessibility and service worker
-        if: ${{ !cancelled() && steps.browser.outcome == 'success' }}
+        if: matrix.suite == 'shell'
         run: npm run test:e2e -- --project=${{ matrix.browser }}
       - name: Access and financial integration
-        if: ${{ !cancelled() && steps.browser.outcome == 'success' }}
+        if: matrix.suite == 'access'
         run: npx firebase emulators:exec --only auth,firestore --project demo-gastos-compartidos "node node_modules/playwright/cli.js test --config playwright.emulator.config.ts --project=${{ matrix.browser }}"
       - name: Offline and convergence
-        if: ${{ !cancelled() && steps.browser.outcome == 'success' }}
+        if: matrix.suite == 'offline'
         run: npx firebase emulators:exec --only auth,firestore --project demo-gastos-compartidos "node node_modules/playwright/cli.js test --config playwright.offline.config.ts --project=${{ matrix.browser }}"
       - name: Images and attachments
-        if: ${{ !cancelled() && steps.browser.outcome == 'success' }}
+        if: matrix.suite == 'images'
         run: npx firebase emulators:exec --only auth,firestore --project demo-gastos-compartidos "node node_modules/playwright/cli.js test --config playwright.attachments.config.ts --project=${{ matrix.browser }}"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: browser-results-${{ matrix.browser }}
+          name: browser-results-${{ matrix.browser }}-${{ matrix.suite }}
           path: |
             playwright-report/
             test-results/

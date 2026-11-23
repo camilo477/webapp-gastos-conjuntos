@@ -34,6 +34,7 @@ const request = <T,>(value: IDBRequest<T>) => new Promise<T>((resolve,reject) =>
 export class OfflineStore {
   readonly name: string;
   private database: Promise<IDBDatabase> | null = null;
+  private generation = 0;
   private listeners = new Set<() => void>();
   private channel: BroadcastChannel | null = null;
   private writes = new Set<Promise<unknown>>();
@@ -45,20 +46,34 @@ export class OfflineStore {
     this.listeners.add(notify); return () => { this.listeners.delete(notify); }; };
   private changed() { this.channel?.postMessage('changed'); for (const notify of this.listeners) notify(); }
   async open(): Promise<IDBDatabase> {
-    if (!this.database) this.database = new Promise((resolve,reject) => {
-      if (typeof indexedDB === 'undefined') { reject(new LocalStorageError()); return; }
-      const open = indexedDB.open(this.name,3);
-      const timer = setTimeout(() => reject(new LocalStorageError()),5000);
-      open.onupgradeneeded = () => {
-        for (const name of ['trips','operations','drafts','operationIds','attachments']) if (!open.result.objectStoreNames.contains(name)) open.result.createObjectStore(name,{ keyPath: 'id' });
-        const operations = open.transaction!.objectStore('operations');
-        if (!operations.indexNames.contains('state')) operations.createIndex('state','state');
-        const attachments = open.transaction!.objectStore('attachments');
-        if (!attachments.indexNames.contains('state')) attachments.createIndex('state','state');
-      };
-      open.onerror = open.onblocked = () => { clearTimeout(timer); reject(new LocalStorageError()); };
-      open.onsuccess = () => { clearTimeout(timer); open.result.onversionchange = () => { open.result.close(); this.database = null; }; resolve(open.result); };
-    });
+    if (!this.database) {
+      const generation = this.generation;
+      const attempt = new Promise<IDBDatabase>((resolve,reject) => {
+        let settled = false;
+        const timer = setTimeout(() => fail(),5000);
+        const fail = () => { if (!settled) { settled = true; clearTimeout(timer); reject(new LocalStorageError()); } };
+        let open: IDBOpenDBRequest;
+        try { if (typeof indexedDB === 'undefined') { fail(); return; } open = indexedDB.open(this.name,3); }
+        catch { fail(); return; }
+        open.onupgradeneeded = () => {
+          if (settled || generation !== this.generation) { open.transaction?.abort(); return; }
+          for (const name of ['trips','operations','drafts','operationIds','attachments']) if (!open.result.objectStoreNames.contains(name)) open.result.createObjectStore(name,{ keyPath: 'id' });
+          const operations = open.transaction!.objectStore('operations');
+          if (!operations.indexNames.contains('state')) operations.createIndex('state','state');
+          const attachments = open.transaction!.objectStore('attachments');
+          if (!attachments.indexNames.contains('state')) attachments.createIndex('state','state');
+        };
+        open.onerror = open.onblocked = fail;
+        open.onsuccess = () => {
+          if (settled || generation !== this.generation) { open.result.close(); fail(); return; }
+          settled = true; clearTimeout(timer);
+          open.result.onversionchange = () => { open.result.close(); if (this.database === connection) { this.database = null; this.generation++; } };
+          resolve(open.result);
+        };
+      });
+      const connection = attempt.catch(error => { if (this.database === connection) this.database = null; throw error; });
+      this.database = connection;
+    }
     return this.database;
   }
   private transaction<T>(names: string[],mode: IDBTransactionMode,body: (tx: IDBTransaction) => Promise<T>): Promise<T> {
@@ -171,5 +186,5 @@ export class OfflineStore {
   async draft(id: string,value?: unknown): Promise<unknown> {
     return this.transaction(['drafts'],value === undefined ? 'readonly' : 'readwrite',async tx => { const store = tx.objectStore('drafts'); if (value !== undefined) await request(store.put({ id,value,project: this.project,uid: this.uid })); return (await request(store.get(id)))?.value; });
   }
-  close() { this.channel?.close(); this.channel = null; const previous = this.database; this.database = null; void previous?.then(db => db.close()).catch(() => {}); this.listeners.clear(); }
+  close() { this.channel?.close(); this.channel = null; const previous = this.database; this.database = null; this.generation++; void previous?.then(db => db.close()).catch(() => {}); this.listeners.clear(); }
 }
