@@ -4,6 +4,54 @@ Repositorio público: <https://github.com/camilo477/webapp-gastos-conjuntos>.
 Rama prevista: `main`. La importación inicial reúne los entregables existentes
 de Fase 0 y Fase 1; no declara aprobada la Fase 1.
 
+## Estado actual · 2026-11-22
+
+La inicialización y publicación inicial ya fueron realizadas por el usuario.
+GitHub y el checkout coinciden en `07ce6efaacfcc0baf33e39dea5252429b711b0cd`,
+en `main` con seguimiento `origin/main`; el árbol estaba limpio antes de Fase 2.
+La Fase 1 se acepta provisionalmente y la Fase 2 está autorizada. Los apartados
+de preparación que siguen se conservan como historial y no deben interpretarse
+como estado actual ni repetirse para reinicializar Git.
+
+El [informe de Fase 2](phase2/REPORT.md) registra sus comprobaciones y publicación.
+Si `.git` sigue en solo lectura, usar desde la terminal normal, tras revisar los
+cambios y comprobar que el remoto no ha avanzado:
+
+```bash
+cd /mnt/Datos/gastos
+git status --short --branch
+git branch --show-current
+git fetch origin
+git log --oneline --left-right HEAD...origin/main
+```
+
+Si hay avances remotos, inspeccionarlos e integrarlos conservando trabajo ajeno
+antes de publicar. Si no hay divergencia, y después de ejecutar `npm run check`,
+`npm run test:rules` y `npm run test:e2e` con Node 24:
+
+```bash
+git add .
+git diff --cached --check
+git diff --cached
+```
+
+Auditar secretos en los archivos preparados; el `.env.example` es sintético.
+Solo después de esa revisión:
+
+```bash
+git commit -m "feat: initialize React TypeScript PWA foundation"
+git push origin main
+git rev-parse HEAD
+git ls-remote origin refs/heads/main
+git rev-parse --abbrev-ref --symbolic-full-name '@{u}'
+git status --short --branch
+```
+
+Los SHA deben coincidir y el seguimiento debe ser `origin/main`. Una ejecución
+de CI pendiente o fallida no equivale a CI verde. No se autoriza despliegue.
+
+## Historial de inicialización y bloqueos de Fase 1
+
 ## Continuación con el repositorio ya inicializado
 
 El usuario inicializó Git en Ubuntu y preparó los archivos. Ahora se comprueban

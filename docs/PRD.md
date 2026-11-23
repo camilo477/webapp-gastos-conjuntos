@@ -57,4 +57,8 @@ Fuera del MVP: pagos bancarios, cambio de moneda, OCR, originales fotográficos,
 
 ## Estado de esta entrega
 
-La documentación es revisable; no se han ejecutado pruebas de aplicación ni configurado un proyecto Firebase. Las decisiones de producto siguen propuestas. Las hipótesis de reglas, DAG y admisión deben validarse en las fases técnicas indicadas en [TEST_PLAN](TEST_PLAN.md); redactarlas no demuestra que funcionen.
+La Fase 1 fue aceptada provisionalmente y la Fase 2 autorizada el 2026-11-22.
+La base técnica y su estado de validación se describen en el
+[informe de Fase 2](phase2/REPORT.md). No hay proyecto Firebase real configurado.
+Las decisiones de producto siguen propuestas. Las hipótesis de reglas, DAG y
+admisión deben validarse en las fases indicadas en [TEST_PLAN](TEST_PLAN.md).

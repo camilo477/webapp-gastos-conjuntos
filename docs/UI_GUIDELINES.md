@@ -1,6 +1,8 @@
 # UX y guía visual
 
-Documento de Fase 0. Define comportamiento para los wireframes de Fase 1; **no es un diseño visual aprobado**. Nombre de trabajo: «Gastos compartidos», sin identidad final.
+Documento de Fase 0. Define el comportamiento previsto; el sistema visual concreto
+está en [Fase 1](phase1/DESIGN_SYSTEM.md), aceptada provisionalmente por el usuario
+el 2026-11-22. El nombre de trabajo sigue siendo «Gastos compartidos».
 
 ## Principios y tokens propuestos
 

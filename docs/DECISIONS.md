@@ -27,6 +27,10 @@ Fecha: 2026-11-21. «Base» significa indicado por el plan, no software ya imple
 
 ## Ratificación antes de wireframes
 
+Actualización 2026-11-22: el usuario acepta provisionalmente Fase 1 y autoriza
+Fase 2. Esto habilita la base técnica, sin ratificar automáticamente todas las
+propuestas de producto ni aprobar pruebas multiplataforma pendientes.
+
 Presentar las propuestas anteriores al usuario con los diseños concretos. Priorizar nombre, método de cuenta, catálogo monetario, política de cupos manuales, acceso perdido/reasignación y comportamiento de cierre. No bloquear la redacción documental esperando esos datos; no presentar una propuesta como decisión ya tomada.
 
 ## Política de imágenes y capacidad
@@ -60,4 +64,31 @@ Revisión propia: se eliminó el join que requeriría leer trip antes de ser mie
 
 Validación documental ejecutada con Python: 12 archivos Markdown (README, plan fuente y 10 documentos de especificación), enlaces locales existentes, bloques de código cerrados, 17 requisitos RF consecutivos y 60 casos de prueba definidos. Se comprobó correspondencia de referencias del PRD con IDs de casos. Cero incidencias en esa comprobación. La copia del plan coincide byte a byte con el original; SHA-256 `455b9c3d7ba9be0cffb746142418bbd6a39afce7d7c59f81978899cceb804605`.
 
-No se ejecutaron Vitest, Playwright, emuladores ni pruebas físicas porque no hay implementación en esta fase. Las referencias oficiales se consultaron documentalmente; no se probó un proyecto Firebase ni se validó disponibilidad Openverse desde la futura PWA. No se inicializó Git, no se hicieron commits ni push.
+En Fase 0 no se ejecutaron Vitest, Playwright, emuladores ni pruebas físicas;
+las referencias se consultaron documentalmente. Este párrafo es histórico.
+Git está ahora inicializado y el commit inicial `07ce6ef` publicado. El estado
+de las suites nuevas está en [Fase 2](phase2/REPORT.md).
+
+## Decisiones técnicas de Fase 2 (2026-11-22)
+
+- D-19: Firebase 12 por compatibilidad con `@firebase/rules-unit-testing` 5;
+  SDK 13 no satisface su peer dependency. Node 24 LTS (mínimo 24.12) por los
+  engines de dependencias transitivas. Vite 8, React 19 y TypeScript 5.9 estricto.
+- D-20: demo por defecto; SDK diferido solo en desarrollo con emuladores,
+  proyecto `demo-` y loopback. Reglas deny-all hasta Fase 4. No existe conexión
+  productiva habilitada ni persistencia financiera en la base.
+- D-21: `react-router-dom` para rutas reales y navegación accesible. CSS propio
+  conservando tokens/geometría del prototipo; fixtures de presentación separados.
+  Sin estado global de producto ni bibliotecas visuales adicionales.
+- D-22: Workbox precache estático con fallback SPA, actualización por confirmación
+  y ninguna runtime cache. Dos builds reales en E2E verifican cambio de versión.
+- D-23: no implementar todavía el contrato `fixed` pendiente de UX-D01.
+  No crear módulos vacíos de dominio, sincronización o adjuntos.
+- D-24: override exacto `@grpc/grpc-js` 1.14.7, misma versión mayor, corrige los
+  avisos altos que la dependencia `~1.9.0` del SDK retenía. Se valida con las
+  pruebas de reglas. No aplicar degradaciones ni upgrades mayores automáticos
+  del CLI/Workbox para silenciar avisos moderados de herramientas.
+- D-25: fijar `@firebase/app` 0.16.2 y `@firebase/app-compat` 0.5.18, las versiones
+  del SDK 12.19.0 elegido. Sus peers `0.x` permitían mezclar paquetes core/compat
+  de la línea posterior; la prueba real falló con `firestore is not a function`.
+  El lockfile conserva una sola instancia consistente de cada paquete.

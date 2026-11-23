@@ -1,6 +1,9 @@
 # Revisión y aceptación de Fase 1
 
-Estado: composición original revisada por el usuario; identidad conservada. Se aplicaron los [ajustes visuales solicitados](VISUAL_ADJUSTMENTS.md). La validación visual real de los ajustes sigue pendiente; no avanzar a Fase 2.
+Estado actual (2026-11-22): el usuario acepta provisionalmente Fase 1 y autoriza
+Fase 2, conservando las comprobaciones multiplataforma pendientes. Identidad y
+[ajustes solicitados](VISUAL_ADJUSTMENTS.md) conservados. El contenido siguiente
+documenta la revisión histórica; sus límites no se consideran pruebas aprobadas.
 
 Actualización: el [informe de validación automatizada completa](AUTOMATED_TEST_REPORT.md) contiene los resultados más recientes, seis correcciones reproducidas y los intentos de los tres motores. Las evidencias anteriores que siguen a continuación se conservan como historial; no sustituyen el informe actual.
 

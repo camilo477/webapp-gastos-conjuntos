@@ -1,5 +1,7 @@
 # Dependencias y herramientas locales (sin dependencias de producción en Fase 1).
 node_modules/
+# Also exclude a local dependency symlink used during validation.
+/node_modules
 .tools/
 .pnpm-store/
 .npm/
@@ -16,6 +18,7 @@ node_modules/
 
 # Compilación, Vite, TypeScript y cobertura.
 dist/
+dist-e2e/
 build/
 coverage/
 .vite/

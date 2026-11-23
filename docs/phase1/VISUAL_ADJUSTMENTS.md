@@ -1,5 +1,9 @@
 # Revisión y ajustes visuales de Fase 1
 
+Actualización 2026-11-22: Fase 1 aceptada provisionalmente y Fase 2 autorizada
+por el usuario. Se conserva este registro histórico con sus límites originales;
+ver el [informe de Fase 2](../phase2/REPORT.md) para el estado actual.
+
 La composición original fue revisada por el usuario. Se conserva su identidad: misma paleta, familia tipográfica, jerarquía, separadores, tres destinos de navegación y temas claro/oscuro. Esta entrega aplica ajustes concretos; no ratifica la Fase 2.
 
 ## Entregables actualizados

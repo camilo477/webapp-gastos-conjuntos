@@ -1,0 +1,9 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Phase 2 has no product reads/writes, including authenticated clients.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

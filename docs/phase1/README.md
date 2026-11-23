@@ -1,6 +1,9 @@
 # Fase 1 · Diseño UX/UI
 
-**Estado: entregables preparados para revisión; aprobación visual pendiente.** No se inició la aplicación de producción ni la Fase 2.
+**Estado actual (2026-11-22): Fase 1 aceptada provisionalmente por el usuario
+para continuar; Fase 2 expresamente autorizada.** Se mantienen las pruebas
+multiplataforma y físicas pendientes. El prototipo y los resultados anteriores
+se conservan. Ver [Fase 2](../phase2/REPORT.md).
 
 La [validación automatizada ampliada](AUTOMATED_TEST_REPORT.md) conserva 108 pruebas
 DOM/lógica aprobadas y 68 auditorías axe parciales. Firefox ya ejecutó pruebas

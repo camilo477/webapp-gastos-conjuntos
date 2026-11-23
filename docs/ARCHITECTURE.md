@@ -2,7 +2,12 @@
 
 ## Contexto
 
-La carpeta de trabajo no contiene aplicación ni historial Git utilizable. Se parte del stack recomendado en el plan: React, TypeScript, Vite, Firebase Auth, Firestore Standard y Hosting Spark. No hay backend confiable propio, Cloud Functions ni Cloud Storage. Esta arquitectura es una propuesta de Fase 0; sus pruebas de viabilidad están pendientes.
+El repositorio está inicializado en `main` y el commit inicial está publicado.
+La Fase 1 fue aceptada provisionalmente y la Fase 2 autorizada el 2026-11-22.
+La base React/TypeScript/Vite y el shell PWA están implementados; Firebase Auth
+y Firestore solo se preparan para emuladores. Ver [informe de Fase 2](phase2/REPORT.md).
+No hay backend propio, Functions ni Storage. La arquitectura financiera que sigue
+es una propuesta de Fase 0: sus pruebas de viabilidad siguen pendientes.
 
 ```mermaid
 flowchart TD

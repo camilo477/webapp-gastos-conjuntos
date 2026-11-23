@@ -3,11 +3,13 @@
 ## Alcance y estado
 
 Proyecto de gastos compartidos. Leer `README.md`, la documentación de la fase
-afectada y el plan antes de cambiar comportamiento. La Fase 1 sigue pendiente
-de aprobación; consultar `docs/phase1/AUTOMATED_TEST_REPORT.md` para distinguir
-los resultados reales de las correcciones todavía sin repetir. No iniciar
-Fase 2, implementar Firebase ni
-rediseñar el prototipo sin una nueva instrucción explícita.
+afectada y el plan antes de cambiar comportamiento. La Fase 1 fue aceptada
+provisionalmente por el usuario el 2026-11-22 para continuar a Fase 2;
+consultar `docs/phase1/AUTOMATED_TEST_REPORT.md` para conservar resultados
+y pruebas multiplataforma pendientes. La Fase 2 está expresamente autorizada:
+React/TypeScript/Vite, Firebase limitado a emuladores y shell PWA. No rediseñar
+ni reemplazar el prototipo. No iniciar Fase 3 ni funcionalidades posteriores
+sin una nueva instrucción explícita.
 
 ## Git y publicación
 
@@ -56,8 +58,9 @@ terminal normal y distinguir lo preparado de lo realmente publicado.
 
 Entender el código antes de editarlo; aplicar la corrección mínima, añadir las
 regresiones necesarias, ejecutar las comprobaciones relevantes y revisar el
-resultado. No añadir dependencias o abstracciones innecesarias. El prototipo es
-una simulación local, no una aplicación productiva ni una sincronización real.
+resultado. No añadir dependencias o abstracciones innecesarias. El prototipo y
+las pantallas de demostración usan datos ficticios. El shell PWA no constituye
+persistencia financiera ni sincronización real.
 
 La revisión con Gemini es opcional: usarla cuando aporte valor y esté disponible
 y autorizada, sin enviar secretos ni datos privados. Si falta autenticación o

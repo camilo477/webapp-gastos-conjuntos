@@ -367,3 +367,18 @@ auditorías de contraste nativo conservan comprobaciones incompletas. En la tabl
 diaria ampliada algunas etiquetas y cifras se envuelven en varias líneas: el
 texto se conserva, pero su comodidad de lectura en dispositivos requiere
 validación. No se inició Fase 2 ni se implementó Firebase.
+
+## 16. Aceptación provisional y continuidad autorizada (2026-11-22)
+
+El usuario confirmó la publicación inicial en GitHub y aceptó provisionalmente
+la Fase 1 para continuar con Fase 2. El commit inicial `07ce6ef` se verificó en
+GitHub y el checkout en `main` estaba limpio. La autorización explícita sustituye
+las restricciones históricas de no avanzar, sin convertir pruebas omitidas o
+bloqueadas en aprobadas.
+
+Se conservan íntegros los resultados anteriores y el prototipo. Quedan pendientes
+las pruebas multiplataforma, repetición HTTP de la corrección final de Fase 1,
+pruebas físicas, safe areas/teclado/zoom nativos y las comprobaciones incompletas
+de contraste descritas en la sección 15. Las suites React/PWA de Fase 2 validan
+una implementación distinta y no sustituyen los casos pendientes del prototipo.
+Ver [informe de Fase 2](../phase2/REPORT.md).

@@ -1,5 +1,10 @@
 # Fase 1: alcance, diferencias y decisiones
 
+Actualización 2026-11-22: el usuario aceptó provisionalmente Fase 1 y autorizó
+Fase 2. El alcance y las propuestas siguientes se conservan como registro de
+diseño; no ratifican el motor ni sus contratos pendientes. La prohibición histórica
+de avanzar queda sustituida por esa autorización explícita.
+
 Fuente: petición de Fase 1, README y todos los documentos de Fase 0, incluido el plan original. Se conserva el original sin modificaciones. Este documento precede al prototipo y explica las diferencias que afectan su diseño.
 
 ## Orden de decisión

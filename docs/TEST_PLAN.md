@@ -1,6 +1,9 @@
 # Plan de pruebas y aceptación
 
-Estado: **pruebas especificadas, no ejecutadas**. En Fase 0 solo se valida documentación. No hay aún app, reglas compiladas, emuladores ni suites instaladas. Cada requisito RF del [PRD](PRD.md) referencia al menos uno de los casos siguientes.
+Estado actual: los casos siguientes son el plan del MVP, no resultados aprobados.
+La Fase 2 incorpora suites de componentes/configuración, reglas deny-all y
+navegador/PWA; resultados y bloqueos en [su informe](phase2/REPORT.md).
+Cada requisito RF del [PRD](PRD.md) referencia al menos un caso siguiente.
 
 ## Capas y datos
 
