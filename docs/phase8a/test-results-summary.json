@@ -15,9 +15,9 @@
   },
   "suites": {
     "vitest": {
-      "passed": 258,
+      "passed": 262,
       "failed": 0,
-      "files": 29
+      "files": 30
     },
     "firestoreRules": {
       "passed": 204,
@@ -55,7 +55,13 @@
       "passed": 60,
       "failed": 0,
       "durationMinutes": 12
-    }
+    },
+    "imageLayoutTargets": {
+      "passed": 8,
+      "failed": 0,
+      "scope": "Firefox/WebKit simulated camera, delayed IDB image, mobile and merge; overlaps full image cases except new delayed-image regression"
+    },
+    "accessCompiledBuild": "running: 38 cases Firefox/WebKit; same assertions, compiled emulator PWA"
   },
   "audit": {
     "productionVulnerabilities": 0,
@@ -76,7 +82,7 @@
     "webkitFocusFailuresPerRun": 1,
     "laterSuites": "skipped"
   },
-  "remoteCorrection": "Audit run 45284819783: Chrome images and multiple jobs passed; failures under investigation in access completion/overflow and Firefox visual merge; duplicate-decision dependency fixed with 3 regressions",
+  "remoteCorrection": "380d1db run 45287998523: offline passed in all 3 engines; remaining DEV access and intermittent media/layout failures documented; compiled-build integration and media fixes awaiting CI",
   "localInfrastructureAttempts": [
     "Chromium launch blocked by AppArmor/sandbox",
     "Initial rules invocation omitted emulator environment guards",

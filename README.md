@@ -67,6 +67,10 @@ En Ubuntu, si faltan bibliotecas, seguir las instrucciones de Playwright;
 `npx playwright install --with-deps chromium firefox webkit` instala también
 paquetes del sistema y puede requerir administración desde la terminal del usuario.
 La configuración mantiene el sandbox de Chromium habilitado.
+Acceso/finanzas, offline e imágenes usan el build `emulator-pwa` compilado;
+acceso bloquea SW para comprobar red/servidor y las otras suites lo ejercitan.
+Ejecutarlas secuencialmente en local: comparten puertos y directorio de builds.
+Cada job de CI tiene su propio entorno.
 
 Para seleccionar solo Firefox:
 

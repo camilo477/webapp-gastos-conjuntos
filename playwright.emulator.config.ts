@@ -9,7 +9,8 @@ export default defineConfig({
   use: { baseURL: 'http://127.0.0.1:4184', serviceWorkers: 'block', trace: 'retain-on-failure', screenshot: 'only-on-failure' },
   projects: browserProjects,
   webServer: {
-    command: 'npm run dev -- --port 4184 --strictPort', url: 'http://127.0.0.1:4184', reuseExistingServer: false,
-    env: { VITE_FIREBASE_MODE: 'emulators', VITE_FIREBASE_PROJECT_ID: 'demo-gastos-compartidos', VITE_FIREBASE_API_KEY: 'demo-not-a-real-api-key', VITE_FIREBASE_APP_ID: 'demo-not-a-real-app-id', VITE_FIREBASE_AUTH_DOMAIN: 'localhost', VITE_FIREBASE_EMULATOR_HOST: '127.0.0.1', VITE_FIREBASE_AUTH_EMULATOR_PORT: '9199', VITE_FIREBASE_FIRESTORE_EMULATOR_PORT: '8180' },
+    // Exercise the same compiled emulator PWA as offline/images, without Vite HMR.
+    command: 'node scripts/build-offline-e2e.mjs && node tests/e2e/server.mjs', url: 'http://127.0.0.1:4184', timeout: 120000,reuseExistingServer: false,
+    env: { GASTOS_STATIC_ROOT: 'dist-e2e/offline',GASTOS_STATIC_PORT: '4184' },
   },
 });

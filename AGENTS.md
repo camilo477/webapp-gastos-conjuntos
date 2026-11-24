@@ -37,6 +37,11 @@ rendimiento y preparación documental. No declarar completa Fase 8A por reparar 
 IDB recuperable, acuse durable del snapshot, invitación capturada antes de React
 y fallos de transporte previos al SW en pruebas. CI separa navegador y suite;
 Chrome del runner mantiene sandbox y ruta permitida, sin modificar AppArmor.
+Las suites conectadas usan el artefacto emulator-pwa y comparten directorio de
+build: no ejecutarlas simultáneamente en el mismo checkout. Las decisiones de
+duplicados dependen también de payload.revisions; esperar su confirmación.
+Cada intento de cámara solo puede detener sus propios tracks; conservar esa
+regresión y la de miniatura demorada sin salto de controles.
 Mantener producción deshabilitada; cierre y reasignación requieren garantías
 demostradas y decisiones ratificadas. No iniciar Fase 8B ni desplegar.
 Mantener Firestore en memoria: la cola propia es la única cola financiera.

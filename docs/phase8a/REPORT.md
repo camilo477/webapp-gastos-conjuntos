@@ -24,6 +24,22 @@ Entregables: [riesgos](RISK_INVENTORY.md), [checklist](RELEASE_CHECKLIST.md),
 | Pruebas leían IDB antes de terminar el adjunto, recargaban presupuesto antes de finalizar guardado o navegaban antes de terminar signOut | Esperar señales observables de finalización; conservar importes, identidad y aserciones de servidor. No ampliar expectativas monetarias |
 | context.route no intercepta consistentemente fetch controlado por SW en todos los motores | Inyección de fallos antes del SW solo en pruebas. La respuesta perdida sucede después del commit real; se comprueban código 200, contenido e IDs del emulador. No desactivar SW ni simular confirmación exitosa |
 
+Se corrigió también el salto por carga tardía de miniaturas: la traza mostró
+un desplazamiento de ~179 px durante un clic de unificación. Se reserva el marco
+visual antes de leer bytes. Una prueba retiene la lectura IDB y comprueba la
+posición absoluta del botón posterior antes/después; Firefox y WebKit pasan.
+La primera versión de esa prueba mezclaba un adjunto aún pendiente con un cambio
+de estado del botón de reintento; se aisló decodificación esperando previamente
+la confirmación independiente de la imagen, sin alterar aserciones monetarias.
+
+Cámara: se comprobó que el rechazo tardío de play de una lente anterior podía
+parar el stream nuevo porque stop leía una referencia compartida. La regresión
+falló antes y pasa con propiedad de recursos por intento. Se añaden deadline de
+15 s para permiso/play bloqueado, liberación de permisos tardíos y prohibición
+de activar captura si la app se ocultó. Cuatro pruebas unitarias pasan; la cámara
+física sigue pendiente. La fuente canvas de E2E participa en renderizado (1 px,
+aria-hidden), sin falsificar play, dimensiones o frames de vídeo.
+
 No cambian el motor, contratos financieros v2, reglas, dependencias ni fuentes
 de verdad. Persisten eventos inmutables en `events`, adjuntos separados y una
 sola outbox financiera propia; Firestore SDK permanece en memoria.
@@ -203,7 +219,7 @@ lectores de pantalla y teclado virtual físicos.
 
 ## Verificación y CI
 
-Lint, TypeScript/build y **258 Vitest en 29 archivos** pasan. Resultados locales
+Lint, TypeScript/build y **262 Vitest en 30 archivos** pasan. Resultados locales
 consolidados pendientes de finalización: shell Firefox/WebKit 40/40; acceso y
 finanzas Firefox 19/19, WebKit 19/19; reglas 204/204; ocho regresiones de imágenes
 Firefox/WebKit 8/8. Offline Firefox/WebKit: **43 aprobadas y 1 omitida** (reapertura de perfil solo
@@ -221,7 +237,20 @@ fallos de suites que antes se omitían. La segunda,
 [Actions 45280786995](https://github.com/camilo477/webapp-gastos-conjuntos/actions/runs/45280786995),
 confirmó Chrome sandboxed y shell/finanzas verdes; los fallos posteriores de
 sesión/guardado/transporte se investigaron y corrigieron en esta continuación.
-**La CI del código final aún debe verificarse; no se declara verde.**
+La corrección de dependencias se publicó en
+`380d1dbd673e31467f005e7c63217e781cf6a72e`,
+[Actions 45287998523](https://github.com/camilo477/webapp-gastos-conjuntos/actions/runs/45287998523):
+offline pasa en los tres motores. Acceso DEV todavía presenta una confirmación
+que no llega tras recarga; los datos quedan conservados y provisionales, no se
+observa un saldo falso confirmado. Persisten fallos intermitentes de clic/media
+WebKit. Se conservan sus logs y no se atribuye éxito a esa ejecución.
+
+La integración de acceso se cambia al mismo build emulator-pwa compilado de
+las suites offline/imágenes, con sus mismos 19 casos/aserciones y SW bloqueado en
+esta suite. Esto verifica el artefacto que se instalará; no demuestra corregido
+el problema intermitente DEV/StrictMode/HMR. Se separa esa limitación del
+comportamiento del build y se verificará en Actions antes de aprobarlo.
+**La CI de estas últimas correcciones aún debe verificarse; no se declara verde.**
 
 Chromium empaquetado local sigue bloqueado por sandbox; Chrome del runner es la
 verificación del motor Chromium, identificado expresamente. Firefox y WebKit

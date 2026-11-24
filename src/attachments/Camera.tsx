@@ -1,19 +1,24 @@
 import { useEffect,useRef,useState } from 'react';
 import { Button } from '../components/Button';
 export function Camera({ capture,close }: { capture: (file: Blob) => void;close: () => void }) {
-  const video = useRef<HTMLVideoElement>(null),stream = useRef<MediaStream | null>(null),alive = useRef(true);
+  const video = useRef<HTMLVideoElement>(null),alive = useRef(true);
   const [facing,setFacing] = useState<'environment' | 'user'>('environment'),[error,setError] = useState(''),[ready,setReady] = useState(false);
   useEffect(() => {
-    let active = true; alive.current = true; const element = video.current; const stop = () => { stream.current?.getTracks().forEach(track => track.stop()); stream.current = null; };
-    const hidden = () => { if (document.visibilityState === 'hidden') { stop(); setReady(false); setError('La cámara se detuvo al salir de la aplicación. Ciérrala y vuelve a abrirla.'); } };
+    let active = true,expired = false,acquired: MediaStream | null = null; alive.current = true; const element = video.current;
+    // Each acquisition owns its tracks: a late rejection from the old camera
+    // must never stop the replacement selected by a newer effect.
+    const stop = () => { const owned = acquired; acquired = null; owned?.getTracks().forEach(track => track.stop()); if (element && element.srcObject === owned) element.srcObject = null; };
+    const isHidden = () => document.visibilityState === 'hidden';
+    const hidden = () => { if (isHidden()) { expired = true; clearTimeout(startup); stop(); setReady(false); setError('La cámara se detuvo al salir de la aplicación. Ciérrala y vuelve a abrirla.'); } };
     if (!navigator.mediaDevices?.getUserMedia) { void Promise.resolve().then(() => { if (active) setError('La cámara no está disponible aquí. Puedes elegir una fotografía desde archivos.'); }); return; }
+    const startup = setTimeout(() => { if (!active) return; expired = true; stop(); setReady(false); setError('La cámara no respondió a tiempo. Ciérrala y vuelve a intentarlo o elige una foto desde archivos.'); },15000);
     void navigator.mediaDevices.getUserMedia({ audio: false,video: { facingMode: { ideal: facing },width: { ideal: 1280 },height: { ideal: 720 } } }).then(async value => {
-      if (!active || document.visibilityState === 'hidden') { value.getTracks().forEach(track => track.stop()); return; } stream.current = value;
-      try { if (!element) throw Error(); element.srcObject = value; await element.play(); if (active) setReady(true); }
-      catch { stop(); if (active) setError('No se pudo iniciar la vista de cámara. Usa la selección de archivos.'); }
-    }).catch(() => { if (active) setError('No se pudo abrir la cámara. Comprueba el permiso o elige una foto desde archivos.'); });
+      if (!active || expired || isHidden()) { clearTimeout(startup); value.getTracks().forEach(track => track.stop()); return; } acquired = value;
+      try { if (!element) throw Error(); element.srcObject = value; await element.play(); clearTimeout(startup); if (active && !expired && !isHidden()) setReady(true); }
+      catch { clearTimeout(startup); stop(); if (active && !expired) setError('No se pudo iniciar la vista de cámara. Usa la selección de archivos.'); }
+    }).catch(() => { clearTimeout(startup); if (active && !expired) setError('No se pudo abrir la cámara. Comprueba el permiso o elige una foto desde archivos.'); });
     document.addEventListener('visibilitychange',hidden);
-    return () => { active = false; alive.current = false; stop(); if (element) element.srcObject = null; document.removeEventListener('visibilitychange',hidden); };
+    return () => { active = false; alive.current = false; clearTimeout(startup); stop(); document.removeEventListener('visibilitychange',hidden); };
   },[facing]);
   return <section aria-label="Cámara"><video ref={video} playsInline muted autoPlay aria-label="Vista de cámara" className="camera-preview" />{error && <p role="alert">{error}</p>}<div className="action-row"><Button disabled={!ready} onClick={() => {
     const source = video.current; if (!source?.videoWidth || !source.videoHeight) { setError('La cámara aún no tiene una imagen.'); return; }

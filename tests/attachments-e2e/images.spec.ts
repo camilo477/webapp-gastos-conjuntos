@@ -38,3 +38,31 @@ for (const kind of ['heic','corrupt','oversized','tiny','panorama','hugePixels']
 test('JPEG orientation is applied and EXIF metadata is absent from the persisted WebP',async ({ page,request }) => {
   await owner(page,request); const base = await create(page); await begin(page,'Orientación'); const input = await syntheticImage(page,{ width: 200,height: 100,type: 'image/jpeg',orientation: 6 }); await pick(page,input); await page.getByRole('button',{ name: 'Guardar gasto',exact: true }).click(); await expect(page).toHaveURL(base); const rows = await localImages(page); expect(rows).toHaveLength(1); expect(rows[0]!.attachment.width).toBe(100); expect(rows[0]!.attachment.height).toBe(200); expect(Buffer.from(rows[0]!.attachment.bytes).includes(Buffer.from('Exif'))).toBe(false); expect(Buffer.from(rows[0]!.attachment.bytes).includes(Buffer.from('SYNTHETIC-GPS'))).toBe(false);
 });
+
+test('a delayed local thumbnail reserves its space before decoding and cannot move the following controls',async ({ page,request,context }) => {
+  await owner(page,request); const base = await create(page); await begin(page,'Imagen sin salto'); await pick(page,await syntheticImage(page));
+  await page.getByRole('button',{ name: 'Guardar gasto',exact: true }).click(); await expect(page).toHaveURL(base); await confirmed(page);
+  const detail = await page.getByRole('link',{ name: /Imagen sin salto/ }).getAttribute('href');
+  await expect.poll(async () => (await localImages(page))[0]?.state,{ timeout: 60000 }).toBe('confirmed');
+  await context.addInitScript(() => {
+    const scope = window as Window & { imageReads?: (() => void)[];releaseImages?: () => void };
+    let hold = true; scope.imageReads = []; scope.releaseImages = () => { hold = false; for (const resume of scope.imageReads!) resume(); scope.imageReads = []; };
+    const get = IDBObjectStore.prototype.get;
+    IDBObjectStore.prototype.get = function(...args: Parameters<typeof get>) {
+      const result = get.apply(this,args);
+      if (this.name === 'attachments' && this.transaction.mode === 'readonly') Object.defineProperty(result,'onsuccess',{ configurable: true,set(handler: IDBRequest['onsuccess']) {
+        result.addEventListener('success',event => { const resume = () => handler?.call(result,event); if (hold) scope.imageReads!.push(resume); else resume(); });
+      } });
+      return result;
+    };
+  });
+  await page.goto(detail!); await page.locator('.detail-image').scrollIntoViewIfNeeded();
+  await expect.poll(() => page.evaluate(() => (window as Window & { imageReads?: unknown[] }).imageReads?.length ?? 0)).toBeGreaterThan(0);
+  const edit = page.getByRole('link',{ name: 'Editar gasto',exact: true });
+  const before = (await edit.boundingBox())!.y + await page.evaluate(() => scrollY);
+  await expect(page.getByRole('img',{ name: 'Miniatura del gasto',exact: true })).toHaveCount(0);
+  await page.evaluate(() => (window as Window & { releaseImages?: () => void }).releaseImages!());
+  await expect(page.getByRole('img',{ name: 'Miniatura del gasto',exact: true })).toBeVisible();
+  const after = (await edit.boundingBox())!.y + await page.evaluate(() => scrollY); expect(Math.abs(after - before)).toBeLessThan(1);
+  await expect(page.getByRole('heading',{ name: 'Imagen sin salto',exact: true })).toBeVisible();
+});

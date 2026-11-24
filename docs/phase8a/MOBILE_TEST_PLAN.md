@@ -79,7 +79,7 @@ distintos y dos identidades dentro del mismo viaje para los casos de sincronizac
 | --- | --- | --- |
 | MOB-01 | Primera carga, instalar desde menú/Compartir, abrir por icono y ruta interna | Nombre/icono, modo standalone, navegación y origen correctos |
 | MOB-02 | QR desde pantalla/impresión, luz baja, permiso denegado, código manual | Ingreso autorizado, nombre no recupera identidad; fallback usable |
-| MOB-03 | Cámara frontal/trasera, cancelar, cambiar app, bloquear pantalla, denegar permiso | Recursos liberados, sin audio; gasto funciona sin imagen |
+| MOB-03 | Cámara frontal/trasera, cancelar, cambiar app, bloquear pantalla, denegar permiso | Recursos liberados, sin audio; probar permiso/play >15 s y cambio de lente con fallo tardío; gasto funciona sin imagen |
 | MOB-04 | Galería JPEG/PNG/WebP grande, orientación y HEIC | Preview legible, ≤640 px/40960 bytes, sin EXIF; HEIC no soportado explicado |
 | MOB-05 | Captura rápida con teclado numérico, porcentajes, fecha/hora y nota larga | Importes no tapados, errores accesibles, scroll y botón Guardar alcanzables |
 | MOB-06 | Claro/oscuro/sistema, 320–430 px, landscape, zoom/texto ampliado | Sin pérdida de dinero/texto, safe areas y barra de navegación sin superposición |
